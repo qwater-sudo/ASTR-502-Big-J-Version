@@ -5,12 +5,11 @@ import pandas as pd
 from pathlib import Path
 from typing import Optional, Iterable
 
-
-GAIA_G_CANDS = ['sy_gmag', 'sy_g', 'G', 'g', 'gmag', 'phot_g_mean_mag', 'g_band']
-GAIA_BP_CANDS = ['sy_bpmag', 'sy_bp', 'BP', 'bp', 'bpmag', 'phot_bp_mean_mag']
-GAIA_RP_CANDS = ['sy_rpmag', 'sy_rp', 'RP', 'rp', 'rpmag', 'phot_rp_mean_mag']
+GAIA_G_CANDS = ['gaia_Gmag']
+GAIA_BP_CANDS = ['gaia_BPmag']
+GAIA_RP_CANDS = ['gaia_RPmag']
 PARALLAX_CANDS = ['parallax', 'plx', 'parallax_mas']
-DIST_CANDS = ['distance_pc', 'distance', 'st_dist', 'dist', 'bj_dist_pc']
+DIST_CANDS = ['dist_pc']
 
 
 def _find_col(df: pd.DataFrame, candidates):
@@ -20,10 +19,14 @@ def _find_col(df: pd.DataFrame, candidates):
                 return c
     return None
 
+
 def _join_key(df1: pd.DataFrame,
               df2: pd.DataFrame,
               extra_candidates=None) -> Optional[str]:
     common = set(df1.columns).intersection(df2.columns)
+    id_phot = 'gaia_dr3_id_phot'
+    id_dist = 'gaia_dr3_id_dist'
+
     if common:
         for pref in ('source_id', 'id', 'star_id', 'obj_id', 'object_id'):
             if pref in common:
@@ -53,33 +56,36 @@ def join_photometry_and_distances(phot_csv: Path | str,
     phot_df = pd.read_csv(phot_csv)
     dist_df = pd.read_csv(dist_csv)
 
+
+    joined = phot_df.merge(dist_df, on=on, how=how, suffixes=('_phot', '_dist'))
+
     if on is None:
         on = _join_key(phot_df, dist_df)
         if on is None:
             raise ValueError('Could not find a join key. Provide a func')
 
-    joined = phot_df.merge(dist_df, on=on, how=how, suffixes=('_phot', '_dist'))
-        # compute distance_pc (add/overwrite column named distance_pc)
+    dist_col = _find_col(dist_df, DIST_CANDS)
+    if dist_col is None:
+        raise ValueError('Could not find a distance column in the distance CSV')
 
-        # locate Gaia columns in the merged frame (photometry file likely contains these)
+
     g_col = _find_col(joined, GAIA_G_CANDS)
     bp_col = _find_col(joined, GAIA_BP_CANDS)
     rp_col = _find_col(joined, GAIA_RP_CANDS)
 
-
         # compute absolute mags where possible
     if g_col is not None:
-            joined['G_abs'] = _abs_mag_series(joined[g_col], joined['distance_pc'])
+            joined['G_abs'] = _abs_mag_series(joined[g_col], joined['bj_dist_pc'])
     else:
         joined['G_abs'] = np.nan
 
     if bp_col is not None:
-        joined['BP_abs'] = _abs_mag_series(joined[bp_col], joined['distance_pc'])
+        joined['BP_abs'] = _abs_mag_series(joined[bp_col], joined['bj_dist_pc'])
     else:
         joined['BP_abs'] = np.nan
 
     if rp_col is not None:
-        joined['RP_abs'] = _abs_mag_series(joined[rp_col], joined['distance_pc'])
+        joined['RP_abs'] = _abs_mag_series(joined[rp_col], joined['bj_dist_pc'])
     else:
         joined['RP_abs'] = np.nan
 
@@ -92,3 +98,14 @@ phot_csv = '/Users/archon/classes/ASTR_502/Astro502_Sp26/ASTR502_Master_Photomet
 dist_csv = '/Users/archon/classes/ASTR_502/Astro502_Sp26/ASTR502_Mega_Target_List.csv'
 df = join_photometry_and_distances(phot_csv, dist_csv)
 
+def plot(pd: pd.DataFrame):
+    fig, ax = plt.subplots(figsize=(8,10))
+    ax.scatter(pd['BP_RP_abs'], pd['G_abs'], s=1, color='black', label='Target List')
+
+fetcher = IsochroneFetcher(photsys='gaiaEDR3', step_age=0.1, step_mh=0.1)
+plotter= IsochronePlotter(fetcher)
+plot(df)
+
+fig = plotter.plot(np.log(1e4), 0.0, label='Isochrone')
+plt.legend()
+plt.show()

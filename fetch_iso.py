@@ -75,7 +75,7 @@ class IsochronePlotter:
     def __init__(self, fetcher: IsochroneFetcher):
         self.fetcher = fetcher
 
-    def plot(self, logage1, MH1, labels=('A','B')):
+    def plot(self, logage1, MH1, label='A'):
 
 
         df1 = self.fetcher.fetch(logage1, MH1)
@@ -83,14 +83,12 @@ class IsochronePlotter:
         c1, m1, _ = self.fetcher.photometry(df1)
         #c2, m2, _ = self.fetcher.photometry(df2)
 
-        plt.plot(c1, m1, '.', ms=4, color='C0', label=f'{labels[0]}')
+        plt.plot(c1, m1, '.', ms=4, color='C0', label=label)
         #plt.plot(c2, m2, '.', ms=4, color='C1', label=f'{labels[1]}')
         plt.gca().invert_yaxis()
         plt.xlabel('BP-RP')
         plt.ylabel('G (mag)')
-        plt.legend()
         plt.grid()
-        plt.title('Isochrone comparison')
         return plt.gcf()
 
 
