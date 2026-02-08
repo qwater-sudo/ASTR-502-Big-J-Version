@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import numpy as np
+import matplotlib.pyplot as plt
 import pandas as pd
 from scipy.interpolate import LinearNDInterpolator, NearestNDInterpolator
 from typing import Dict, Iterable, Optional, Tuple
@@ -306,3 +307,16 @@ __all__ = [
     "interpolate_targets",
     "brute_force",
 ]
+
+df = interpolate_targets(
+    phot_csv = '/Users/archon/classes/ASTR_502/Astro502_Sp26/ASTR502_Master_Photometry_List.csv',
+    dist_csv = '/Users/archon/classes/ASTR_502/Astro502_Sp26/ASTR502_Mega_Target_List.csv',
+    logages = np.arange(6.0, 10.2, 0.25), #3-13 Gyr
+    mhs = np.arange(-2.0, 0.6, 0.25)
+)
+
+plt.scatter(df['iso_age'], df['iso_mass'], s=10, alpha=0.6)
+plt.xlabel('log10(Age)')
+plt.ylabel('Mass')
+plt.title('Interpolated Stellar Parameters')
+plt.show()
