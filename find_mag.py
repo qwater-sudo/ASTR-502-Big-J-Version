@@ -18,8 +18,6 @@ class PhotometryMerger:
         self.extra_join_candidates = list(extra_join_candidates or [])
 
     @staticmethod
-
-
     def _find_col(df: pd.DataFrame, candidates: Iterable[str]) -> Optional[str]:
         for cand in candidates:
             for c in df.columns:
@@ -105,18 +103,19 @@ class PhotometryMerger:
             joined['BP_RP_abs'] = joined['BP_abs'] - joined['RP_abs']
         return joined
 
-phot_csv = '/Users/archon/classes/ASTR_502/Astro502_Sp26/ASTR502_Master_Photometry_List.csv'
-dist_csv = '/Users/archon/classes/ASTR_502/Astro502_Sp26/ASTR502_Mega_Target_List.csv'
-df = PhotometryMerger.join_photometry_and_distances(phot_csv, dist_csv)
 
-def plot(pd: pd.DataFrame):
-    fig, ax = plt.subplots(figsize=(8,10))
-    ax.scatter(pd['BP_RP_abs'], pd['G_abs'], s=1, color='black', label='Target List')
-
-fetcher = IsochroneFetcher(photsys='gaiaEDR3', step_age=0.1, step_mh=0.1)
-plotter= IsochronePlotter(fetcher)
-plot(df)
-
-fig = plotter.plot(np.log10(1e9), 0.0, label='Isochrone')
-plt.legend()
-plt.show()
+# phot_csv = '/Users/archon/classes/ASTR_502/Astro502_Sp26/ASTR502_Master_Photometry_List.csv'
+# dist_csv = '/Users/archon/classes/ASTR_502/Astro502_Sp26/ASTR502_Mega_Target_List.csv'
+# df = PhotometryMerger.join_photometry_and_distances(phot_csv, dist_csv)
+#
+# def plot(pd: pd.DataFrame):
+#     fig, ax = plt.subplots(figsize=(8,10))
+#     ax.scatter(pd['BP_RP_abs'], pd['G_abs'], s=1, color='black', label='Target List')
+#
+# fetcher = IsochroneFetcher(photsys='gaiaEDR3', step_age=0.1, step_mh=0.1)
+# plotter= IsochronePlotter(fetcher)
+# plot(df)
+#
+# fig = plotter.plot(np.log10(1e9), 0.0, label='Isochrone')
+# plt.legend()
+# plt.show()
