@@ -1,9 +1,12 @@
-import pandas as pd
-from typing import Dict, Iterable, Optional, Tuple
+from __future__ import annotations
+
 import numpy as np
-from find_mag import PhotometryMerger
+import pandas as pd
 from scipy.interpolate import LinearNDInterpolator, NearestNDInterpolator
+from typing import Dict, Iterable, Optional, Tuple
+
 from fetch_iso import IsochroneFetcher
+from find_mag import PhotometryMerger
 
 
 def _available_bands(obs: Dict[str, float],
@@ -11,9 +14,9 @@ def _available_bands(obs: Dict[str, float],
                      mag_cols: Optional[Iterable[str]] = None):
     obs_keys = set(obs.keys())
     if mag_cols is None:
-        cand = set(mag_cols)
-    else:
         cand = set(model_df.columns)
+    else:
+        cand = set(mag_cols)
     bands = list(obs_keys.intersection(cand))
     return bands
 
@@ -78,7 +81,7 @@ class IsochroneInterpolator:
     Usage:
       interp = IsochroneInterpolator(model_df, mag_cols=['G_abs','BP_RP_abs'])
       result = interp.interpolate({'G_abs': 5.12, 'BP_RP_abs': 0.65})
-      # result -> dict with keys 'mass','age','feh' (floats or np.nan if not available)
+      result -> dict with keys 'mass','age','feh' (floats or np.nan if not available)
     """
 
     def __init__(self,
@@ -102,6 +105,11 @@ class IsochroneInterpolator:
         self.mass_col = mass_col
         self.age_col = age_col
         self.feh_col = feh_col
+        if self.feh_col not in self.model_df.columns:
+            for alt in ("feh", "mh"):
+                if alt in self.model_df.columns:
+                    self.feh_col = alt
+                    break
 
         # prepare training points: rows where all band mags are finite and outputs finite
         valid = np.ones(len(self.model_df), dtype=bool)
@@ -175,12 +183,126 @@ class IsochroneInterpolator:
         return res
 
 
-phot_csv = '/Users/archon/classes/ASTR_502/Astro502_Sp26/ASTR502_Master_Photometry_List.csv'
-dist_csv = '/Users/archon/classes/ASTR_502/Astro502_Sp26/ASTR502_Mega_Target_List.csv'
-merger = PhotometryMerger()
-model_df = merger.join_photometry_and_distances(phot_csv, dist_csv)
+def _find_iso_col(df: pd.DataFrame, candidates: Iterable[str]) -> Optional[str]:
+    for cand in candidates:
+        for col in df.columns:
+            if cand.lower() in col.lower():
+                return col
+    return None
 
 
-interp = IsochroneInterpolator(model_df, mag_cols=['G_abs','BP_RP_abs'])
-result = interp.interpolate({'G_abs': 5.12, 'BP_RP_abs': 0.65})
+def _standardize_isochrones(df: pd.DataFrame,
+                            fetcher: IsochroneFetcher,
+                            logage: float,
+                            mh: float) -> pd.DataFrame:
+    color, mag, (bp_col, rp_col, g_col) = fetcher.photometry(df)
+    mass_col = _find_iso_col(df, ['mini', 'm_ini', 'minit', 'mass', 'mact'])
+    age_col = _find_iso_col(df, ['logage', 'log_age', 'age'])
+    mh_col = _find_iso_col(df, ['mh', 'm/h', 'feh', 'metallicity'])
 
+    if mass_col is None:
+        raise RuntimeError("Could not locate a mass column in the isochrone data")
+    if age_col is None:
+        raise RuntimeError("Could not locate an age column in the isochrone data")
+
+    standardized = pd.DataFrame({
+        'G_abs': pd.to_numeric(df[g_col], errors='coerce'),
+        'BP_abs': pd.to_numeric(df[bp_col], errors='coerce'),
+        'RP_abs': pd.to_numeric(df[rp_col], errors='coerce'),
+        'BP_RP_abs': pd.to_numeric(color, errors='coerce'),
+        'mass': pd.to_numeric(df[mass_col], errors='coerce'),
+    })
+
+    age_vals = pd.to_numeric(df[age_col], errors='coerce')
+    if 'log' in age_col.lower():
+        standardized['age'] = age_vals
+    else:
+        standardized['age'] = np.log10(age_vals)
+
+    if mh_col is not None:
+        standardized['mh'] = pd.to_numeric(df[mh_col], errors='coerce')
+    else:
+        standardized['mh'] = mh
+
+    standardized['logage_request'] = logage
+    standardized['mh_request'] = mh
+    return standardized
+
+
+def build_isochrone_grid(fetcher: IsochroneFetcher,
+                         logages: Iterable[float],
+                         mhs: Iterable[float]) -> pd.DataFrame:
+    frames = []
+    logages = list(logages)
+    mhs = list(mhs)
+    if hasattr(fetcher, "fetch_grid"):
+        raw_frames = iter(fetcher.fetch_grid(logages, mhs))
+        for logage in logages:
+            for mh in mhs:
+                raw = next(raw_frames)
+                frames.append(_standardize_isochrones(raw, fetcher, logage, mh))
+    else:
+        for logage in logages:
+            for mh in mhs:
+                raw = fetcher.fetch(logage, mh)
+                frames.append(_standardize_isochrones(raw, fetcher, logage, mh))
+    if not frames:
+        raise ValueError("No isochrones fetched; check logage/mh inputs")
+    return pd.concat(frames, ignore_index=True)
+
+
+def interpolate_catalog(merged_df: pd.DataFrame,
+                        model_df: pd.DataFrame,
+                        mag_cols: Optional[Iterable[str]] = None,
+                        prefer: str = "linear",
+                        prefix: str = "iso_") -> pd.DataFrame:
+    interpolator = IsochroneInterpolator(model_df, mag_cols=mag_cols)
+    mags = interpolator.bands
+    results = {f"{prefix}mass": [], f"{prefix}age": [], f"{prefix}feh": []}
+
+    for _, row in merged_df.iterrows():
+        try:
+            observed = {b: row.get(b) for b in mags}
+            interp = interpolator.interpolate(observed, prefer=prefer)
+            results[f"{prefix}mass"].append(interp['mass'])
+            results[f"{prefix}age"].append(interp['age'])
+            results[f"{prefix}feh"].append(interp['feh'])
+        except Exception:
+            results[f"{prefix}mass"].append(np.nan)
+            results[f"{prefix}age"].append(np.nan)
+            results[f"{prefix}feh"].append(np.nan)
+
+    enriched = merged_df.copy()
+    for col, values in results.items():
+        enriched[col] = values
+    return enriched
+
+
+def interpolate_targets(phot_csv: str,
+                        dist_csv: str,
+                        logages: Iterable[float],
+                        mhs: Iterable[float],
+                        *,
+                        fetcher: Optional[IsochroneFetcher] = None,
+                        mag_cols: Optional[Iterable[str]] = None,
+                        prefer: str = "linear",
+                        prefix: str = "iso_",
+                        join_key: Optional[str] = None,
+                        how: str = "inner") -> pd.DataFrame:
+    merger = PhotometryMerger()
+    merged = merger.join_photometry_and_distances(phot_csv, dist_csv, on=join_key, how=how)
+    if mag_cols is None:
+        mag_cols = merger.interpolation_bands(merged)
+    if fetcher is None:
+        fetcher = IsochroneFetcher()
+    model_df = build_isochrone_grid(fetcher, logages, mhs)
+    return interpolate_catalog(merged, model_df, mag_cols=mag_cols, prefer=prefer, prefix=prefix)
+
+
+__all__ = [
+    "IsochroneInterpolator",
+    "build_isochrone_grid",
+    "interpolate_catalog",
+    "interpolate_targets",
+    "brute_force",
+]

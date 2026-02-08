@@ -59,6 +59,13 @@ class IsochroneFetcher:
         self._cache[key] = df
         return df
 
+    def fetch_grid(self, logages, mhs) -> list[pd.DataFrame]:
+        frames = []
+        for logage in logages:
+            for mh in mhs:
+                frames.append(self.fetch(logage, mh))
+        return frames
+
     def photometry(self, df: pd.DataFrame):
         bp_col = self._find_col(df, self.bp_candidates)
         rp_col = self._find_col(df, self.rp_candidates)

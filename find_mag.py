@@ -65,13 +65,12 @@ class PhotometryMerger:
         phot_df = pd.read_csv(phot_csv)
         dist_df = pd.read_csv(dist_csv)
 
-
-        joined = phot_df.merge(dist_df, on=on, how=how, suffixes=('_phot', '_dist'))
-
         if on is None:
             on = self._join_key(phot_df, dist_df)
             if on is None:
                 raise ValueError('Could not find a join key. Provide a func')
+
+        joined = phot_df.merge(dist_df, on=on, how=how, suffixes=('_phot', '_dist'))
 
         dist_col = self._find_col(dist_df, self.DIST_CANDS)
         if dist_col is None:
@@ -82,26 +81,31 @@ class PhotometryMerger:
         bp_col = self._find_col(joined, self.GAIA_BP_CANDS)
         rp_col = self._find_col(joined, self.GAIA_RP_CANDS)
 
-            # compute absolute mags where possible
+        # compute absolute mags where possible
         if g_col is not None:
-                joined['G_abs'] = self._abs_mag_series(joined[g_col], joined['bj_dist_pc'])
+            joined['G_abs'] = self._abs_mag_series(joined[g_col], joined[dist_col])
         else:
             joined['G_abs'] = np.nan
 
         if bp_col is not None:
-            joined['BP_abs'] = self._abs_mag_series(joined[bp_col], joined['bj_dist_pc'])
+            joined['BP_abs'] = self._abs_mag_series(joined[bp_col], joined[dist_col])
         else:
             joined['BP_abs'] = np.nan
 
         if rp_col is not None:
-            joined['RP_abs'] = self._abs_mag_series(joined[rp_col], joined['bj_dist_pc'])
+            joined['RP_abs'] = self._abs_mag_series(joined[rp_col], joined[dist_col])
         else:
             joined['RP_abs'] = np.nan
 
-            # convenience color column
+        # convenience color column
         if 'BP_abs' in joined.columns and 'RP_abs' in joined.columns:
             joined['BP_RP_abs'] = joined['BP_abs'] - joined['RP_abs']
         return joined
+
+    @staticmethod
+    def interpolation_bands(df: pd.DataFrame) -> list[str]:
+        candidates = ['G_abs', 'BP_abs', 'RP_abs', 'BP_RP_abs']
+        return [c for c in candidates if c in df.columns]
 
 
 # phot_csv = '/Users/archon/classes/ASTR_502/Astro502_Sp26/ASTR502_Master_Photometry_List.csv'
