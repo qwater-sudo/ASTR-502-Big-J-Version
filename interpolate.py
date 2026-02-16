@@ -434,38 +434,28 @@ def fit_targets_to_isochrones(
     return result_df, diagnostics
 
 
-def _demo_synthetic_targets() -> pd.DataFrame:
-    """Create a tiny synthetic absolute-magnitude table (no external files)."""
-
-    return pd.DataFrame(
-        {
-            "target_id": ["star_1", "star_2", "star_3", "star_4"],
-            "G_abs": [4.8, 2.1, 6.3, np.nan],
-            "BP_abs": [5.2, 2.6, 6.9, 7.4],
-            "RP_abs": [4.2, 1.6, 5.8, 6.7],
-            "e_G_abs": [0.03, 0.05, 0.07, 0.06],
-            "e_BP_abs": [0.04, 0.07, 0.08, 0.09],
-            "e_RP_abs": [0.04, 0.07, 0.08, 0.09],
-        }
-    )
 
 
-def _run_demo() -> None:
-    """Minimal runnable example requested in project requirements."""
+if __name__ == "__main__":
 
-    demo_targets = _demo_synthetic_targets()
-    result_df, _ = fit_targets_to_isochrones(
-        demo_targets,
+    phot_csv = '/Users/archon/classes/ASTR_502/Astro502_Sp26/ASTR502_Master_Photometry_List.csv'
+    dist_csv = '/Users/archon/classes/ASTR_502/Astro502_Sp26/ASTR502_Mega_Target_List.csv'
+
+    targets = prepare_targets_from_csv(phot_csv, dist_csv)
+
+    results, _ = fit_targets_to_isochrones(
+        targets.head(5),
         logage_min=8.0,
-        logage_max=10.0,
-        logage_step=0.2,
-        mh_min=-1.0,
-        mh_max=0.3,
-        mh_step=0.2,
-        store_surfaces=False,
+        logage_max=10.1,
+        logage_step=0.1,
+        mh_min=-2.0,
+        mh_max=1.0,
+        mh_step=0.4,
+        photsys="gaiaEDR3",
+        store_surfaces=False
     )
 
-    display_cols = [
+    print(results[[
         "target_id",
         "best_logAge",
         "best_age_yr",
@@ -473,13 +463,7 @@ def _run_demo() -> None:
         "best_chi2",
         "best_phase_index",
         "fit_status",
-    ]
-    print(result_df[display_cols])
-
-
-if __name__ == "__main__":
-    _run_demo()
-
+    ]])
 
 __all__ = [
     "IsochroneGridSpec",
