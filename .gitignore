@@ -111,5 +111,9 @@ htmlcov/
 .ipynb_checkpoints
 
 #local isochrone files
-isochrones/MIST_v1.2_vvcrit0.0_full_isos
-isochrones/MIST_v1.2_vvcrit0.0_full_isos.txz
+isochrones/MIST/MIST_v1.2_vvcrit0.0_full_isos
+isochrones/MIST/MIST_v1.2_vvcrit0.0_full_isos.txz
+
+isochrones/SPOTS/isos
+isochrones/SPOTS/tracks
+isochrones/SPOTS/allIsochrones.zip
