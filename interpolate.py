@@ -4,6 +4,7 @@ from dataclasses import dataclass
 from pathlib import Path
 import re
 from typing import Iterable
+import glob
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -333,5 +334,5 @@ def test_fit_and_plot(
 test_fit_and_plot(
     phot_csv='/Users/archon/classes/ASTR_502/Astro502_Sp26/ASTR502_Master_Photometry_List.csv',
     dist_csv='/Users/archon/classes/ASTR_502/Astro502_Sp26/ASTR502_Mega_Target_List.csv',
-    spot_iso_files= '/Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f000.isoc',
+    spot_iso_files= glob.glob('/Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/*.isoc')
 )
