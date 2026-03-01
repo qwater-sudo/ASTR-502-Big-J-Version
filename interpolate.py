@@ -5,6 +5,7 @@ from pathlib import Path
 import re
 from typing import Iterable
 
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from scipy.interpolate import interp1d
@@ -179,7 +180,7 @@ def fit_spot_grid_to_targets(
 
     for iso_file in spot_iso_files:
         metallicity = _extract_metallicity_from_path(iso_file)
-        sections = SPOT(str(iso_file), verbose=False).read_iso_file()
+        sections = SPOT(str(iso_file)).read_iso_file()
 
         for age, section_df in sections.items():
             try:
@@ -211,3 +212,121 @@ def load_targets(phot_csv: str | Path, dist_csv: str | Path) -> pd.DataFrame:
     """Load merged target list from photometry + distance catalogues."""
     merger = PhotometryMerger()
     return merger.join_photometry_and_distances(phot_csv=phot_csv, dist_csv=dist_csv)
+
+def plot_fitted_model_against_targets(
+    targets_df: pd.DataFrame,
+    fitted_eval_df: pd.DataFrame,
+    title: str = "Best-fit SPOT isochrone vs target data",
+    save_path: str | Path | None = None,
+) -> tuple[plt.Figure, plt.Axes]:
+    """Plot observed target CMD and fitted model CMD (mag vs BP-RP).
+
+    Parameters
+    ----------
+    targets_df
+        Master target table containing at least ``BP_RP_abs`` and ``G_abs``.
+    fitted_eval_df
+        DataFrame returned by ``fit_isochrone_section_to_targets`` or
+        ``fit_spot_grid_to_targets`` best model output. Must contain
+        ``BP_RP_abs`` and ``iso_mag_pred``.
+    title
+        Plot title.
+    save_path
+        Optional output path for saving the figure.
+    """
+    target_color_col = "BP_RP_abs"
+    target_mag_col = "G_abs"
+    pred_mag_col = "iso_mag_pred"
+
+    required_target_cols = {target_color_col, target_mag_col}
+    required_fit_cols = {target_color_col, pred_mag_col}
+
+    if not required_target_cols.issubset(set(targets_df.columns)):
+        raise ValueError(
+            f"targets_df must include columns {sorted(required_target_cols)}"
+        )
+    if not required_fit_cols.issubset(set(fitted_eval_df.columns)):
+        raise ValueError(
+            f"fitted_eval_df must include columns {sorted(required_fit_cols)}"
+        )
+
+    plot_targets = targets_df[[target_color_col, target_mag_col]].copy()
+    plot_targets = plot_targets.dropna()
+
+
+    plot_fit = fitted_eval_df[[target_color_col, pred_mag_col]].copy()
+    plot_fit = plot_fit.dropna().sort_values(target_color_col)
+
+    fig, ax = plt.subplots(figsize=(8, 10))
+    ax.scatter(
+        plot_targets[target_color_col],
+        plot_targets[target_mag_col],
+        s=8,
+        alpha=0.45,
+        color="black",
+        label="Targets",
+    )
+    ax.plot(
+        plot_fit[target_color_col],
+        plot_fit[pred_mag_col],
+        color="tab:red",
+        linewidth=2,
+        label="Fitted isochrone",
+    )
+
+
+    ax.set_xlabel("BP-RP")
+    ax.set_ylabel("G")
+    ax.set_title(title)
+    ax.grid(alpha=0.3)
+    ax.invert_yaxis()
+    ax.legend(loc="best")
+    fig.tight_layout()
+
+    if save_path is not None:
+        fig.savefig(save_path, dpi=150, bbox_inches="tight")
+
+    return fig, ax
+
+
+def test_fit_and_plot(
+    phot_csv: str | Path,
+    dist_csv: str | Path,
+    spot_iso_files: Iterable[str | Path],
+    sigma_mag: float = 0.05,
+    save_path: str | Path | None = None,
+) -> tuple[pd.DataFrame, pd.DataFrame, tuple[plt.Figure, plt.Axes]]:
+    """Test helper: run grid fitting and plot the best fitted model.
+
+    Returns
+    -------
+    results_df, best_eval_df, (fig, ax)
+        Ranked fit table, evaluated best-fit model table, and matplotlib handles.
+    """
+    targets_df = load_targets(phot_csv=phot_csv, dist_csv=dist_csv)
+    results_df, best_eval_df = fit_spot_grid_to_targets(
+        targets_df=targets_df,
+        spot_iso_files=spot_iso_files,
+        sigma_mag=sigma_mag,
+    )
+
+    if results_df.empty or best_eval_df.empty:
+        raise RuntimeError("No valid SPOT fits were produced; cannot generate test plot")
+
+    best = results_df.iloc[0]
+    fig_ax = plot_fitted_model_against_targets(
+        targets_df=targets_df,
+        fitted_eval_df=best_eval_df,
+        title=(
+            "Best-fit SPOT model "
+            f"(logAge={best['age_log10_yr']:.3f}, [M/H]={best['metallicity_dex']:.3f})"
+        ),
+        save_path=save_path,
+    )
+    return results_df, best_eval_df, fig_ax
+
+test_fit_and_plot(
+    phot_csv='/Users/archon/classes/ASTR_502/Astro502_Sp26/ASTR502_Master_Photometry_List.csv',
+    dist_csv='/Users/archon/classes/ASTR_502/Astro502_Sp26/ASTR502_Mega_Target_List.csv',
+    spot_iso_files= '/Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f000.isoc',
+)
