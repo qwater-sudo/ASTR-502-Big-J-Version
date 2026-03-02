@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import argparse
 from dataclasses import dataclass
 import logging
 from pathlib import Path
@@ -18,6 +19,15 @@ from stats import LikelihoodSummary, dataframe_log_likelihood
 
 
 logger = logging.getLogger(__name__)
+
+
+def configure_logging(debug: bool = False) -> None:
+    """Configure module logging for scripts and debugging runs."""
+    logging.basicConfig(
+        level=logging.DEBUG if debug else logging.INFO,
+        format="%(asctime)s %(levelname)s %(name)s - %(message)s",
+    )
+    logger.debug("Debug logging enabled")
 
 
 @dataclass(frozen=True)
@@ -225,14 +235,33 @@ def fit_spot_grid_to_targets(
     else:
         iso_files = list(spot_iso_files)
 
+    logger.info("Preparing to fit SPOT grid for %d isochrone file(s)", len(iso_files))
+    if not iso_files:
+        logger.warning("No SPOT isochrone files were supplied")
+        return pd.DataFrame(), pd.DataFrame()
+
     for iso_file in iso_files:
         metallicity = _extract_metallicity_from_path(iso_file)
+        if np.isnan(metallicity):
+            logger.debug(
+                "Could not infer metallicity from file name '%s'; proceeding with NaN",
+                iso_file,
+            )
         logger.info(
             "Loading SPOT isochrone file: %s (detected [M/H]=%.3f)",
             iso_file,
             metallicity,
         )
-        sections = SPOT(str(iso_file)).read_iso_file()
+        try:
+            sections = SPOT(str(iso_file)).read_iso_file()
+        except Exception:
+            logger.exception("Failed to parse SPOT isochrone file: %s", iso_file)
+            continue
+
+        if not sections:
+            logger.warning("Isochrone file %s did not produce any age sections", iso_file)
+            continue
+
         logger.info("File %s contains %d age sections", iso_file, len(sections))
 
         for age, section_df in sections.items():
@@ -258,6 +287,14 @@ def fit_spot_grid_to_targets(
                 continue
 
             results.append(fit)
+            if not np.isfinite(fit.log_likelihood):
+                logger.debug(
+                    "Discarding non-finite fit score for logAge=%.3f [M/H]=%.3f (n_used=%d)",
+                    fit.age_log10_yr,
+                    fit.metallicity_dex,
+                    fit.n_used,
+                )
+
             if fit.log_likelihood > best_ll:
                 best_ll = fit.log_likelihood
                 best_eval = eval_df
@@ -272,6 +309,13 @@ def fit_spot_grid_to_targets(
         logger.warning("No valid SPOT fits were produced across all input files")
         return pd.DataFrame(), pd.DataFrame()
 
+    finite_count = int(np.isfinite([r.log_likelihood for r in results]).sum())
+    logger.info(
+        "Completed SPOT grid fit: %d candidate fit(s), %d with finite log-likelihood",
+        len(results),
+        finite_count,
+    )
+
     results_df = pd.DataFrame([r.__dict__ for r in results]).sort_values(
         "log_likelihood", ascending=False
     )
@@ -284,6 +328,17 @@ def load_targets(phot_csv: str | Path, dist_csv: str | Path) -> pd.DataFrame:
     merger = PhotometryMerger()
     merged = merger.join_photometry_and_distances(phot_csv=phot_csv, dist_csv=dist_csv)
     logger.info("Loaded merged target table with %d rows and %d columns", *merged.shape)
+    required = {"BP_RP_abs", "G_abs"}
+    missing = required.difference(merged.columns)
+    if missing:
+        logger.error("Merged target table is missing required columns: %s", sorted(missing))
+    else:
+        valid = merged[list(required)].dropna()
+        logger.debug(
+            "Targets with finite BP_RP_abs and G_abs: %d / %d",
+            len(valid),
+            len(merged),
+        )
     return merged
 
 def plot_fitted_model_against_targets(
@@ -384,6 +439,11 @@ def test_fit_and_plot(
     )
 
     if results_df.empty or best_eval_df.empty:
+        logger.error(
+            "No valid SPOT fits were produced. results_df.empty=%s, best_eval_df.empty=%s",
+            results_df.empty,
+            best_eval_df.empty,
+        )
         raise RuntimeError("No valid SPOT fits were produced; cannot generate test plot")
 
     best = results_df.iloc[0]
@@ -398,8 +458,38 @@ def test_fit_and_plot(
     )
     return results_df, best_eval_df, fig_ax
 
-test_fit_and_plot(
-    phot_csv='/Users/archon/classes/ASTR_502/Astro502_Sp26/ASTR502_Master_Photometry_List.csv',
-    dist_csv='/Users/archon/classes/ASTR_502/Astro502_Sp26/ASTR502_Mega_Target_List.csv',
-    spot_iso_files= glob.glob('/Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/*.isoc')
-)
+def _build_cli_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(description="Fit SPOT isochrones and optionally plot the best fit.")
+    parser.add_argument("--phot-csv", required=True, help="Path to master photometry CSV")
+    parser.add_argument("--dist-csv", required=True, help="Path to distance/target CSV")
+    parser.add_argument(
+        "--spot-iso-glob",
+        required=True,
+        help="Glob pattern for SPOT .isoc files (example: 'isochrones/SPOTS/isos/*.isoc')",
+    )
+    parser.add_argument("--sigma-mag", type=float, default=0.05, help="Magnitude uncertainty")
+    parser.add_argument("--save-path", default=None, help="Optional output path for diagnostic plot")
+    parser.add_argument(
+        "--debug",
+        action="store_true",
+        help="Enable debug logging output to diagnose fitting failures",
+    )
+    return parser
+
+
+if __name__ == "__main__":
+    args = _build_cli_parser().parse_args()
+    configure_logging(debug=args.debug)
+
+    iso_files = glob.glob(args.spot_iso_glob)
+    logger.info("Resolved %d SPOT file(s) from glob '%s'", len(iso_files), args.spot_iso_glob)
+    if args.debug:
+        logger.debug("Resolved SPOT files: %s", iso_files)
+
+    test_fit_and_plot(
+        phot_csv=args.phot_csv,
+        dist_csv=args.dist_csv,
+        spot_iso_files=iso_files,
+        sigma_mag=args.sigma_mag,
+        save_path=args.save_path,
+    )
