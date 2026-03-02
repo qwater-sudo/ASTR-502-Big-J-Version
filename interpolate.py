@@ -7,6 +7,7 @@ from pathlib import Path
 import re
 from typing import Iterable
 import glob
+import time
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -451,12 +452,36 @@ def test_fit_and_plot(
     return results_df, best_eval_df, fig_ax
 
 
-if __name__ == "__main__":
+def configure_debug_logging(log_dir: str | Path = "logs") -> Path:
+    """Configure root logger to write debug output to ``log_dir``.
+
+    A new file is created on each run using the current timestamp.
+
+    Returns
+    -------
+    Path
+        Full path to the log file.
+    """
+    logs_path = Path(log_dir)
+    logs_path.mkdir(parents=True, exist_ok=True)
+    run_stamp = time.strftime("%Y%m%d_%H%M%S")
+    log_file = logs_path / f"interpolate_{run_stamp}.log"
+
     logging.basicConfig(
         level=logging.DEBUG,
         format="%(asctime)s %(levelname)s %(name)s - %(message)s",
+        handlers=[
+            logging.FileHandler(log_file, mode="a", encoding="utf-8"),
+            logging.StreamHandler(),
+        ],
         force=True,
     )
+    logger.debug("Debug logging initialized at %s", log_file)
+    return log_file
+
+
+if __name__ == "__main__":
+    configure_debug_logging("logs")
 
     test_fit_and_plot(
         phot_csv='/Users/archon/classes/ASTR_502/Astro502_Sp26/ASTR502_Master_Photometry_List.csv',
