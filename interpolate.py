@@ -50,6 +50,20 @@ def _as_numeric(df: pd.DataFrame) -> pd.DataFrame:
     return out
 
 
+
+
+def _extract_run_stamp_from_logging() -> str:
+    """Reuse interpolate log timestamp when available; otherwise create a new one."""
+    pattern = re.compile(r"interpolate_(\d{8}_\d{6})\.log$")
+    for handler in logging.getLogger().handlers:
+        filename = getattr(handler, "baseFilename", None)
+        if not filename:
+            continue
+        match = pattern.search(str(filename))
+        if match:
+            return match.group(1)
+    return time.strftime("%Y%m%d_%H%M%S")
+
 def _extract_metallicity_from_path(file_path: str | Path) -> float:
     """Infer metallicity from SPOT filename style like f000.isoc or fm05.isoc."""
     stem = Path(file_path).stem.lower()
@@ -342,6 +356,14 @@ def fit_spot_grid_to_targets(
     )
 
 
+def _default_plot_save_path(output_dir: str | Path = "figs") -> Path:
+    """Default output path for best-fit figure using interpolate run timestamp."""
+    out_dir = Path(output_dir)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    run_stamp = _extract_run_stamp_from_logging()
+    return out_dir / f"interpolate_{run_stamp}_candidate_fits.png"
+
+
 def save_best_fit_candidates(
     best_eval_df: pd.DataFrame,
     best_age_log10_yr: float,
@@ -350,8 +372,8 @@ def save_best_fit_candidates(
     """Write candidate observed/fitted magnitudes for the best-fit isochrone."""
     out_dir = Path(output_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
-    safe_age = f"{best_age_log10_yr:.3f}".replace(".", "p")
-    out_path = out_dir / f"spot_best_logage_{safe_age}_candidate_fits.csv"
+    run_stamp = _extract_run_stamp_from_logging()
+    out_path = out_dir / f"interpolate_{run_stamp}_candidate_fits.csv"
     if "hostname" not in best_eval_df.columns:
         logger.warning(
             "Saving best-fit candidates without a 'hostname' column. "
@@ -491,6 +513,7 @@ def test_fit_and_plot(
         best_age_log10_yr=float(best["age_log10_yr"]),
         output_dir="results",
     )
+    resolved_save_path = Path(save_path) if save_path is not None else _default_plot_save_path("figs")
     fig_ax = plot_fitted_model_against_targets(
         targets_df=targets_df,
         fitted_eval_df=best_eval_df,
@@ -498,8 +521,9 @@ def test_fit_and_plot(
             "Best-fit SPOT model "
             f"(logAge={best['age_log10_yr']:.3f}, [M/H]={best['metallicity_dex']:.3f})"
         ),
-        save_path=save_path,
+        save_path=resolved_save_path,
     )
+    logger.info("Wrote best-fit CMD figure to %s", resolved_save_path)
     return results_df, best_eval_df, best_isochrone_df, fig_ax, save_csv
 
 
