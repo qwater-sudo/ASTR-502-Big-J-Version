@@ -1,322 +1,567 @@
 from __future__ import annotations
 
+import argparse
+from dataclasses import dataclass
+import logging
+from pathlib import Path
+import re
+from typing import Iterable
+import glob
+import time
+
+import matplotlib.pyplot as plt
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
-from scipy.interpolate import LinearNDInterpolator, NearestNDInterpolator
-from typing import Dict, Iterable, Optional, Tuple
+from scipy.interpolate import interp1d
 
-from fetch_iso import IsochroneFetcher
 from find_mag import PhotometryMerger
+from read_spot_models import SPOT
+from stats import LikelihoodSummary, dataframe_log_likelihood
 
 
-def _available_bands(obs: Dict[str, float],
-                     model_df: pd.DataFrame,
-                     mag_cols: Optional[Iterable[str]] = None):
-    obs_keys = set(obs.keys())
-    if mag_cols is None:
-        cand = set(model_df.columns)
-    else:
-        cand = set(mag_cols)
-    bands = list(obs_keys.intersection(cand))
-    return bands
-
-def _row_log_likelihood(row: pd.Series,
-                        obs: Dict[str, float],
-                        errs: Dict[str, float],
-                        bands: Iterable[str]) -> float:
-    ll = 0.0
-    for b in bands:
-        m_obs = obs.get(b)
-        s = errs.get(b)
-        m_mod = row.get(b)
-        if m_obs is None or s is None or m_mod is None:
-            continue
-        if pd.isna(m_obs) or pd.isna(s) or pd.isna(m_mod) or s <=0:
-            continue
-        resid = m_obs - m_mod
-        ll += -0.5 * (resid * resid) / (s * s) + np.log(2.0 * np.pi * s * s)
-    return ll
-
-def brute_force(
-        observed_mags: Dict[str, float],
-        observed_errs: Dict[str, float],
-        model_df: pd.DataFrame,
-        mag_cols: Optional[Iterable[str]] = None,
-        mass_col: str = "mass",
-        age_col: str = "age",
-        feh_col: str = "mh"
-) -> Tuple[pd.Series, pd.DataFrame]:
-    bands = _available_bands(observed_mags, model_df, mag_cols)
-    if len(bands) == 0:
-        raise ValueError("No bands available")
-
-    loglikes = model_df.apply(lambda r: _row_log_likelihood(r, observed_mags, observed_errs,bands), axis=1).to_numpy()
-    max_ll = np.nanmax(loglikes)
-
-    if not np.isfinite(max_ll):
-        raise RuntimeError("All likelihoods are non-finite")
-
-    shift = loglikes - max_ll
-    probs = np.exp(shift)
-
-    probs[~np.isfinite(shift)] = 0.0
-    s = probs.sum()
-    if s <=0:
-        probs[:] = 0.0
-    else:
-        probs /= s
-
-    results = model_df.copy()
-    results['loglike'] = loglikes
-    results['prob'] = probs
-
-    best_idx = int(np.nanargmax(loglikes))
-    best_row = results.iloc[best_idx]
-    return best_row, results
+logger = logging.getLogger(__name__)
 
 
-class IsochroneInterpolator:
-    """
-    Build interpolators from model magnitudes -> (mass, age, feh).
-    Usage:
-      interp = IsochroneInterpolator(model_df, mag_cols=['G_abs','BP_RP_abs'])
-      result = interp.interpolate({'G_abs': 5.12, 'BP_RP_abs': 0.65})
-      result -> dict with keys 'mass','age','feh' (floats or np.nan if not available)
-    """
 
-    def __init__(self,
-                 model_df: pd.DataFrame,
-                 mag_cols: Optional[Iterable[str]] = None,
-                 mass_col: str = "mass",
-                 age_col: str = "age",
-                 feh_col: str = "mh"):
-        self.model_df = model_df.copy()
-        # determine mag columns to use
-        if mag_cols is None:
-            # pick commonly used mag columns if present
-            candidates = ['G_abs', 'BP_abs', 'RP_abs', 'BP_RP_abs']
-            self.bands = [c for c in candidates if c in self.model_df.columns]
-        else:
-            self.bands = [c for c in mag_cols if c in self.model_df.columns]
+@dataclass(frozen=True)
+class IsochroneFitResult:
+    """Best-fit statistics for one (age, metallicity) isochrone section."""
 
-        if len(self.bands) == 0:
-            raise ValueError("No magnitude columns found in model dataframe for interpolation")
-
-        self.mass_col = mass_col
-        self.age_col = age_col
-        self.feh_col = feh_col
-        if self.feh_col not in self.model_df.columns:
-            for alt in ("feh", "mh"):
-                if alt in self.model_df.columns:
-                    self.feh_col = alt
-                    break
-
-        # prepare training points: rows where all band mags are finite and outputs finite
-        valid = np.ones(len(self.model_df), dtype=bool)
-        for b in self.bands:
-            valid &= np.isfinite(pd.to_numeric(self.model_df[b], errors='coerce'))
-        valid &= np.isfinite(pd.to_numeric(self.model_df[self.mass_col], errors='coerce'))
-        valid &= np.isfinite(pd.to_numeric(self.model_df[self.age_col], errors='coerce'))
-        # feh optional
-        has_feh = self.feh_col in self.model_df.columns
-        if has_feh:
-            valid &= np.isfinite(pd.to_numeric(self.model_df[self.feh_col], errors='coerce'))
-
-        pts = self.model_df.loc[valid, self.bands].values
-        if pts.shape[0] == 0:
-            raise ValueError("No valid model points for interpolation")
-
-        # outputs
-        mass_y = self.model_df.loc[valid, self.mass_col].values
-        age_y = self.model_df.loc[valid, self.age_col].values
-        feh_y = (self.model_df.loc[valid, self.feh_col].values if has_feh else None)
-
-        # try linear interpolator (works inside convex hull), fallback to nearest
-        try:
-            self.mass_lin = LinearNDInterpolator(pts, mass_y)
-            self.age_lin = LinearNDInterpolator(pts, age_y)
-            self.feh_lin = (LinearNDInterpolator(pts, feh_y) if has_feh else None)
-            self.mass_near = NearestNDInterpolator(pts, mass_y)
-            self.age_near = NearestNDInterpolator(pts, age_y)
-            self.feh_near = (NearestNDInterpolator(pts, feh_y) if has_feh else None)
-        except Exception:
-            # if LinearNDInterpolator fails (e.g. degenerate points), build only nearest
-            self.mass_lin = None
-            self.age_lin = None
-            self.feh_lin = None
-            self.mass_near = NearestNDInterpolator(pts, mass_y)
-            self.age_near = NearestNDInterpolator(pts, age_y)
-            self.feh_near = (NearestNDInterpolator(pts, feh_y) if has_feh else None)
-
-    def interpolate(self, observed: Dict[str, float], prefer: str = 'linear') -> Dict[str, float]:
-        """
-        Interpolate to predict mass, age, feh for a single observed magnitude dict.
-        prefer: 'linear' (default) or 'nearest' to force nearest-neighbor.
-        Returns dict with keys 'mass','age','feh' (feh may be None if not in model).
-        If linear interpolation returns NaN (outside convex hull), falls back to nearest.
-        """
-        x = []
-        for b in self.bands:
-            v = observed.get(b, None)
-            if v is None or not np.isfinite(v):
-                raise ValueError(f"Observed magnitude for band `{b}` is missing or non-finite")
-            x.append(float(v))
-        x = np.asarray(x)
-        # evaluate
-        res = {}
-
-        # helper to evaluate with fallback
-        def _eval(lin_interp, near_interp):
-            if prefer == 'nearest' or lin_interp is None:
-                return float(near_interp(x))
-            val = float(lin_interp(x))
-            if not np.isfinite(val):
-                return float(near_interp(x))
-            return val
-
-        res['mass'] = _eval(self.mass_lin, self.mass_near)
-        res['age'] = _eval(self.age_lin, self.age_near)
-        if self.feh_lin is not None or self.feh_near is not None:
-            res['feh'] = _eval(self.feh_lin, self.feh_near)
-        else:
-            res['feh'] = None
-        return res
+    age_log10_yr: float
+    metallicity_dex: float
+    log_likelihood: float
+    n_used: int
+    predicted_mass_mean: float
+    predicted_mass_median: float
 
 
-def _find_iso_col(df: pd.DataFrame, candidates: Iterable[str]) -> Optional[str]:
+def _find_col(df: pd.DataFrame, candidates: Iterable[str]) -> str | None:
     for cand in candidates:
         for col in df.columns:
-            if cand.lower() in col.lower():
-                return col
+            if cand.lower() in str(col).lower():
+                return str(col)
     return None
 
 
-def _standardize_isochrones(df: pd.DataFrame,
-                            fetcher: IsochroneFetcher,
-                            logage: float,
-                            mh: float) -> pd.DataFrame:
-    color, mag, (bp_col, rp_col, g_col) = fetcher.photometry(df)
-    mass_col = _find_iso_col(df, ['mini', 'm_ini', 'minit', 'mass', 'mact'])
-    age_col = _find_iso_col(df, ['logage', 'log_age', 'age'])
-    mh_col = _find_iso_col(df, ['mh', 'm/h', 'feh', 'metallicity'])
+def _as_numeric(df: pd.DataFrame) -> pd.DataFrame:
+    out = df.copy()
+    for col in out.columns:
+        out[col] = pd.to_numeric(out[col], errors="coerce")
+    return out
 
-    if mass_col is None:
-        raise RuntimeError("Could not locate a mass column in the isochrone data")
-    if age_col is None:
-        raise RuntimeError("Could not locate an age column in the isochrone data")
 
-    standardized = pd.DataFrame({
-        'G_abs': pd.to_numeric(df[g_col], errors='coerce'),
-        'BP_abs': pd.to_numeric(df[bp_col], errors='coerce'),
-        'RP_abs': pd.to_numeric(df[rp_col], errors='coerce'),
-        'BP_RP_abs': pd.to_numeric(color, errors='coerce'),
-        'mass': pd.to_numeric(df[mass_col], errors='coerce'),
-    })
 
-    age_vals = pd.to_numeric(df[age_col], errors='coerce')
-    if 'log' in age_col.lower():
-        standardized['age'] = age_vals
+
+def _extract_run_stamp_from_logging() -> str:
+    """Reuse interpolate log timestamp when available; otherwise create a new one."""
+    pattern = re.compile(r"interpolate_(\d{8}_\d{6})\.log$")
+    for handler in logging.getLogger().handlers:
+        filename = getattr(handler, "baseFilename", None)
+        if not filename:
+            continue
+        match = pattern.search(str(filename))
+        if match:
+            return match.group(1)
+    return time.strftime("%Y%m%d_%H%M%S")
+
+def _extract_metallicity_from_path(file_path: str | Path) -> float:
+    """Infer metallicity from SPOT filename style like f000.isoc or fm05.isoc."""
+    stem = Path(file_path).stem.lower()
+
+    # f000 -> 0.00, fp05 -> +0.5, fm05 -> -0.5
+    m = re.search(r"f([pm]?)(\d+)", stem)
+    if not m:
+        return float("nan")
+
+    sign = m.group(1)
+    digits = m.group(2)
+    value = float(digits) / 100.0
+    if sign == "m":
+        value *= -1.0
+    return value
+
+
+def _build_color_mag_interpolator(
+    isochrone_df: pd.DataFrame,
+    color_col: str,
+    mag_col: str,
+):
+    """Build scipy.interpolate interp1d(color -> magnitude) for one isochrone."""
+    track = isochrone_df[[color_col, mag_col]].dropna().sort_values(color_col)
+    if len(track) < 2:
+        return None
+
+    # Remove repeated x values to keep interp1d stable.
+    track = track.loc[~track[color_col].duplicated(keep="first")]
+    if len(track) < 2:
+        return None
+
+    return interp1d(
+        track[color_col].to_numpy(),
+        track[mag_col].to_numpy(),
+        kind="linear",
+        bounds_error=False,
+        fill_value=np.nan,
+        assume_sorted=True,
+    )
+
+
+def _prepare_isochrone_track(isochrone_df: pd.DataFrame) -> tuple[pd.DataFrame, str | None]:
+    """Normalize one SPOT isochrone section into CMD-friendly columns."""
+    iso = _as_numeric(isochrone_df)
+    iso_bp_col = _find_col(iso, ["BP_mag"])
+    iso_rp_col = _find_col(iso, ["RP_mag"])
+    iso_g_col = _find_col(iso, ["G_mag"])
+    mass_col = _find_col(iso, ["Mass"])
+
+    if not (iso_bp_col and iso_rp_col and iso_g_col):
+        raise ValueError(
+            "Could not identify BP/RP/G columns in SPOT isochrone section; "
+            f"columns were: {list(iso.columns)}"
+        )
+
+    work = iso[[iso_bp_col, iso_rp_col, iso_g_col] + ([mass_col] if mass_col else [])].copy()
+    work["iso_color"] = work[iso_bp_col] - work[iso_rp_col]
+    work["iso_mag"] = work[iso_g_col]
+    return work, mass_col
+
+
+def fit_isochrone_section_to_targets(
+    isochrone_df: pd.DataFrame,
+    targets_df: pd.DataFrame,
+    age_log10_yr: float,
+    metallicity_dex: float,
+    sigma_mag: float = 0.05,
+) -> tuple[IsochroneFitResult, LikelihoodSummary, pd.DataFrame]:
+    """Fit one isochrone section to the target CMD and score with log-likelihood."""
+    logger.info(
+        "Starting fit for isochrone section: logAge=%.3f, [M/H]=%.3f, sigma_mag=%.3f",
+        age_log10_yr,
+        metallicity_dex,
+        sigma_mag,
+    )
+    targets = _as_numeric(targets_df)
+    host_col = _find_col(targets_df, ["hostname"])
+    if host_col and host_col in targets_df.columns:
+        targets["hostname"] = targets_df[host_col]
+
+    # Target photometric columns created by PhotometryMerger.join_photometry_and_distances.
+    target_color_col = "BP_RP_abs"
+    target_mag_col = "G_abs"
+
+    try:
+        work, mass_col = _prepare_isochrone_track(isochrone_df)
+    except ValueError:
+        logger.error(
+            "Could not identify BP/RP/G columns for logAge=%.3f [M/H]=%.3f. Columns=%s",
+            age_log10_yr,
+            metallicity_dex,
+            list(isochrone_df.columns),
+        )
+        raise
+
+    interpolator = _build_color_mag_interpolator(work, "iso_color", "iso_mag")
+    if interpolator is None:
+        logger.warning(
+            "Skipping isochrone section (insufficient points for interpolation): "
+            "logAge=%.3f, [M/H]=%.3f",
+            age_log10_yr,
+            metallicity_dex,
+        )
+        result = IsochroneFitResult(
+            age_log10_yr=float(age_log10_yr),
+            metallicity_dex=float(metallicity_dex),
+            log_likelihood=float("-inf"),
+            n_used=0,
+            predicted_mass_mean=float("nan"),
+            predicted_mass_median=float("nan"),
+        )
+        empty_columns = [target_color_col, target_mag_col, "iso_mag_pred", "mass_pred"]
+        if host_col is not None:
+            empty_columns.insert(0, "hostname")
+        empty = pd.DataFrame(columns=empty_columns)
+        summary = LikelihoodSummary(0, float("-inf"), pd.Series(dtype=float))
+        return result, summary, empty
+
+    mask = targets[target_color_col].notna() & targets[target_mag_col].notna()
+    eval_columns = [target_color_col, target_mag_col]
+    if host_col is not None and "hostname" in targets.columns:
+        eval_columns.insert(0, "hostname")
+    eval_df = targets.loc[mask, eval_columns].copy()
+    eval_df["iso_mag_pred"] = interpolator(eval_df[target_color_col].to_numpy())
+
+    ll_summary = dataframe_log_likelihood(
+        observed=eval_df[target_mag_col],
+        predicted=eval_df["iso_mag_pred"],
+        sigma=sigma_mag,
+    )
+    logger.debug(
+        "Likelihood computed for logAge=%.3f [M/H]=%.3f: n_used=%d, logL=%.5f",
+        age_log10_yr,
+        metallicity_dex,
+        ll_summary.n_used,
+        ll_summary.log_likelihood,
+    )
+
+    # Estimate masses by nearest color location on the isochrone if mass exists.
+    if mass_col:
+        ref = work[["iso_color", mass_col]].dropna().sort_values("iso_color")
+        if len(ref) >= 2 and ref["iso_color"].nunique() >= 2:
+            mass_interp = interp1d(
+                ref["iso_color"].to_numpy(),
+                ref[mass_col].to_numpy(),
+                kind="linear",
+                bounds_error=False,
+                fill_value=np.nan,
+                assume_sorted=True,
+            )
+            eval_df["mass_pred"] = mass_interp(eval_df[target_color_col].to_numpy())
+        else:
+            eval_df["mass_pred"] = np.nan
     else:
-        standardized['age'] = np.log10(age_vals)
+        eval_df["mass_pred"] = np.nan
 
-    if mh_col is not None:
-        standardized['mh'] = pd.to_numeric(df[mh_col], errors='coerce')
+    result = IsochroneFitResult(
+        age_log10_yr=float(age_log10_yr),
+        metallicity_dex=float(metallicity_dex),
+        log_likelihood=ll_summary.log_likelihood,
+        n_used=ll_summary.n_used,
+        predicted_mass_mean=float(pd.to_numeric(eval_df["mass_pred"], errors="coerce").mean()),
+        predicted_mass_median=float(pd.to_numeric(eval_df["mass_pred"], errors="coerce").median()),
+    )
+
+    logger.info(
+        "Fit complete for logAge=%.3f [M/H]=%.3f: success=%s, n_used=%d, logL=%.5f, "
+        "mass_mean=%.4f, mass_median=%.4f",
+        age_log10_yr,
+        metallicity_dex,
+        np.isfinite(result.log_likelihood),
+        result.n_used,
+        result.log_likelihood,
+        result.predicted_mass_mean,
+        result.predicted_mass_median,
+    )
+
+    return result, ll_summary, eval_df
+
+
+def fit_spot_grid_to_targets(
+    targets_df: pd.DataFrame,
+    spot_iso_files: str | Path | Iterable[str | Path],
+    sigma_mag: float = 0.05,
+) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
+    """Fit every SPOT age section from every metallicity file to target data."""
+    results: list[IsochroneFitResult] = []
+    best_eval: pd.DataFrame | None = None
+    best_iso_track: pd.DataFrame | None = None
+    best_ll = float("-inf")
+
+    if isinstance(spot_iso_files, (str, Path)):
+        iso_files = [spot_iso_files]
     else:
-        standardized['mh'] = mh
+        iso_files = list(spot_iso_files)
 
-    standardized['logage_request'] = logage
-    standardized['mh_request'] = mh
-    return standardized
+    logger.info("Preparing to fit SPOT grid for %d isochrone file(s)", len(iso_files))
+    if not iso_files:
+        logger.warning("No SPOT isochrone files were supplied")
+        return pd.DataFrame(), pd.DataFrame(), pd.DataFrame()
 
-
-def build_isochrone_grid(fetcher: IsochroneFetcher,
-                         logages: Iterable[float],
-                         mhs: Iterable[float]) -> pd.DataFrame:
-    frames = []
-    logages = list(logages)
-    mhs = list(mhs)
-    if hasattr(fetcher, "fetch_grid"):
-        raw_frames = iter(fetcher.fetch_grid(logages, mhs))
-        for logage in logages:
-            for mh in mhs:
-                raw = next(raw_frames)
-                frames.append(_standardize_isochrones(raw, fetcher, logage, mh))
-    else:
-        for logage in logages:
-            for mh in mhs:
-                raw = fetcher.fetch(logage, mh)
-                frames.append(_standardize_isochrones(raw, fetcher, logage, mh))
-    if not frames:
-        raise ValueError("No isochrones fetched; check logage/mh inputs")
-    return pd.concat(frames, ignore_index=True)
-
-
-def interpolate_catalog(merged_df: pd.DataFrame,
-                        model_df: pd.DataFrame,
-                        mag_cols: Optional[Iterable[str]] = None,
-                        prefer: str = "linear",
-                        prefix: str = "iso_") -> pd.DataFrame:
-    interpolator = IsochroneInterpolator(model_df, mag_cols=mag_cols)
-    mags = interpolator.bands
-    results = {f"{prefix}mass": [], f"{prefix}age": [], f"{prefix}feh": []}
-
-    for _, row in merged_df.iterrows():
+    for iso_file in iso_files:
+        metallicity = _extract_metallicity_from_path(iso_file)
+        if np.isnan(metallicity):
+            logger.debug(
+                "Could not infer metallicity from file name '%s'; proceeding with NaN",
+                iso_file,
+            )
+        logger.info(
+            "Loading SPOT isochrone file: %s (detected [M/H]=%.3f)",
+            iso_file,
+            metallicity,
+        )
         try:
-            observed = {b: row.get(b) for b in mags}
-            interp = interpolator.interpolate(observed, prefer=prefer)
-            results[f"{prefix}mass"].append(interp['mass'])
-            results[f"{prefix}age"].append(interp['age'])
-            results[f"{prefix}feh"].append(interp['feh'])
+            sections = SPOT(str(iso_file)).read_iso_file()
         except Exception:
-            results[f"{prefix}mass"].append(np.nan)
-            results[f"{prefix}age"].append(np.nan)
-            results[f"{prefix}feh"].append(np.nan)
+            logger.exception("Failed to parse SPOT isochrone file: %s", iso_file)
+            continue
 
-    enriched = merged_df.copy()
-    for col, values in results.items():
-        enriched[col] = values
-    return enriched
+        if not sections:
+            logger.warning("Isochrone file %s did not produce any age sections", iso_file)
+            continue
+
+        logger.info("File %s contains %d age sections", iso_file, len(sections))
+
+        for age, section_df in sections.items():
+            logger.info(
+                "Matching targets against isochrone age section: logAge=%s from file %s",
+                age,
+                iso_file,
+            )
+            try:
+                fit, _, eval_df = fit_isochrone_section_to_targets(
+                    isochrone_df=section_df,
+                    targets_df=targets_df,
+                    age_log10_yr=float(age),
+                    metallicity_dex=metallicity,
+                    sigma_mag=sigma_mag,
+                )
+            except ValueError:
+                logger.warning(
+                    "Failed fit for logAge=%s in %s due to invalid/missing columns",
+                    age,
+                    iso_file,
+                )
+                continue
+
+            results.append(fit)
+            if not np.isfinite(fit.log_likelihood):
+                logger.debug(
+                    "Discarding non-finite fit score for logAge=%.3f [M/H]=%.3f (n_used=%d)",
+                    fit.age_log10_yr,
+                    fit.metallicity_dex,
+                    fit.n_used,
+                )
+
+            if fit.log_likelihood > best_ll:
+                best_ll = fit.log_likelihood
+                best_eval = eval_df
+                try:
+                    best_iso_track, _ = _prepare_isochrone_track(section_df)
+                except ValueError:
+                    best_iso_track = None
+                logger.info(
+                    "New best fit detected: logAge=%.3f [M/H]=%.3f logL=%.5f",
+                    fit.age_log10_yr,
+                    fit.metallicity_dex,
+                    fit.log_likelihood,
+                )
+
+    if not results:
+        logger.warning("No valid SPOT fits were produced across all input files")
+        return pd.DataFrame(), pd.DataFrame(), pd.DataFrame()
+
+    finite_count = int(np.isfinite([r.log_likelihood for r in results]).sum())
+    logger.info(
+        "Completed SPOT grid fit: %d candidate fit(s), %d with finite log-likelihood",
+        len(results),
+        finite_count,
+    )
+
+    results_df = pd.DataFrame([r.__dict__ for r in results]).sort_values(
+        "log_likelihood", ascending=False
+    )
+    return (
+        results_df.reset_index(drop=True),
+        (best_eval if best_eval is not None else pd.DataFrame()),
+        (best_iso_track if best_iso_track is not None else pd.DataFrame()),
+    )
 
 
-def interpolate_targets(phot_csv: str,
-                        dist_csv: str,
-                        logages: Iterable[float],
-                        mhs: Iterable[float],
-                        *,
-                        fetcher: Optional[IsochroneFetcher] = None,
-                        mag_cols: Optional[Iterable[str]] = None,
-                        prefer: str = "linear",
-                        prefix: str = "iso_",
-                        join_key: Optional[str] = None,
-                        how: str = "inner") -> pd.DataFrame:
+def _default_plot_save_path(output_dir: str | Path = "figs") -> Path:
+    """Default output path for best-fit figure using interpolate run timestamp."""
+    out_dir = Path(output_dir)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    run_stamp = _extract_run_stamp_from_logging()
+    return out_dir / f"interpolate_{run_stamp}_candidate_fits.png"
+
+
+def save_best_fit_candidates(
+    best_eval_df: pd.DataFrame,
+    best_age_log10_yr: float,
+    output_dir: str | Path = "results",
+) -> Path:
+    """Write candidate observed/fitted magnitudes for the best-fit isochrone."""
+    out_dir = Path(output_dir)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    run_stamp = _extract_run_stamp_from_logging()
+    out_path = out_dir / f"interpolate_{run_stamp}_candidate_fits.csv"
+    if "hostname" not in best_eval_df.columns:
+        logger.warning(
+            "Saving best-fit candidates without a 'hostname' column. "
+            "Check that Hostname is preserved in upstream merged photometry."
+        )
+    best_eval_df.to_csv(out_path, index=False)
+    logger.info("Wrote best-fit candidate magnitudes to %s", out_path)
+    return out_path
+
+
+def load_targets(phot_csv: str | Path, dist_csv: str | Path) -> pd.DataFrame:
+    """Load merged target list from photometry + distance catalogues."""
+    logger.info("Loading targets from photometry=%s and distances=%s", phot_csv, dist_csv)
     merger = PhotometryMerger()
-    merged = merger.join_photometry_and_distances(phot_csv, dist_csv, on=join_key, how=how)
-    if mag_cols is None:
-        mag_cols = merger.interpolation_bands(merged)
-    if fetcher is None:
-        fetcher = IsochroneFetcher()
-    model_df = build_isochrone_grid(fetcher, logages, mhs)
-    return interpolate_catalog(merged, model_df, mag_cols=mag_cols, prefer=prefer, prefix=prefix)
+    merged = merger.join_photometry_and_distances(phot_csv=phot_csv, dist_csv=dist_csv)
+    logger.info("Loaded merged target table with %d rows and %d columns", *merged.shape)
+    required = {"BP_RP_abs", "G_abs"}
+    missing = required.difference(merged.columns)
+    if missing:
+        logger.error("Merged target table is missing required columns: %s", sorted(missing))
+    else:
+        valid = merged[list(required)].dropna()
+        logger.debug(
+            "Targets with finite BP_RP_abs and G_abs: %d / %d",
+            len(valid),
+            len(merged),
+        )
+    return merged
+
+def plot_fitted_model_against_targets(
+    targets_df: pd.DataFrame,
+    fitted_eval_df: pd.DataFrame,
+    title: str = "Best-fit SPOT isochrone vs target data",
+    save_path: str | Path | None = None,
+) -> tuple[plt.Figure, plt.Axes]:
+    """Plot observed targets and best-fit predicted magnitudes on CMD axes.
+
+    Parameters
+    ----------
+    targets_df
+        Master target table containing at least ``BP_RP_abs`` and ``G_abs``.
+    fitted_eval_df
+        Best-fit per-target evaluation table. Must contain ``BP_RP_abs`` and
+        ``iso_mag_pred`` produced from the best ``logAge`` isochrone.
+    title
+        Plot title.
+    save_path
+        Optional output path for saving the figure.
+    """
+    target_color_col = "BP_RP_abs"
+    target_mag_col = "G_abs"
+    pred_mag_col = "iso_mag_pred"
+
+    required_target_cols = {target_color_col, target_mag_col}
+    required_fit_cols = {target_color_col, pred_mag_col}
+
+    if not required_target_cols.issubset(set(targets_df.columns)):
+        raise ValueError(
+            f"targets_df must include columns {sorted(required_target_cols)}"
+        )
+    if not required_fit_cols.issubset(set(fitted_eval_df.columns)):
+        raise ValueError(
+            f"fitted_eval_df must include columns {sorted(required_fit_cols)}"
+        )
+
+    plot_targets = targets_df[[target_color_col, target_mag_col]].copy()
+    plot_targets = plot_targets.dropna()
+
+    plot_fit = fitted_eval_df[[target_color_col, pred_mag_col]].copy()
+    plot_fit = plot_fit.dropna().sort_values(target_color_col)
+
+    fig, ax = plt.subplots(figsize=(8, 10))
+    ax.scatter(
+        plot_targets[target_color_col],
+        plot_targets[target_mag_col],
+        s=8,
+        alpha=0.45,
+        color="black",
+        label="Targets",
+    )
+    ax.plot(
+        plot_fit[target_color_col],
+        plot_fit[pred_mag_col],
+        color="tab:red",
+        linewidth=2,
+        label="Best logAge fit (per target)",
+    )
 
 
-df = interpolate_targets(
-    phot_csv = '/Users/archon/classes/ASTR_502/Astro502_Sp26/ASTR502_Master_Photometry_List.csv',
-    dist_csv = '/Users/archon/classes/ASTR_502/Astro502_Sp26/ASTR502_Mega_Target_List.csv',
-    logages = np.arange(6.0, 10.2, 0.25), #3-13 Gyr
-    mhs = np.arange(-2.0, 0.6, 0.25)
-)
+    ax.set_xlabel("BP-RP")
+    ax.set_ylabel("G")
+    ax.set_title(title)
+    ax.grid(alpha=0.3)
+    ax.invert_yaxis()
+    ax.legend(loc="best")
+    fig.tight_layout()
 
-plt.scatter(df['iso_age'], df['iso_mass'], s=10, alpha=0.6)
-plt.xlabel('log10(Age)')
-plt.ylabel('Mass')
-plt.title('Interpolated Stellar Parameters')
-plt.show()
+    if save_path is not None:
+        fig.savefig(save_path, dpi=150, bbox_inches="tight")
 
-__all__ = [
-    "IsochroneInterpolator",
-    "build_isochrone_grid",
-    "interpolate_catalog",
-    "interpolate_targets",
-    "brute_force",
-]
+    return fig, ax
+
+
+def test_fit_and_plot(
+    phot_csv: str | Path,
+    dist_csv: str | Path,
+    spot_iso_files: str | Path | Iterable[str | Path],
+    sigma_mag: float = 0.05,
+    save_path: str | Path | None = None,
+) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, tuple[plt.Figure, plt.Axes], Path]:
+    """Test helper: run grid fitting and plot the best fitted model.
+
+    Returns
+    -------
+    results_df, best_eval_df, best_isochrone_df, (fig, ax), save_csv
+        Ranked fit table, evaluated best-fit model table, best-fit isochrone track,
+        matplotlib handles, and saved candidate fit CSV path.
+    """
+    targets_df = load_targets(phot_csv=phot_csv, dist_csv=dist_csv)
+    results_df, best_eval_df, best_isochrone_df = fit_spot_grid_to_targets(
+        targets_df=targets_df,
+        spot_iso_files=spot_iso_files,
+        sigma_mag=sigma_mag,
+    )
+
+    if results_df.empty or best_eval_df.empty:
+        logger.error(
+            "No valid SPOT fits were produced. results_df.empty=%s, best_eval_df.empty=%s",
+            results_df.empty,
+            best_eval_df.empty,
+        )
+        raise RuntimeError("No valid SPOT fits were produced; cannot generate test plot")
+
+    best = results_df.iloc[0]
+    save_csv = save_best_fit_candidates(
+        best_eval_df=best_eval_df,
+        best_age_log10_yr=float(best["age_log10_yr"]),
+        output_dir="results",
+    )
+    resolved_save_path = Path(save_path) if save_path is not None else _default_plot_save_path("figs")
+    fig_ax = plot_fitted_model_against_targets(
+        targets_df=targets_df,
+        fitted_eval_df=best_eval_df,
+        title=(
+            "Best-fit SPOT model "
+            f"(logAge={best['age_log10_yr']:.3f}, [M/H]={best['metallicity_dex']:.3f})"
+        ),
+        save_path=resolved_save_path,
+    )
+    logger.info("Wrote best-fit CMD figure to %s", resolved_save_path)
+    return results_df, best_eval_df, best_isochrone_df, fig_ax, save_csv
+
+
+def configure_debug_logging(log_dir: str | Path = "logs") -> Path:
+    """Configure root logger to write debug output to ``log_dir``.
+
+    A new file is created on each run using the current timestamp.
+
+    Returns
+    -------
+    Path
+        Full path to the log file.
+    """
+    logs_path = Path(log_dir)
+    logs_path.mkdir(parents=True, exist_ok=True)
+    run_stamp = time.strftime("%Y%m%d_%H%M%S")
+    log_file = logs_path / f"interpolate_{run_stamp}.log"
+
+    logging.basicConfig(
+        level=logging.DEBUG,
+        format="%(asctime)s %(levelname)s %(name)s - %(message)s",
+        handlers=[
+            logging.FileHandler(log_file, mode="a", encoding="utf-8"),
+            logging.StreamHandler(),
+        ],
+        force=True,
+    )
+    logger.debug("Debug logging initialized at %s", log_file)
+    return log_file
+
+
+if __name__ == "__main__":
+    configure_debug_logging("logs")
+
+    test_fit_and_plot(
+        phot_csv='/Users/archon/classes/ASTR_502/Astro502_Sp26/ASTR502_Master_Photometry_List.csv',
+        dist_csv='/Users/archon/classes/ASTR_502/Astro502_Sp26/ASTR502_Mega_Target_List.csv',
+        spot_iso_files=glob.glob('/Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/*.isoc')
+    )
+    plt.show()

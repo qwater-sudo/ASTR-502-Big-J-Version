@@ -7,9 +7,9 @@ from typing import Optional, Iterable
 
 
 class PhotometryMerger:
-    GAIA_G_CANDS = ['gaia_Gmag']
-    GAIA_BP_CANDS = ['gaia_BPmag']
-    GAIA_RP_CANDS = ['gaia_RPmag']
+    GAIA_G_CANDS = ['gaiaGmag']
+    GAIA_BP_CANDS = ['gaiaBPmag']
+    GAIA_RP_CANDS = ['gaiaRPmag']
     PARALLAX_CANDS = ['parallax', 'plx', 'parallax_mas']
     DIST_CANDS = ['dist_pc']
 
@@ -100,6 +100,10 @@ class PhotometryMerger:
         # convenience color column
         if 'BP_abs' in joined.columns and 'RP_abs' in joined.columns:
             joined['BP_RP_abs'] = joined['BP_abs'] - joined['RP_abs']
+
+        hostname_col = self._find_col(joined, ['hostname'])
+        if hostname_col is not None and hostname_col != 'hostname':
+            joined['hostname'] = joined[hostname_col]
         return joined
 
     @staticmethod
@@ -107,11 +111,11 @@ class PhotometryMerger:
         candidates = ['G_abs', 'BP_abs', 'RP_abs', 'BP_RP_abs']
         return [c for c in candidates if c in df.columns]
 
-
-# phot_csv = '/Users/archon/classes/ASTR_502/Astro502_Sp26/ASTR502_Master_Photometry_List.csv'
-# dist_csv = '/Users/archon/classes/ASTR_502/Astro502_Sp26/ASTR502_Mega_Target_List.csv'
-# df = PhotometryMerger.join_photometry_and_distances(phot_csv, dist_csv)
-#
+# merge = PhotometryMerger()
+# phot_csv_file = '/Users/archon/classes/ASTR_502/Astro502_Sp26/ASTR502_Master_Photometry_List.csv'
+# dist_csv_file = '/Users/archon/classes/ASTR_502/Astro502_Sp26/ASTR502_Mega_Target_List.csv'
+# df = merge.join_photometry_and_distances(phot_csv_file, dist_csv_file)
+# print(df)
 # def plot(pd: pd.DataFrame):
 #     fig, ax = plt.subplots(figsize=(8,10))
 #     ax.scatter(pd['BP_RP_abs'], pd['G_abs'], s=1, color='black', label='Target List')

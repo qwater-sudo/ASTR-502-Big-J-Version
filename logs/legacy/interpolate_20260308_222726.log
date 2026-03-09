@@ -1,0 +1,913 @@
+2026-03-08 22:27:26,169 DEBUG __main__ - Debug logging initialized at logs/interpolate_20260308_222726.log
+2026-03-08 22:27:26,169 INFO __main__ - Loading targets from photometry=/Users/archon/classes/ASTR_502/Astro502_Sp26/ASTR502_Master_Photometry_List.csv and distances=/Users/archon/classes/ASTR_502/Astro502_Sp26/ASTR502_Mega_Target_List.csv
+2026-03-08 22:27:26,220 INFO __main__ - Loaded merged target table with 7683 rows and 107 columns
+2026-03-08 22:27:26,221 DEBUG __main__ - Targets with finite BP_RP_abs and G_abs: 7678 / 7683
+2026-03-08 22:27:26,221 INFO __main__ - Preparing to fit SPOT grid for 6 isochrone file(s)
+2026-03-08 22:27:26,221 INFO __main__ - Loading SPOT isochrone file: /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f085.isoc (detected [M/H]=0.850)
+2026-03-08 22:27:26,277 INFO __main__ - File /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f085.isoc contains 37 age sections
+2026-03-08 22:27:26,277 INFO __main__ - Matching targets against isochrone age section: logAge=6.0 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f085.isoc
+2026-03-08 22:27:26,277 INFO __main__ - Starting fit for isochrone section: logAge=6.000, [M/H]=0.850, sigma_mag=0.050
+2026-03-08 22:27:26,332 DEBUG __main__ - Likelihood computed for logAge=6.000 [M/H]=0.850: n_used=7460, logL=-4138071.51492
+2026-03-08 22:27:26,335 INFO __main__ - Fit complete for logAge=6.000 [M/H]=0.850: success=True, n_used=7460, logL=-4138071.51492, mass_mean=0.9201, mass_median=0.9048
+2026-03-08 22:27:26,340 INFO __main__ - New best fit detected: logAge=6.000 [M/H]=0.850 logL=-4138071.51492
+2026-03-08 22:27:26,340 INFO __main__ - Matching targets against isochrone age section: logAge=6.1 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f085.isoc
+2026-03-08 22:27:26,340 INFO __main__ - Starting fit for isochrone section: logAge=6.100, [M/H]=0.850, sigma_mag=0.050
+2026-03-08 22:27:26,394 DEBUG __main__ - Likelihood computed for logAge=6.100 [M/H]=0.850: n_used=7474, logL=-4434765.19038
+2026-03-08 22:27:26,396 INFO __main__ - Fit complete for logAge=6.100 [M/H]=0.850: success=True, n_used=7474, logL=-4434765.19038, mass_mean=0.9211, mass_median=0.9059
+2026-03-08 22:27:26,397 INFO __main__ - Matching targets against isochrone age section: logAge=6.2 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f085.isoc
+2026-03-08 22:27:26,397 INFO __main__ - Starting fit for isochrone section: logAge=6.200, [M/H]=0.850, sigma_mag=0.050
+2026-03-08 22:27:26,452 DEBUG __main__ - Likelihood computed for logAge=6.200 [M/H]=0.850: n_used=7481, logL=-4717105.15564
+2026-03-08 22:27:26,453 INFO __main__ - Fit complete for logAge=6.200 [M/H]=0.850: success=True, n_used=7481, logL=-4717105.15564, mass_mean=0.9225, mass_median=0.9068
+2026-03-08 22:27:26,454 INFO __main__ - Matching targets against isochrone age section: logAge=6.3 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f085.isoc
+2026-03-08 22:27:26,454 INFO __main__ - Starting fit for isochrone section: logAge=6.300, [M/H]=0.850, sigma_mag=0.050
+2026-03-08 22:27:26,506 DEBUG __main__ - Likelihood computed for logAge=6.300 [M/H]=0.850: n_used=7490, logL=-5037162.32374
+2026-03-08 22:27:26,507 INFO __main__ - Fit complete for logAge=6.300 [M/H]=0.850: success=True, n_used=7490, logL=-5037162.32374, mass_mean=0.9238, mass_median=0.9075
+2026-03-08 22:27:26,508 INFO __main__ - Matching targets against isochrone age section: logAge=6.4 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f085.isoc
+2026-03-08 22:27:26,508 INFO __main__ - Starting fit for isochrone section: logAge=6.400, [M/H]=0.850, sigma_mag=0.050
+2026-03-08 22:27:26,561 DEBUG __main__ - Likelihood computed for logAge=6.400 [M/H]=0.850: n_used=7456, logL=-5241268.14815
+2026-03-08 22:27:26,562 INFO __main__ - Fit complete for logAge=6.400 [M/H]=0.850: success=True, n_used=7456, logL=-5241268.14815, mass_mean=0.9467, mass_median=0.9301
+2026-03-08 22:27:26,563 INFO __main__ - Matching targets against isochrone age section: logAge=6.5 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f085.isoc
+2026-03-08 22:27:26,563 INFO __main__ - Starting fit for isochrone section: logAge=6.500, [M/H]=0.850, sigma_mag=0.050
+2026-03-08 22:27:26,617 DEBUG __main__ - Likelihood computed for logAge=6.500 [M/H]=0.850: n_used=7460, logL=-5602107.09295
+2026-03-08 22:27:26,619 INFO __main__ - Fit complete for logAge=6.500 [M/H]=0.850: success=True, n_used=7460, logL=-5602107.09295, mass_mean=0.9495, mass_median=0.9327
+2026-03-08 22:27:26,619 INFO __main__ - Matching targets against isochrone age section: logAge=6.6 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f085.isoc
+2026-03-08 22:27:26,619 INFO __main__ - Starting fit for isochrone section: logAge=6.600, [M/H]=0.850, sigma_mag=0.050
+2026-03-08 22:27:26,674 DEBUG __main__ - Likelihood computed for logAge=6.600 [M/H]=0.850: n_used=7476, logL=-6040255.65041
+2026-03-08 22:27:26,676 INFO __main__ - Fit complete for logAge=6.600 [M/H]=0.850: success=True, n_used=7476, logL=-6040255.65041, mass_mean=0.9538, mass_median=0.9367
+2026-03-08 22:27:26,676 INFO __main__ - Matching targets against isochrone age section: logAge=6.7 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f085.isoc
+2026-03-08 22:27:26,676 INFO __main__ - Starting fit for isochrone section: logAge=6.700, [M/H]=0.850, sigma_mag=0.050
+2026-03-08 22:27:26,729 DEBUG __main__ - Likelihood computed for logAge=6.700 [M/H]=0.850: n_used=7452, logL=-6379514.18835
+2026-03-08 22:27:26,731 INFO __main__ - Fit complete for logAge=6.700 [M/H]=0.850: success=True, n_used=7452, logL=-6379514.18835, mass_mean=0.9821, mass_median=0.9665
+2026-03-08 22:27:26,731 INFO __main__ - Matching targets against isochrone age section: logAge=6.8 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f085.isoc
+2026-03-08 22:27:26,731 INFO __main__ - Starting fit for isochrone section: logAge=6.800, [M/H]=0.850, sigma_mag=0.050
+2026-03-08 22:27:26,782 DEBUG __main__ - Likelihood computed for logAge=6.800 [M/H]=0.850: n_used=7459, logL=-6836864.06000
+2026-03-08 22:27:26,784 INFO __main__ - Fit complete for logAge=6.800 [M/H]=0.850: success=True, n_used=7459, logL=-6836864.06000, mass_mean=0.9967, mass_median=0.9822
+2026-03-08 22:27:26,784 INFO __main__ - Matching targets against isochrone age section: logAge=6.9 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f085.isoc
+2026-03-08 22:27:26,784 INFO __main__ - Starting fit for isochrone section: logAge=6.900, [M/H]=0.850, sigma_mag=0.050
+2026-03-08 22:27:26,837 DEBUG __main__ - Likelihood computed for logAge=6.900 [M/H]=0.850: n_used=7460, logL=-7310455.55538
+2026-03-08 22:27:26,839 INFO __main__ - Fit complete for logAge=6.900 [M/H]=0.850: success=True, n_used=7460, logL=-7310455.55538, mass_mean=1.0198, mass_median=1.0074
+2026-03-08 22:27:26,840 INFO __main__ - Matching targets against isochrone age section: logAge=7.0 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f085.isoc
+2026-03-08 22:27:26,840 INFO __main__ - Starting fit for isochrone section: logAge=7.000, [M/H]=0.850, sigma_mag=0.050
+2026-03-08 22:27:26,895 DEBUG __main__ - Likelihood computed for logAge=7.000 [M/H]=0.850: n_used=7486, logL=-7881959.32759
+2026-03-08 22:27:26,897 INFO __main__ - Fit complete for logAge=7.000 [M/H]=0.850: success=True, n_used=7486, logL=-7881959.32759, mass_mean=1.0455, mass_median=1.0390
+2026-03-08 22:27:26,897 INFO __main__ - Matching targets against isochrone age section: logAge=7.1 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f085.isoc
+2026-03-08 22:27:26,897 INFO __main__ - Starting fit for isochrone section: logAge=7.100, [M/H]=0.850, sigma_mag=0.050
+2026-03-08 22:27:26,950 DEBUG __main__ - Likelihood computed for logAge=7.100 [M/H]=0.850: n_used=7456, logL=-8338542.93847
+2026-03-08 22:27:26,952 INFO __main__ - Fit complete for logAge=7.100 [M/H]=0.850: success=True, n_used=7456, logL=-8338542.93847, mass_mean=1.1052, mass_median=1.1120
+2026-03-08 22:27:26,952 INFO __main__ - Matching targets against isochrone age section: logAge=7.2 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f085.isoc
+2026-03-08 22:27:26,952 INFO __main__ - Starting fit for isochrone section: logAge=7.200, [M/H]=0.850, sigma_mag=0.050
+2026-03-08 22:27:27,005 DEBUG __main__ - Likelihood computed for logAge=7.200 [M/H]=0.850: n_used=7459, logL=-8903733.32940
+2026-03-08 22:27:27,007 INFO __main__ - Fit complete for logAge=7.200 [M/H]=0.850: success=True, n_used=7459, logL=-8903733.32940, mass_mean=1.1569, mass_median=1.1870
+2026-03-08 22:27:27,007 INFO __main__ - Matching targets against isochrone age section: logAge=7.3 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f085.isoc
+2026-03-08 22:27:27,007 INFO __main__ - Starting fit for isochrone section: logAge=7.300, [M/H]=0.850, sigma_mag=0.050
+2026-03-08 22:27:27,062 DEBUG __main__ - Likelihood computed for logAge=7.300 [M/H]=0.850: n_used=7460, logL=-9496244.01781
+2026-03-08 22:27:27,064 INFO __main__ - Fit complete for logAge=7.300 [M/H]=0.850: success=True, n_used=7460, logL=-9496244.01781, mass_mean=1.1619, mass_median=1.2103
+2026-03-08 22:27:27,064 INFO __main__ - Matching targets against isochrone age section: logAge=7.4 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f085.isoc
+2026-03-08 22:27:27,064 INFO __main__ - Starting fit for isochrone section: logAge=7.400, [M/H]=0.850, sigma_mag=0.050
+2026-03-08 22:27:27,119 DEBUG __main__ - Likelihood computed for logAge=7.400 [M/H]=0.850: n_used=7460, logL=-10117291.13341
+2026-03-08 22:27:27,121 INFO __main__ - Fit complete for logAge=7.400 [M/H]=0.850: success=True, n_used=7460, logL=-10117291.13341, mass_mean=1.1016, mass_median=1.1219
+2026-03-08 22:27:27,121 INFO __main__ - Matching targets against isochrone age section: logAge=7.5 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f085.isoc
+2026-03-08 22:27:27,121 INFO __main__ - Starting fit for isochrone section: logAge=7.500, [M/H]=0.850, sigma_mag=0.050
+2026-03-08 22:27:27,174 DEBUG __main__ - Likelihood computed for logAge=7.500 [M/H]=0.850: n_used=7458, logL=-10766325.52145
+2026-03-08 22:27:27,176 INFO __main__ - Fit complete for logAge=7.500 [M/H]=0.850: success=True, n_used=7458, logL=-10766325.52145, mass_mean=1.0639, mass_median=1.0600
+2026-03-08 22:27:27,176 INFO __main__ - Matching targets against isochrone age section: logAge=7.6 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f085.isoc
+2026-03-08 22:27:27,176 INFO __main__ - Starting fit for isochrone section: logAge=7.600, [M/H]=0.850, sigma_mag=0.050
+2026-03-08 22:27:27,228 DEBUG __main__ - Likelihood computed for logAge=7.600 [M/H]=0.850: n_used=7450, logL=-11437463.19786
+2026-03-08 22:27:27,230 INFO __main__ - Fit complete for logAge=7.600 [M/H]=0.850: success=True, n_used=7450, logL=-11437463.19786, mass_mean=1.0423, mass_median=1.0798
+2026-03-08 22:27:27,230 INFO __main__ - Matching targets against isochrone age section: logAge=7.7 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f085.isoc
+2026-03-08 22:27:27,230 INFO __main__ - Starting fit for isochrone section: logAge=7.700, [M/H]=0.850, sigma_mag=0.050
+2026-03-08 22:27:27,282 DEBUG __main__ - Likelihood computed for logAge=7.700 [M/H]=0.850: n_used=7482, logL=-12197685.99473
+2026-03-08 22:27:27,284 INFO __main__ - Fit complete for logAge=7.700 [M/H]=0.850: success=True, n_used=7482, logL=-12197685.99473, mass_mean=1.0262, mass_median=1.0749
+2026-03-08 22:27:27,284 INFO __main__ - Matching targets against isochrone age section: logAge=7.8 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f085.isoc
+2026-03-08 22:27:27,284 INFO __main__ - Starting fit for isochrone section: logAge=7.800, [M/H]=0.850, sigma_mag=0.050
+2026-03-08 22:27:27,339 DEBUG __main__ - Likelihood computed for logAge=7.800 [M/H]=0.850: n_used=7456, logL=-12897193.72880
+2026-03-08 22:27:27,341 INFO __main__ - Fit complete for logAge=7.800 [M/H]=0.850: success=True, n_used=7456, logL=-12897193.72880, mass_mean=1.0211, mass_median=1.0728
+2026-03-08 22:27:27,341 INFO __main__ - Matching targets against isochrone age section: logAge=7.9 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f085.isoc
+2026-03-08 22:27:27,341 INFO __main__ - Starting fit for isochrone section: logAge=7.900, [M/H]=0.850, sigma_mag=0.050
+2026-03-08 22:27:27,394 DEBUG __main__ - Likelihood computed for logAge=7.900 [M/H]=0.850: n_used=7424, logL=-13628552.36338
+2026-03-08 22:27:27,395 INFO __main__ - Fit complete for logAge=7.900 [M/H]=0.850: success=True, n_used=7424, logL=-13628552.36338, mass_mean=1.0197, mass_median=1.0735
+2026-03-08 22:27:27,396 INFO __main__ - Matching targets against isochrone age section: logAge=8.0 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f085.isoc
+2026-03-08 22:27:27,396 INFO __main__ - Starting fit for isochrone section: logAge=8.000, [M/H]=0.850, sigma_mag=0.050
+2026-03-08 22:27:27,446 DEBUG __main__ - Likelihood computed for logAge=8.000 [M/H]=0.850: n_used=7460, logL=-14470213.82705
+2026-03-08 22:27:27,448 INFO __main__ - Fit complete for logAge=8.000 [M/H]=0.850: success=True, n_used=7460, logL=-14470213.82705, mass_mean=1.0167, mass_median=1.0708
+2026-03-08 22:27:27,448 INFO __main__ - Matching targets against isochrone age section: logAge=8.1 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f085.isoc
+2026-03-08 22:27:27,448 INFO __main__ - Starting fit for isochrone section: logAge=8.100, [M/H]=0.850, sigma_mag=0.050
+2026-03-08 22:27:27,502 DEBUG __main__ - Likelihood computed for logAge=8.100 [M/H]=0.850: n_used=7427, logL=-15266724.89367
+2026-03-08 22:27:27,504 INFO __main__ - Fit complete for logAge=8.100 [M/H]=0.850: success=True, n_used=7427, logL=-15266724.89367, mass_mean=1.0194, mass_median=1.0721
+2026-03-08 22:27:27,504 INFO __main__ - Matching targets against isochrone age section: logAge=8.2 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f085.isoc
+2026-03-08 22:27:27,504 INFO __main__ - Starting fit for isochrone section: logAge=8.200, [M/H]=0.850, sigma_mag=0.050
+2026-03-08 22:27:27,559 DEBUG __main__ - Likelihood computed for logAge=8.200 [M/H]=0.850: n_used=7417, logL=-16124343.73729
+2026-03-08 22:27:27,561 INFO __main__ - Fit complete for logAge=8.200 [M/H]=0.850: success=True, n_used=7417, logL=-16124343.73729, mass_mean=1.0207, mass_median=1.0730
+2026-03-08 22:27:27,561 INFO __main__ - Matching targets against isochrone age section: logAge=8.3 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f085.isoc
+2026-03-08 22:27:27,561 INFO __main__ - Starting fit for isochrone section: logAge=8.300, [M/H]=0.850, sigma_mag=0.050
+2026-03-08 22:27:27,614 DEBUG __main__ - Likelihood computed for logAge=8.300 [M/H]=0.850: n_used=7424, logL=-17020301.32217
+2026-03-08 22:27:27,616 INFO __main__ - Fit complete for logAge=8.300 [M/H]=0.850: success=True, n_used=7424, logL=-17020301.32217, mass_mean=1.0201, mass_median=1.0716
+2026-03-08 22:27:27,616 INFO __main__ - Matching targets against isochrone age section: logAge=8.4 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f085.isoc
+2026-03-08 22:27:27,616 INFO __main__ - Starting fit for isochrone section: logAge=8.400, [M/H]=0.850, sigma_mag=0.050
+2026-03-08 22:27:27,668 DEBUG __main__ - Likelihood computed for logAge=8.400 [M/H]=0.850: n_used=7428, logL=-17943964.82138
+2026-03-08 22:27:27,670 INFO __main__ - Fit complete for logAge=8.400 [M/H]=0.850: success=True, n_used=7428, logL=-17943964.82138, mass_mean=1.0198, mass_median=1.0707
+2026-03-08 22:27:27,670 INFO __main__ - Matching targets against isochrone age section: logAge=8.5 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f085.isoc
+2026-03-08 22:27:27,671 INFO __main__ - Starting fit for isochrone section: logAge=8.500, [M/H]=0.850, sigma_mag=0.050
+2026-03-08 22:27:27,725 DEBUG __main__ - Likelihood computed for logAge=8.500 [M/H]=0.850: n_used=7437, logL=-18905998.21050
+2026-03-08 22:27:27,727 INFO __main__ - Fit complete for logAge=8.500 [M/H]=0.850: success=True, n_used=7437, logL=-18905998.21050, mass_mean=1.0206, mass_median=1.0695
+2026-03-08 22:27:27,728 INFO __main__ - Matching targets against isochrone age section: logAge=8.6 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f085.isoc
+2026-03-08 22:27:27,728 INFO __main__ - Starting fit for isochrone section: logAge=8.600, [M/H]=0.850, sigma_mag=0.050
+2026-03-08 22:27:27,783 DEBUG __main__ - Likelihood computed for logAge=8.600 [M/H]=0.850: n_used=7437, logL=-19886532.99804
+2026-03-08 22:27:27,785 INFO __main__ - Fit complete for logAge=8.600 [M/H]=0.850: success=True, n_used=7437, logL=-19886532.99804, mass_mean=1.0201, mass_median=1.0688
+2026-03-08 22:27:27,785 INFO __main__ - Matching targets against isochrone age section: logAge=8.7 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f085.isoc
+2026-03-08 22:27:27,785 INFO __main__ - Starting fit for isochrone section: logAge=8.700, [M/H]=0.850, sigma_mag=0.050
+2026-03-08 22:27:27,838 DEBUG __main__ - Likelihood computed for logAge=8.700 [M/H]=0.850: n_used=7446, logL=-20902170.99215
+2026-03-08 22:27:27,840 INFO __main__ - Fit complete for logAge=8.700 [M/H]=0.850: success=True, n_used=7446, logL=-20902170.99215, mass_mean=1.0188, mass_median=1.0673
+2026-03-08 22:27:27,840 INFO __main__ - Matching targets against isochrone age section: logAge=8.8 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f085.isoc
+2026-03-08 22:27:27,840 INFO __main__ - Starting fit for isochrone section: logAge=8.800, [M/H]=0.850, sigma_mag=0.050
+2026-03-08 22:27:27,892 DEBUG __main__ - Likelihood computed for logAge=8.800 [M/H]=0.850: n_used=7446, logL=-21941597.75024
+2026-03-08 22:27:27,893 INFO __main__ - Fit complete for logAge=8.800 [M/H]=0.850: success=True, n_used=7446, logL=-21941597.75024, mass_mean=1.0178, mass_median=1.0668
+2026-03-08 22:27:27,894 INFO __main__ - Matching targets against isochrone age section: logAge=8.9 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f085.isoc
+2026-03-08 22:27:27,894 INFO __main__ - Starting fit for isochrone section: logAge=8.900, [M/H]=0.850, sigma_mag=0.050
+2026-03-08 22:27:27,947 DEBUG __main__ - Likelihood computed for logAge=8.900 [M/H]=0.850: n_used=7448, logL=-23011100.14941
+2026-03-08 22:27:27,949 INFO __main__ - Fit complete for logAge=8.900 [M/H]=0.850: success=True, n_used=7448, logL=-23011100.14941, mass_mean=1.0164, mass_median=1.0654
+2026-03-08 22:27:27,949 INFO __main__ - Matching targets against isochrone age section: logAge=9.0 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f085.isoc
+2026-03-08 22:27:27,949 INFO __main__ - Starting fit for isochrone section: logAge=9.000, [M/H]=0.850, sigma_mag=0.050
+2026-03-08 22:27:28,004 DEBUG __main__ - Likelihood computed for logAge=9.000 [M/H]=0.850: n_used=7450, logL=-24110127.71541
+2026-03-08 22:27:28,006 INFO __main__ - Fit complete for logAge=9.000 [M/H]=0.850: success=True, n_used=7450, logL=-24110127.71541, mass_mean=1.0147, mass_median=1.0635
+2026-03-08 22:27:28,006 INFO __main__ - Matching targets against isochrone age section: logAge=9.1 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f085.isoc
+2026-03-08 22:27:28,006 INFO __main__ - Starting fit for isochrone section: logAge=9.100, [M/H]=0.850, sigma_mag=0.050
+2026-03-08 22:27:28,060 DEBUG __main__ - Likelihood computed for logAge=9.100 [M/H]=0.850: n_used=7450, logL=-25238818.03809
+2026-03-08 22:27:28,061 INFO __main__ - Fit complete for logAge=9.100 [M/H]=0.850: success=True, n_used=7450, logL=-25238818.03809, mass_mean=1.0129, mass_median=1.0614
+2026-03-08 22:27:28,062 INFO __main__ - Matching targets against isochrone age section: logAge=9.2 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f085.isoc
+2026-03-08 22:27:28,062 INFO __main__ - Starting fit for isochrone section: logAge=9.200, [M/H]=0.850, sigma_mag=0.050
+2026-03-08 22:27:28,113 DEBUG __main__ - Likelihood computed for logAge=9.200 [M/H]=0.850: n_used=7450, logL=-26397308.36078
+2026-03-08 22:27:28,115 INFO __main__ - Fit complete for logAge=9.200 [M/H]=0.850: success=True, n_used=7450, logL=-26397308.36078, mass_mean=1.0109, mass_median=1.0588
+2026-03-08 22:27:28,115 INFO __main__ - Matching targets against isochrone age section: logAge=9.3 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f085.isoc
+2026-03-08 22:27:28,115 INFO __main__ - Starting fit for isochrone section: logAge=9.300, [M/H]=0.850, sigma_mag=0.050
+2026-03-08 22:27:28,169 DEBUG __main__ - Likelihood computed for logAge=9.300 [M/H]=0.850: n_used=7451, logL=-27585707.13719
+2026-03-08 22:27:28,171 INFO __main__ - Fit complete for logAge=9.300 [M/H]=0.850: success=True, n_used=7451, logL=-27585707.13719, mass_mean=1.0089, mass_median=1.0547
+2026-03-08 22:27:28,171 INFO __main__ - Matching targets against isochrone age section: logAge=9.4 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f085.isoc
+2026-03-08 22:27:28,171 INFO __main__ - Starting fit for isochrone section: logAge=9.400, [M/H]=0.850, sigma_mag=0.050
+2026-03-08 22:27:28,226 DEBUG __main__ - Likelihood computed for logAge=9.400 [M/H]=0.850: n_used=7451, logL=-28803769.72363
+2026-03-08 22:27:28,228 INFO __main__ - Fit complete for logAge=9.400 [M/H]=0.850: success=True, n_used=7451, logL=-28803769.72363, mass_mean=1.0062, mass_median=1.0509
+2026-03-08 22:27:28,228 INFO __main__ - Matching targets against isochrone age section: logAge=9.5 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f085.isoc
+2026-03-08 22:27:28,228 INFO __main__ - Starting fit for isochrone section: logAge=9.500, [M/H]=0.850, sigma_mag=0.050
+2026-03-08 22:27:28,282 DEBUG __main__ - Likelihood computed for logAge=9.500 [M/H]=0.850: n_used=7451, logL=-30051636.31007
+2026-03-08 22:27:28,283 INFO __main__ - Fit complete for logAge=9.500 [M/H]=0.850: success=True, n_used=7451, logL=-30051636.31007, mass_mean=1.0114, mass_median=1.0469
+2026-03-08 22:27:28,284 INFO __main__ - Matching targets against isochrone age section: logAge=9.6 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f085.isoc
+2026-03-08 22:27:28,284 INFO __main__ - Starting fit for isochrone section: logAge=9.600, [M/H]=0.850, sigma_mag=0.050
+2026-03-08 22:27:28,335 DEBUG __main__ - Likelihood computed for logAge=9.600 [M/H]=0.850: n_used=7451, logL=-30686746.10329
+2026-03-08 22:27:28,337 INFO __main__ - Fit complete for logAge=9.600 [M/H]=0.850: success=True, n_used=7451, logL=-30686746.10329, mass_mean=1.0101, mass_median=1.0431
+2026-03-08 22:27:28,337 INFO __main__ - Loading SPOT isochrone file: /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f051.isoc (detected [M/H]=0.510)
+2026-03-08 22:27:28,394 INFO __main__ - File /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f051.isoc contains 37 age sections
+2026-03-08 22:27:28,394 INFO __main__ - Matching targets against isochrone age section: logAge=6.0 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f051.isoc
+2026-03-08 22:27:28,394 INFO __main__ - Starting fit for isochrone section: logAge=6.000, [M/H]=0.510, sigma_mag=0.050
+2026-03-08 22:27:28,448 DEBUG __main__ - Likelihood computed for logAge=6.000 [M/H]=0.510: n_used=7246, logL=-3600330.04135
+2026-03-08 22:27:28,450 INFO __main__ - Fit complete for logAge=6.000 [M/H]=0.510: success=True, n_used=7246, logL=-3600330.04135, mass_mean=0.9884, mass_median=0.9813
+2026-03-08 22:27:28,456 INFO __main__ - New best fit detected: logAge=6.000 [M/H]=0.510 logL=-3600330.04135
+2026-03-08 22:27:28,456 INFO __main__ - Matching targets against isochrone age section: logAge=6.1 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f051.isoc
+2026-03-08 22:27:28,456 INFO __main__ - Starting fit for isochrone section: logAge=6.100, [M/H]=0.510, sigma_mag=0.050
+2026-03-08 22:27:28,509 DEBUG __main__ - Likelihood computed for logAge=6.100 [M/H]=0.510: n_used=7251, logL=-3869587.48644
+2026-03-08 22:27:28,510 INFO __main__ - Fit complete for logAge=6.100 [M/H]=0.510: success=True, n_used=7251, logL=-3869587.48644, mass_mean=0.9895, mass_median=0.9815
+2026-03-08 22:27:28,511 INFO __main__ - Matching targets against isochrone age section: logAge=6.2 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f051.isoc
+2026-03-08 22:27:28,511 INFO __main__ - Starting fit for isochrone section: logAge=6.200, [M/H]=0.510, sigma_mag=0.050
+2026-03-08 22:27:28,562 DEBUG __main__ - Likelihood computed for logAge=6.200 [M/H]=0.510: n_used=7272, logL=-4189923.03675
+2026-03-08 22:27:28,564 INFO __main__ - Fit complete for logAge=6.200 [M/H]=0.510: success=True, n_used=7272, logL=-4189923.03675, mass_mean=0.9892, mass_median=0.9816
+2026-03-08 22:27:28,564 INFO __main__ - Matching targets against isochrone age section: logAge=6.3 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f051.isoc
+2026-03-08 22:27:28,564 INFO __main__ - Starting fit for isochrone section: logAge=6.300, [M/H]=0.510, sigma_mag=0.050
+2026-03-08 22:27:28,618 DEBUG __main__ - Likelihood computed for logAge=6.300 [M/H]=0.510: n_used=7235, logL=-4463575.57936
+2026-03-08 22:27:28,620 INFO __main__ - Fit complete for logAge=6.300 [M/H]=0.510: success=True, n_used=7235, logL=-4463575.57936, mass_mean=1.0087, mass_median=0.9997
+2026-03-08 22:27:28,620 INFO __main__ - Matching targets against isochrone age section: logAge=6.4 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f051.isoc
+2026-03-08 22:27:28,620 INFO __main__ - Starting fit for isochrone section: logAge=6.400, [M/H]=0.510, sigma_mag=0.050
+2026-03-08 22:27:28,675 DEBUG __main__ - Likelihood computed for logAge=6.400 [M/H]=0.510: n_used=7246, logL=-4824721.36502
+2026-03-08 22:27:28,676 INFO __main__ - Fit complete for logAge=6.400 [M/H]=0.510: success=True, n_used=7246, logL=-4824721.36502, mass_mean=1.0095, mass_median=1.0000
+2026-03-08 22:27:28,677 INFO __main__ - Matching targets against isochrone age section: logAge=6.5 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f051.isoc
+2026-03-08 22:27:28,677 INFO __main__ - Starting fit for isochrone section: logAge=6.500, [M/H]=0.510, sigma_mag=0.050
+2026-03-08 22:27:28,730 DEBUG __main__ - Likelihood computed for logAge=6.500 [M/H]=0.510: n_used=7262, logL=-5219456.12038
+2026-03-08 22:27:28,732 INFO __main__ - Fit complete for logAge=6.500 [M/H]=0.510: success=True, n_used=7262, logL=-5219456.12038, mass_mean=1.0115, mass_median=1.0013
+2026-03-08 22:27:28,732 INFO __main__ - Matching targets against isochrone age section: logAge=6.6 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f051.isoc
+2026-03-08 22:27:28,733 INFO __main__ - Starting fit for isochrone section: logAge=6.600, [M/H]=0.510, sigma_mag=0.050
+2026-03-08 22:27:28,784 DEBUG __main__ - Likelihood computed for logAge=6.600 [M/H]=0.510: n_used=7276, logL=-5641900.64036
+2026-03-08 22:27:28,785 INFO __main__ - Fit complete for logAge=6.600 [M/H]=0.510: success=True, n_used=7276, logL=-5641900.64036, mass_mean=1.0161, mass_median=1.0058
+2026-03-08 22:27:28,786 INFO __main__ - Matching targets against isochrone age section: logAge=6.7 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f051.isoc
+2026-03-08 22:27:28,786 INFO __main__ - Starting fit for isochrone section: logAge=6.700, [M/H]=0.510, sigma_mag=0.050
+2026-03-08 22:27:28,839 DEBUG __main__ - Likelihood computed for logAge=6.700 [M/H]=0.510: n_used=7244, logL=-6045722.55416
+2026-03-08 22:27:28,841 INFO __main__ - Fit complete for logAge=6.700 [M/H]=0.510: success=True, n_used=7244, logL=-6045722.55416, mass_mean=1.0427, mass_median=1.0338
+2026-03-08 22:27:28,841 INFO __main__ - Matching targets against isochrone age section: logAge=6.8 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f051.isoc
+2026-03-08 22:27:28,841 INFO __main__ - Starting fit for isochrone section: logAge=6.800, [M/H]=0.510, sigma_mag=0.050
+2026-03-08 22:27:28,896 DEBUG __main__ - Likelihood computed for logAge=6.800 [M/H]=0.510: n_used=7251, logL=-6516381.57870
+2026-03-08 22:27:28,897 INFO __main__ - Fit complete for logAge=6.800 [M/H]=0.510: success=True, n_used=7251, logL=-6516381.57870, mass_mean=1.0583, mass_median=1.0523
+2026-03-08 22:27:28,898 INFO __main__ - Matching targets against isochrone age section: logAge=6.9 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f051.isoc
+2026-03-08 22:27:28,898 INFO __main__ - Starting fit for isochrone section: logAge=6.900, [M/H]=0.510, sigma_mag=0.050
+2026-03-08 22:27:28,951 DEBUG __main__ - Likelihood computed for logAge=6.900 [M/H]=0.510: n_used=7272, logL=-7026295.75145
+2026-03-08 22:27:28,953 INFO __main__ - Fit complete for logAge=6.900 [M/H]=0.510: success=True, n_used=7272, logL=-7026295.75145, mass_mean=1.0874, mass_median=1.0898
+2026-03-08 22:27:28,953 INFO __main__ - Matching targets against isochrone age section: logAge=7.0 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f051.isoc
+2026-03-08 22:27:28,953 INFO __main__ - Starting fit for isochrone section: logAge=7.000, [M/H]=0.510, sigma_mag=0.050
+2026-03-08 22:27:29,005 DEBUG __main__ - Likelihood computed for logAge=7.000 [M/H]=0.510: n_used=7280, logL=-7554571.08662
+2026-03-08 22:27:29,006 INFO __main__ - Fit complete for logAge=7.000 [M/H]=0.510: success=True, n_used=7280, logL=-7554571.08662, mass_mean=1.1230, mass_median=1.1321
+2026-03-08 22:27:29,006 INFO __main__ - Matching targets against isochrone age section: logAge=7.1 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f051.isoc
+2026-03-08 22:27:29,007 INFO __main__ - Starting fit for isochrone section: logAge=7.100, [M/H]=0.510, sigma_mag=0.050
+2026-03-08 22:27:29,060 DEBUG __main__ - Likelihood computed for logAge=7.100 [M/H]=0.510: n_used=7244, logL=-8082247.30230
+2026-03-08 22:27:29,062 INFO __main__ - Fit complete for logAge=7.100 [M/H]=0.510: success=True, n_used=7244, logL=-8082247.30230, mass_mean=1.1712, mass_median=1.1980
+2026-03-08 22:27:29,062 INFO __main__ - Matching targets against isochrone age section: logAge=7.2 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f051.isoc
+2026-03-08 22:27:29,062 INFO __main__ - Starting fit for isochrone section: logAge=7.200, [M/H]=0.510, sigma_mag=0.050
+2026-03-08 22:27:29,116 DEBUG __main__ - Likelihood computed for logAge=7.200 [M/H]=0.510: n_used=7246, logL=-8664736.01235
+2026-03-08 22:27:29,118 INFO __main__ - Fit complete for logAge=7.200 [M/H]=0.510: success=True, n_used=7246, logL=-8664736.01235, mass_mean=1.1707, mass_median=1.2096
+2026-03-08 22:27:29,119 INFO __main__ - Matching targets against isochrone age section: logAge=7.3 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f051.isoc
+2026-03-08 22:27:29,119 INFO __main__ - Starting fit for isochrone section: logAge=7.300, [M/H]=0.510, sigma_mag=0.050
+2026-03-08 22:27:29,173 DEBUG __main__ - Likelihood computed for logAge=7.300 [M/H]=0.510: n_used=7244, logL=-9274365.67637
+2026-03-08 22:27:29,174 INFO __main__ - Fit complete for logAge=7.300 [M/H]=0.510: success=True, n_used=7244, logL=-9274365.67637, mass_mean=1.1017, mass_median=1.1261
+2026-03-08 22:27:29,175 INFO __main__ - Matching targets against isochrone age section: logAge=7.4 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f051.isoc
+2026-03-08 22:27:29,175 INFO __main__ - Starting fit for isochrone section: logAge=7.400, [M/H]=0.510, sigma_mag=0.050
+2026-03-08 22:27:29,226 DEBUG __main__ - Likelihood computed for logAge=7.400 [M/H]=0.510: n_used=7235, logL=-9911405.92497
+2026-03-08 22:27:29,228 INFO __main__ - Fit complete for logAge=7.400 [M/H]=0.510: success=True, n_used=7235, logL=-9911405.92497, mass_mean=1.0405, mass_median=1.0438
+2026-03-08 22:27:29,228 INFO __main__ - Matching targets against isochrone age section: logAge=7.5 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f051.isoc
+2026-03-08 22:27:29,228 INFO __main__ - Starting fit for isochrone section: logAge=7.500, [M/H]=0.510, sigma_mag=0.050
+2026-03-08 22:27:29,281 DEBUG __main__ - Likelihood computed for logAge=7.500 [M/H]=0.510: n_used=7280, logL=-10595768.69339
+2026-03-08 22:27:29,283 INFO __main__ - Fit complete for logAge=7.500 [M/H]=0.510: success=True, n_used=7280, logL=-10595768.69339, mass_mean=0.9943, mass_median=0.9762
+2026-03-08 22:27:29,283 INFO __main__ - Matching targets against isochrone age section: logAge=7.6 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f051.isoc
+2026-03-08 22:27:29,283 INFO __main__ - Starting fit for isochrone section: logAge=7.600, [M/H]=0.510, sigma_mag=0.050
+2026-03-08 22:27:29,338 DEBUG __main__ - Likelihood computed for logAge=7.600 [M/H]=0.510: n_used=7251, logL=-11281529.11270
+2026-03-08 22:27:29,340 INFO __main__ - Fit complete for logAge=7.600 [M/H]=0.510: success=True, n_used=7251, logL=-11281529.11270, mass_mean=0.9698, mass_median=0.9465
+2026-03-08 22:27:29,340 INFO __main__ - Matching targets against isochrone age section: logAge=7.7 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f051.isoc
+2026-03-08 22:27:29,340 INFO __main__ - Starting fit for isochrone section: logAge=7.700, [M/H]=0.510, sigma_mag=0.050
+2026-03-08 22:27:29,393 DEBUG __main__ - Likelihood computed for logAge=7.700 [M/H]=0.510: n_used=7216, logL=-12002040.29517
+2026-03-08 22:27:29,395 INFO __main__ - Fit complete for logAge=7.700 [M/H]=0.510: success=True, n_used=7216, logL=-12002040.29517, mass_mean=0.9606, mass_median=0.9711
+2026-03-08 22:27:29,395 INFO __main__ - Matching targets against isochrone age section: logAge=7.8 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f051.isoc
+2026-03-08 22:27:29,395 INFO __main__ - Starting fit for isochrone section: logAge=7.800, [M/H]=0.510, sigma_mag=0.050
+2026-03-08 22:27:29,447 DEBUG __main__ - Likelihood computed for logAge=7.800 [M/H]=0.510: n_used=7272, logL=-12767396.67034
+2026-03-08 22:27:29,449 INFO __main__ - Fit complete for logAge=7.800 [M/H]=0.510: success=True, n_used=7272, logL=-12767396.67034, mass_mean=0.9543, mass_median=0.9701
+2026-03-08 22:27:29,449 INFO __main__ - Matching targets against isochrone age section: logAge=7.9 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f051.isoc
+2026-03-08 22:27:29,449 INFO __main__ - Starting fit for isochrone section: logAge=7.900, [M/H]=0.510, sigma_mag=0.050
+2026-03-08 22:27:29,502 DEBUG __main__ - Likelihood computed for logAge=7.900 [M/H]=0.510: n_used=7215, logL=-13543361.83656
+2026-03-08 22:27:29,504 INFO __main__ - Fit complete for logAge=7.900 [M/H]=0.510: success=True, n_used=7215, logL=-13543361.83656, mass_mean=0.9580, mass_median=0.9713
+2026-03-08 22:27:29,505 INFO __main__ - Matching targets against isochrone age section: logAge=8.0 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f051.isoc
+2026-03-08 22:27:29,505 INFO __main__ - Starting fit for isochrone section: logAge=8.000, [M/H]=0.510, sigma_mag=0.050
+2026-03-08 22:27:29,560 DEBUG __main__ - Likelihood computed for logAge=8.000 [M/H]=0.510: n_used=7187, logL=-14353327.60047
+2026-03-08 22:27:29,562 INFO __main__ - Fit complete for logAge=8.000 [M/H]=0.510: success=True, n_used=7187, logL=-14353327.60047, mass_mean=0.9601, mass_median=0.9715
+2026-03-08 22:27:29,562 INFO __main__ - Matching targets against isochrone age section: logAge=8.1 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f051.isoc
+2026-03-08 22:27:29,562 INFO __main__ - Starting fit for isochrone section: logAge=8.100, [M/H]=0.510, sigma_mag=0.050
+2026-03-08 22:27:29,616 DEBUG __main__ - Likelihood computed for logAge=8.100 [M/H]=0.510: n_used=7250, logL=-15202253.87948
+2026-03-08 22:27:29,618 INFO __main__ - Fit complete for logAge=8.100 [M/H]=0.510: success=True, n_used=7250, logL=-15202253.87948, mass_mean=0.9572, mass_median=0.9703
+2026-03-08 22:27:29,618 INFO __main__ - Matching targets against isochrone age section: logAge=8.2 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f051.isoc
+2026-03-08 22:27:29,618 INFO __main__ - Starting fit for isochrone section: logAge=8.200, [M/H]=0.510, sigma_mag=0.050
+2026-03-08 22:27:29,670 DEBUG __main__ - Likelihood computed for logAge=8.200 [M/H]=0.510: n_used=7248, logL=-16073402.21751
+2026-03-08 22:27:29,672 INFO __main__ - Fit complete for logAge=8.200 [M/H]=0.510: success=True, n_used=7248, logL=-16073402.21751, mass_mean=0.9578, mass_median=0.9700
+2026-03-08 22:27:29,672 INFO __main__ - Matching targets against isochrone age section: logAge=8.3 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f051.isoc
+2026-03-08 22:27:29,672 INFO __main__ - Starting fit for isochrone section: logAge=8.300, [M/H]=0.510, sigma_mag=0.050
+2026-03-08 22:27:29,726 DEBUG __main__ - Likelihood computed for logAge=8.300 [M/H]=0.510: n_used=7276, logL=-16975731.19765
+2026-03-08 22:27:29,728 INFO __main__ - Fit complete for logAge=8.300 [M/H]=0.510: success=True, n_used=7276, logL=-16975731.19765, mass_mean=0.9561, mass_median=0.9680
+2026-03-08 22:27:29,728 INFO __main__ - Matching targets against isochrone age section: logAge=8.4 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f051.isoc
+2026-03-08 22:27:29,728 INFO __main__ - Starting fit for isochrone section: logAge=8.400, [M/H]=0.510, sigma_mag=0.050
+2026-03-08 22:27:29,783 DEBUG __main__ - Likelihood computed for logAge=8.400 [M/H]=0.510: n_used=7198, logL=-17902104.31051
+2026-03-08 22:27:29,785 INFO __main__ - Fit complete for logAge=8.400 [M/H]=0.510: success=True, n_used=7198, logL=-17902104.31051, mass_mean=0.9606, mass_median=0.9701
+2026-03-08 22:27:29,786 INFO __main__ - Matching targets against isochrone age section: logAge=8.5 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f051.isoc
+2026-03-08 22:27:29,786 INFO __main__ - Starting fit for isochrone section: logAge=8.500, [M/H]=0.510, sigma_mag=0.050
+2026-03-08 22:27:29,839 DEBUG __main__ - Likelihood computed for logAge=8.500 [M/H]=0.510: n_used=7199, logL=-18860501.38619
+2026-03-08 22:27:29,841 INFO __main__ - Fit complete for logAge=8.500 [M/H]=0.510: success=True, n_used=7199, logL=-18860501.38619, mass_mean=0.9602, mass_median=0.9696
+2026-03-08 22:27:29,841 INFO __main__ - Matching targets against isochrone age section: logAge=8.6 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f051.isoc
+2026-03-08 22:27:29,841 INFO __main__ - Starting fit for isochrone section: logAge=8.600, [M/H]=0.510, sigma_mag=0.050
+2026-03-08 22:27:29,893 DEBUG __main__ - Likelihood computed for logAge=8.600 [M/H]=0.510: n_used=7199, logL=-19847694.20537
+2026-03-08 22:27:29,895 INFO __main__ - Fit complete for logAge=8.600 [M/H]=0.510: success=True, n_used=7199, logL=-19847694.20537, mass_mean=0.9597, mass_median=0.9690
+2026-03-08 22:27:29,895 INFO __main__ - Matching targets against isochrone age section: logAge=8.7 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f051.isoc
+2026-03-08 22:27:29,895 INFO __main__ - Starting fit for isochrone section: logAge=8.700, [M/H]=0.510, sigma_mag=0.050
+2026-03-08 22:27:29,949 DEBUG __main__ - Likelihood computed for logAge=8.700 [M/H]=0.510: n_used=7199, logL=-20863683.02455
+2026-03-08 22:27:29,951 INFO __main__ - Fit complete for logAge=8.700 [M/H]=0.510: success=True, n_used=7199, logL=-20863683.02455, mass_mean=0.9591, mass_median=0.9682
+2026-03-08 22:27:29,951 INFO __main__ - Matching targets against isochrone age section: logAge=8.8 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f051.isoc
+2026-03-08 22:27:29,951 INFO __main__ - Starting fit for isochrone section: logAge=8.800, [M/H]=0.510, sigma_mag=0.050
+2026-03-08 22:27:30,006 DEBUG __main__ - Likelihood computed for logAge=8.800 [M/H]=0.510: n_used=7201, logL=-21908478.12279
+2026-03-08 22:27:30,008 INFO __main__ - Fit complete for logAge=8.800 [M/H]=0.510: success=True, n_used=7201, logL=-21908478.12279, mass_mean=0.9581, mass_median=0.9672
+2026-03-08 22:27:30,008 INFO __main__ - Matching targets against isochrone age section: logAge=8.9 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f051.isoc
+2026-03-08 22:27:30,008 INFO __main__ - Starting fit for isochrone section: logAge=8.900, [M/H]=0.510, sigma_mag=0.050
+2026-03-08 22:27:30,061 DEBUG __main__ - Likelihood computed for logAge=8.900 [M/H]=0.510: n_used=7202, logL=-22982104.51297
+2026-03-08 22:27:30,063 INFO __main__ - Fit complete for logAge=8.900 [M/H]=0.510: success=True, n_used=7202, logL=-22982104.51297, mass_mean=0.9569, mass_median=0.9659
+2026-03-08 22:27:30,063 INFO __main__ - Matching targets against isochrone age section: logAge=9.0 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f051.isoc
+2026-03-08 22:27:30,063 INFO __main__ - Starting fit for isochrone section: logAge=9.000, [M/H]=0.510, sigma_mag=0.050
+2026-03-08 22:27:30,115 DEBUG __main__ - Likelihood computed for logAge=9.000 [M/H]=0.510: n_used=7202, logL=-24084520.00233
+2026-03-08 22:27:30,117 INFO __main__ - Fit complete for logAge=9.000 [M/H]=0.510: success=True, n_used=7202, logL=-24084520.00233, mass_mean=0.9555, mass_median=0.9643
+2026-03-08 22:27:30,117 INFO __main__ - Matching targets against isochrone age section: logAge=9.1 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f051.isoc
+2026-03-08 22:27:30,117 INFO __main__ - Starting fit for isochrone section: logAge=9.100, [M/H]=0.510, sigma_mag=0.050
+2026-03-08 22:27:30,170 DEBUG __main__ - Likelihood computed for logAge=9.100 [M/H]=0.510: n_used=7202, logL=-25215743.49170
+2026-03-08 22:27:30,172 INFO __main__ - Fit complete for logAge=9.100 [M/H]=0.510: success=True, n_used=7202, logL=-25215743.49170, mass_mean=0.9538, mass_median=0.9623
+2026-03-08 22:27:30,173 INFO __main__ - Matching targets against isochrone age section: logAge=9.2 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f051.isoc
+2026-03-08 22:27:30,173 INFO __main__ - Starting fit for isochrone section: logAge=9.200, [M/H]=0.510, sigma_mag=0.050
+2026-03-08 22:27:30,227 DEBUG __main__ - Likelihood computed for logAge=9.200 [M/H]=0.510: n_used=7202, logL=-26375774.98106
+2026-03-08 22:27:30,229 INFO __main__ - Fit complete for logAge=9.200 [M/H]=0.510: success=True, n_used=7202, logL=-26375774.98106, mass_mean=0.9517, mass_median=0.9597
+2026-03-08 22:27:30,229 INFO __main__ - Matching targets against isochrone age section: logAge=9.3 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f051.isoc
+2026-03-08 22:27:30,229 INFO __main__ - Starting fit for isochrone section: logAge=9.300, [M/H]=0.510, sigma_mag=0.050
+2026-03-08 22:27:30,283 DEBUG __main__ - Likelihood computed for logAge=9.300 [M/H]=0.510: n_used=7202, logL=-27564614.47043
+2026-03-08 22:27:30,285 INFO __main__ - Fit complete for logAge=9.300 [M/H]=0.510: success=True, n_used=7202, logL=-27564614.47043, mass_mean=0.9497, mass_median=0.9564
+2026-03-08 22:27:30,285 INFO __main__ - Matching targets against isochrone age section: logAge=9.4 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f051.isoc
+2026-03-08 22:27:30,285 INFO __main__ - Starting fit for isochrone section: logAge=9.400, [M/H]=0.510, sigma_mag=0.050
+2026-03-08 22:27:30,337 DEBUG __main__ - Likelihood computed for logAge=9.400 [M/H]=0.510: n_used=7202, logL=-28782261.95979
+2026-03-08 22:27:30,339 INFO __main__ - Fit complete for logAge=9.400 [M/H]=0.510: success=True, n_used=7202, logL=-28782261.95979, mass_mean=0.9453, mass_median=0.9518
+2026-03-08 22:27:30,339 INFO __main__ - Matching targets against isochrone age section: logAge=9.5 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f051.isoc
+2026-03-08 22:27:30,339 INFO __main__ - Starting fit for isochrone section: logAge=9.500, [M/H]=0.510, sigma_mag=0.050
+2026-03-08 22:27:30,392 DEBUG __main__ - Likelihood computed for logAge=9.500 [M/H]=0.510: n_used=7202, logL=-30028717.44916
+2026-03-08 22:27:30,394 INFO __main__ - Fit complete for logAge=9.500 [M/H]=0.510: success=True, n_used=7202, logL=-30028717.44916, mass_mean=0.9450, mass_median=0.9470
+2026-03-08 22:27:30,394 INFO __main__ - Matching targets against isochrone age section: logAge=9.6 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f051.isoc
+2026-03-08 22:27:30,394 INFO __main__ - Starting fit for isochrone section: logAge=9.600, [M/H]=0.510, sigma_mag=0.050
+2026-03-08 22:27:30,448 DEBUG __main__ - Likelihood computed for logAge=9.600 [M/H]=0.510: n_used=7202, logL=-30662748.19384
+2026-03-08 22:27:30,450 INFO __main__ - Fit complete for logAge=9.600 [M/H]=0.510: success=True, n_used=7202, logL=-30662748.19384, mass_mean=0.9448, mass_median=0.9443
+2026-03-08 22:27:30,451 INFO __main__ - Loading SPOT isochrone file: /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f017.isoc (detected [M/H]=0.170)
+2026-03-08 22:27:30,507 INFO __main__ - File /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f017.isoc contains 37 age sections
+2026-03-08 22:27:30,507 INFO __main__ - Matching targets against isochrone age section: logAge=6.0 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f017.isoc
+2026-03-08 22:27:30,507 INFO __main__ - Starting fit for isochrone section: logAge=6.000, [M/H]=0.170, sigma_mag=0.050
+2026-03-08 22:27:30,559 DEBUG __main__ - Likelihood computed for logAge=6.000 [M/H]=0.170: n_used=7195, logL=-3535174.15302
+2026-03-08 22:27:30,561 INFO __main__ - Fit complete for logAge=6.000 [M/H]=0.170: success=True, n_used=7195, logL=-3535174.15302, mass_mean=1.0081, mass_median=1.0129
+2026-03-08 22:27:30,566 INFO __main__ - New best fit detected: logAge=6.000 [M/H]=0.170 logL=-3535174.15302
+2026-03-08 22:27:30,566 INFO __main__ - Matching targets against isochrone age section: logAge=6.1 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f017.isoc
+2026-03-08 22:27:30,566 INFO __main__ - Starting fit for isochrone section: logAge=6.100, [M/H]=0.170, sigma_mag=0.050
+2026-03-08 22:27:30,620 DEBUG __main__ - Likelihood computed for logAge=6.100 [M/H]=0.170: n_used=7196, logL=-3804076.67509
+2026-03-08 22:27:30,622 INFO __main__ - Fit complete for logAge=6.100 [M/H]=0.170: success=True, n_used=7196, logL=-3804076.67509, mass_mean=1.0093, mass_median=1.0122
+2026-03-08 22:27:30,622 INFO __main__ - Matching targets against isochrone age section: logAge=6.2 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f017.isoc
+2026-03-08 22:27:30,623 INFO __main__ - Starting fit for isochrone section: logAge=6.200, [M/H]=0.170, sigma_mag=0.050
+2026-03-08 22:27:30,677 DEBUG __main__ - Likelihood computed for logAge=6.200 [M/H]=0.170: n_used=7165, logL=-4061509.13698
+2026-03-08 22:27:30,679 INFO __main__ - Fit complete for logAge=6.200 [M/H]=0.170: success=True, n_used=7165, logL=-4061509.13698, mass_mean=1.0265, mass_median=1.0289
+2026-03-08 22:27:30,679 INFO __main__ - Matching targets against isochrone age section: logAge=6.3 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f017.isoc
+2026-03-08 22:27:30,679 INFO __main__ - Starting fit for isochrone section: logAge=6.300, [M/H]=0.170, sigma_mag=0.050
+2026-03-08 22:27:30,733 DEBUG __main__ - Likelihood computed for logAge=6.300 [M/H]=0.170: n_used=7186, logL=-4410310.04765
+2026-03-08 22:27:30,734 INFO __main__ - Fit complete for logAge=6.300 [M/H]=0.170: success=True, n_used=7186, logL=-4410310.04765, mass_mean=1.0261, mass_median=1.0284
+2026-03-08 22:27:30,735 INFO __main__ - Matching targets against isochrone age section: logAge=6.4 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f017.isoc
+2026-03-08 22:27:30,735 INFO __main__ - Starting fit for isochrone section: logAge=6.400, [M/H]=0.170, sigma_mag=0.050
+2026-03-08 22:27:30,786 DEBUG __main__ - Likelihood computed for logAge=6.400 [M/H]=0.170: n_used=7195, logL=-4778455.67183
+2026-03-08 22:27:30,788 INFO __main__ - Fit complete for logAge=6.400 [M/H]=0.170: success=True, n_used=7195, logL=-4778455.67183, mass_mean=1.0272, mass_median=1.0283
+2026-03-08 22:27:30,788 INFO __main__ - Matching targets against isochrone age section: logAge=6.5 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f017.isoc
+2026-03-08 22:27:30,788 INFO __main__ - Starting fit for isochrone section: logAge=6.500, [M/H]=0.170, sigma_mag=0.050
+2026-03-08 22:27:30,842 DEBUG __main__ - Likelihood computed for logAge=6.500 [M/H]=0.170: n_used=7164, logL=-5131322.58756
+2026-03-08 22:27:30,843 INFO __main__ - Fit complete for logAge=6.500 [M/H]=0.170: success=True, n_used=7164, logL=-5131322.58756, mass_mean=1.0466, mass_median=1.0471
+2026-03-08 22:27:30,844 INFO __main__ - Matching targets against isochrone age section: logAge=6.6 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f017.isoc
+2026-03-08 22:27:30,844 INFO __main__ - Starting fit for isochrone section: logAge=6.600, [M/H]=0.170, sigma_mag=0.050
+2026-03-08 22:27:30,898 DEBUG __main__ - Likelihood computed for logAge=6.600 [M/H]=0.170: n_used=7174, logL=-5553108.51640
+2026-03-08 22:27:30,900 INFO __main__ - Fit complete for logAge=6.600 [M/H]=0.170: success=True, n_used=7174, logL=-5553108.51640, mass_mean=1.0517, mass_median=1.0524
+2026-03-08 22:27:30,900 INFO __main__ - Matching targets against isochrone age section: logAge=6.7 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f017.isoc
+2026-03-08 22:27:30,900 INFO __main__ - Starting fit for isochrone section: logAge=6.700, [M/H]=0.170, sigma_mag=0.050
+2026-03-08 22:27:30,954 DEBUG __main__ - Likelihood computed for logAge=6.700 [M/H]=0.170: n_used=7193, logL=-6011928.15223
+2026-03-08 22:27:30,955 INFO __main__ - Fit complete for logAge=6.700 [M/H]=0.170: success=True, n_used=7193, logL=-6011928.15223, mass_mean=1.0610, mass_median=1.0629
+2026-03-08 22:27:30,956 INFO __main__ - Matching targets against isochrone age section: logAge=6.8 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f017.isoc
+2026-03-08 22:27:30,956 INFO __main__ - Starting fit for isochrone section: logAge=6.800, [M/H]=0.170, sigma_mag=0.050
+2026-03-08 22:27:31,008 DEBUG __main__ - Likelihood computed for logAge=6.800 [M/H]=0.170: n_used=7196, logL=-6482866.15263
+2026-03-08 22:27:31,010 INFO __main__ - Fit complete for logAge=6.800 [M/H]=0.170: success=True, n_used=7196, logL=-6482866.15263, mass_mean=1.0785, mass_median=1.0827
+2026-03-08 22:27:31,010 INFO __main__ - Matching targets against isochrone age section: logAge=6.9 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f017.isoc
+2026-03-08 22:27:31,010 INFO __main__ - Starting fit for isochrone section: logAge=6.900, [M/H]=0.170, sigma_mag=0.050
+2026-03-08 22:27:31,064 DEBUG __main__ - Likelihood computed for logAge=6.900 [M/H]=0.170: n_used=7165, logL=-6960022.43135
+2026-03-08 22:27:31,066 INFO __main__ - Fit complete for logAge=6.900 [M/H]=0.170: success=True, n_used=7165, logL=-6960022.43135, mass_mean=1.1219, mass_median=1.1299
+2026-03-08 22:27:31,066 INFO __main__ - Matching targets against isochrone age section: logAge=7.0 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f017.isoc
+2026-03-08 22:27:31,066 INFO __main__ - Starting fit for isochrone section: logAge=7.000, [M/H]=0.170, sigma_mag=0.050
+2026-03-08 22:27:31,121 DEBUG __main__ - Likelihood computed for logAge=7.000 [M/H]=0.170: n_used=7179, logL=-7495583.14285
+2026-03-08 22:27:31,123 INFO __main__ - Fit complete for logAge=7.000 [M/H]=0.170: success=True, n_used=7179, logL=-7495583.14285, mass_mean=1.1570, mass_median=1.1853
+2026-03-08 22:27:31,123 INFO __main__ - Matching targets against isochrone age section: logAge=7.1 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f017.isoc
+2026-03-08 22:27:31,123 INFO __main__ - Starting fit for isochrone section: logAge=7.100, [M/H]=0.170, sigma_mag=0.050
+2026-03-08 22:27:31,177 DEBUG __main__ - Likelihood computed for logAge=7.100 [M/H]=0.170: n_used=7187, logL=-8054822.63373
+2026-03-08 22:27:31,178 INFO __main__ - Fit complete for logAge=7.100 [M/H]=0.170: success=True, n_used=7187, logL=-8054822.63373, mass_mean=1.1782, mass_median=1.2163
+2026-03-08 22:27:31,179 INFO __main__ - Matching targets against isochrone age section: logAge=7.2 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f017.isoc
+2026-03-08 22:27:31,179 INFO __main__ - Starting fit for isochrone section: logAge=7.200, [M/H]=0.170, sigma_mag=0.050
+2026-03-08 22:27:31,231 DEBUG __main__ - Likelihood computed for logAge=7.200 [M/H]=0.170: n_used=7187, logL=-8639664.51893
+2026-03-08 22:27:31,233 INFO __main__ - Fit complete for logAge=7.200 [M/H]=0.170: success=True, n_used=7187, logL=-8639664.51893, mass_mean=1.1336, mass_median=1.1645
+2026-03-08 22:27:31,233 INFO __main__ - Matching targets against isochrone age section: logAge=7.3 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f017.isoc
+2026-03-08 22:27:31,233 INFO __main__ - Starting fit for isochrone section: logAge=7.300, [M/H]=0.170, sigma_mag=0.050
+2026-03-08 22:27:31,286 DEBUG __main__ - Likelihood computed for logAge=7.300 [M/H]=0.170: n_used=7185, logL=-9252947.30090
+2026-03-08 22:27:31,288 INFO __main__ - Fit complete for logAge=7.300 [M/H]=0.170: success=True, n_used=7185, logL=-9252947.30090, mass_mean=1.0601, mass_median=1.0813
+2026-03-08 22:27:31,288 INFO __main__ - Matching targets against isochrone age section: logAge=7.4 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f017.isoc
+2026-03-08 22:27:31,288 INFO __main__ - Starting fit for isochrone section: logAge=7.400, [M/H]=0.170, sigma_mag=0.050
+2026-03-08 22:27:31,344 DEBUG __main__ - Likelihood computed for logAge=7.400 [M/H]=0.170: n_used=7165, logL=-9890189.07019
+2026-03-08 22:27:31,346 INFO __main__ - Fit complete for logAge=7.400 [M/H]=0.170: success=True, n_used=7165, logL=-9890189.07019, mass_mean=1.0001, mass_median=1.0035
+2026-03-08 22:27:31,347 INFO __main__ - Matching targets against isochrone age section: logAge=7.5 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f017.isoc
+2026-03-08 22:27:31,347 INFO __main__ - Starting fit for isochrone section: logAge=7.500, [M/H]=0.170, sigma_mag=0.050
+2026-03-08 22:27:31,402 DEBUG __main__ - Likelihood computed for logAge=7.500 [M/H]=0.170: n_used=7106, logL=-10550891.52394
+2026-03-08 22:27:31,404 INFO __main__ - Fit complete for logAge=7.500 [M/H]=0.170: success=True, n_used=7106, logL=-10550891.52394, mass_mean=0.9614, mass_median=0.9427
+2026-03-08 22:27:31,404 INFO __main__ - Matching targets against isochrone age section: logAge=7.6 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f017.isoc
+2026-03-08 22:27:31,404 INFO __main__ - Starting fit for isochrone section: logAge=7.600, [M/H]=0.170, sigma_mag=0.050
+2026-03-08 22:27:31,457 DEBUG __main__ - Likelihood computed for logAge=7.600 [M/H]=0.170: n_used=7193, logL=-11270909.85401
+2026-03-08 22:27:31,459 INFO __main__ - Fit complete for logAge=7.600 [M/H]=0.170: success=True, n_used=7193, logL=-11270909.85401, mass_mean=0.9384, mass_median=0.9236
+2026-03-08 22:27:31,459 INFO __main__ - Matching targets against isochrone age section: logAge=7.7 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f017.isoc
+2026-03-08 22:27:31,459 INFO __main__ - Starting fit for isochrone section: logAge=7.700, [M/H]=0.170, sigma_mag=0.050
+2026-03-08 22:27:31,513 DEBUG __main__ - Likelihood computed for logAge=7.700 [M/H]=0.170: n_used=7107, logL=-11984875.80792
+2026-03-08 22:27:31,515 INFO __main__ - Fit complete for logAge=7.700 [M/H]=0.170: success=True, n_used=7107, logL=-11984875.80792, mass_mean=0.9372, mass_median=0.9487
+2026-03-08 22:27:31,515 INFO __main__ - Matching targets against isochrone age section: logAge=7.8 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f017.isoc
+2026-03-08 22:27:31,515 INFO __main__ - Starting fit for isochrone section: logAge=7.800, [M/H]=0.170, sigma_mag=0.050
+2026-03-08 22:27:31,570 DEBUG __main__ - Likelihood computed for logAge=7.800 [M/H]=0.170: n_used=7196, logL=-12756348.26341
+2026-03-08 22:27:31,572 INFO __main__ - Fit complete for logAge=7.800 [M/H]=0.170: success=True, n_used=7196, logL=-12756348.26341, mass_mean=0.9338, mass_median=0.9472
+2026-03-08 22:27:31,572 INFO __main__ - Matching targets against isochrone age section: logAge=7.9 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f017.isoc
+2026-03-08 22:27:31,572 INFO __main__ - Starting fit for isochrone section: logAge=7.900, [M/H]=0.170, sigma_mag=0.050
+2026-03-08 22:27:31,626 DEBUG __main__ - Likelihood computed for logAge=7.900 [M/H]=0.170: n_used=7161, logL=-13536768.86564
+2026-03-08 22:27:31,628 INFO __main__ - Fit complete for logAge=7.900 [M/H]=0.170: success=True, n_used=7161, logL=-13536768.86564, mass_mean=0.9362, mass_median=0.9479
+2026-03-08 22:27:31,628 INFO __main__ - Matching targets against isochrone age section: logAge=8.0 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f017.isoc
+2026-03-08 22:27:31,628 INFO __main__ - Starting fit for isochrone section: logAge=8.000, [M/H]=0.170, sigma_mag=0.050
+2026-03-08 22:27:31,680 DEBUG __main__ - Likelihood computed for logAge=8.000 [M/H]=0.170: n_used=7080, logL=-14348004.96763
+2026-03-08 22:27:31,682 INFO __main__ - Fit complete for logAge=8.000 [M/H]=0.170: success=True, n_used=7080, logL=-14348004.96763, mass_mean=0.9415, mass_median=0.9497
+2026-03-08 22:27:31,682 INFO __main__ - Matching targets against isochrone age section: logAge=8.1 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f017.isoc
+2026-03-08 22:27:31,682 INFO __main__ - Starting fit for isochrone section: logAge=8.100, [M/H]=0.170, sigma_mag=0.050
+2026-03-08 22:27:31,736 DEBUG __main__ - Likelihood computed for logAge=8.100 [M/H]=0.170: n_used=7096, logL=-15193345.04234
+2026-03-08 22:27:31,738 INFO __main__ - Fit complete for logAge=8.100 [M/H]=0.170: success=True, n_used=7096, logL=-15193345.04234, mass_mean=0.9412, mass_median=0.9489
+2026-03-08 22:27:31,738 INFO __main__ - Matching targets against isochrone age section: logAge=8.2 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f017.isoc
+2026-03-08 22:27:31,738 INFO __main__ - Starting fit for isochrone section: logAge=8.200, [M/H]=0.170, sigma_mag=0.050
+2026-03-08 22:27:31,794 DEBUG __main__ - Likelihood computed for logAge=8.200 [M/H]=0.170: n_used=7161, logL=-16068761.52959
+2026-03-08 22:27:31,796 INFO __main__ - Fit complete for logAge=8.200 [M/H]=0.170: success=True, n_used=7161, logL=-16068761.52959, mass_mean=0.9378, mass_median=0.9472
+2026-03-08 22:27:31,796 INFO __main__ - Matching targets against isochrone age section: logAge=8.3 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f017.isoc
+2026-03-08 22:27:31,796 INFO __main__ - Starting fit for isochrone section: logAge=8.300, [M/H]=0.170, sigma_mag=0.050
+2026-03-08 22:27:31,849 DEBUG __main__ - Likelihood computed for logAge=8.300 [M/H]=0.170: n_used=7164, logL=-16970052.81751
+2026-03-08 22:27:31,851 INFO __main__ - Fit complete for logAge=8.300 [M/H]=0.170: success=True, n_used=7164, logL=-16970052.81751, mass_mean=0.9375, mass_median=0.9468
+2026-03-08 22:27:31,851 INFO __main__ - Matching targets against isochrone age section: logAge=8.4 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f017.isoc
+2026-03-08 22:27:31,851 INFO __main__ - Starting fit for isochrone section: logAge=8.400, [M/H]=0.170, sigma_mag=0.050
+2026-03-08 22:27:31,903 DEBUG __main__ - Likelihood computed for logAge=8.400 [M/H]=0.170: n_used=7164, logL=-17899992.05250
+2026-03-08 22:27:31,905 INFO __main__ - Fit complete for logAge=8.400 [M/H]=0.170: success=True, n_used=7164, logL=-17899992.05250, mass_mean=0.9373, mass_median=0.9465
+2026-03-08 22:27:31,905 INFO __main__ - Matching targets against isochrone age section: logAge=8.5 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f017.isoc
+2026-03-08 22:27:31,905 INFO __main__ - Starting fit for isochrone section: logAge=8.500, [M/H]=0.170, sigma_mag=0.050
+2026-03-08 22:27:31,959 DEBUG __main__ - Likelihood computed for logAge=8.500 [M/H]=0.170: n_used=7165, logL=-18858635.67564
+2026-03-08 22:27:31,960 INFO __main__ - Fit complete for logAge=8.500 [M/H]=0.170: success=True, n_used=7165, logL=-18858635.67564, mass_mean=0.9369, mass_median=0.9459
+2026-03-08 22:27:31,961 INFO __main__ - Matching targets against isochrone age section: logAge=8.6 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f017.isoc
+2026-03-08 22:27:31,961 INFO __main__ - Starting fit for isochrone section: logAge=8.600, [M/H]=0.170, sigma_mag=0.050
+2026-03-08 22:27:32,016 DEBUG __main__ - Likelihood computed for logAge=8.600 [M/H]=0.170: n_used=7165, logL=-19845909.00340
+2026-03-08 22:27:32,017 INFO __main__ - Fit complete for logAge=8.600 [M/H]=0.170: success=True, n_used=7165, logL=-19845909.00340, mass_mean=0.9363, mass_median=0.9454
+2026-03-08 22:27:32,018 INFO __main__ - Matching targets against isochrone age section: logAge=8.7 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f017.isoc
+2026-03-08 22:27:32,018 INFO __main__ - Starting fit for isochrone section: logAge=8.700, [M/H]=0.170, sigma_mag=0.050
+2026-03-08 22:27:32,072 DEBUG __main__ - Likelihood computed for logAge=8.700 [M/H]=0.170: n_used=7165, logL=-20861842.33117
+2026-03-08 22:27:32,074 INFO __main__ - Fit complete for logAge=8.700 [M/H]=0.170: success=True, n_used=7165, logL=-20861842.33117, mass_mean=0.9356, mass_median=0.9447
+2026-03-08 22:27:32,074 INFO __main__ - Matching targets against isochrone age section: logAge=8.8 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f017.isoc
+2026-03-08 22:27:32,074 INFO __main__ - Starting fit for isochrone section: logAge=8.800, [M/H]=0.170, sigma_mag=0.050
+2026-03-08 22:27:32,126 DEBUG __main__ - Likelihood computed for logAge=8.800 [M/H]=0.170: n_used=7165, logL=-21906435.65894
+2026-03-08 22:27:32,128 INFO __main__ - Fit complete for logAge=8.800 [M/H]=0.170: success=True, n_used=7165, logL=-21906435.65894, mass_mean=0.9346, mass_median=0.9437
+2026-03-08 22:27:32,128 INFO __main__ - Matching targets against isochrone age section: logAge=8.9 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f017.isoc
+2026-03-08 22:27:32,128 INFO __main__ - Starting fit for isochrone section: logAge=8.900, [M/H]=0.170, sigma_mag=0.050
+2026-03-08 22:27:32,182 DEBUG __main__ - Likelihood computed for logAge=8.900 [M/H]=0.170: n_used=7165, logL=-22979688.98671
+2026-03-08 22:27:32,184 INFO __main__ - Fit complete for logAge=8.900 [M/H]=0.170: success=True, n_used=7165, logL=-22979688.98671, mass_mean=0.9334, mass_median=0.9426
+2026-03-08 22:27:32,184 INFO __main__ - Matching targets against isochrone age section: logAge=9.0 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f017.isoc
+2026-03-08 22:27:32,184 INFO __main__ - Starting fit for isochrone section: logAge=9.000, [M/H]=0.170, sigma_mag=0.050
+2026-03-08 22:27:32,239 DEBUG __main__ - Likelihood computed for logAge=9.000 [M/H]=0.170: n_used=7165, logL=-24081602.31447
+2026-03-08 22:27:32,241 INFO __main__ - Fit complete for logAge=9.000 [M/H]=0.170: success=True, n_used=7165, logL=-24081602.31447, mass_mean=0.9319, mass_median=0.9411
+2026-03-08 22:27:32,241 INFO __main__ - Matching targets against isochrone age section: logAge=9.1 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f017.isoc
+2026-03-08 22:27:32,241 INFO __main__ - Starting fit for isochrone section: logAge=9.100, [M/H]=0.170, sigma_mag=0.050
+2026-03-08 22:27:32,295 DEBUG __main__ - Likelihood computed for logAge=9.100 [M/H]=0.170: n_used=7165, logL=-25212175.64224
+2026-03-08 22:27:32,297 INFO __main__ - Fit complete for logAge=9.100 [M/H]=0.170: success=True, n_used=7165, logL=-25212175.64224, mass_mean=0.9300, mass_median=0.9392
+2026-03-08 22:27:32,297 INFO __main__ - Matching targets against isochrone age section: logAge=9.2 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f017.isoc
+2026-03-08 22:27:32,297 INFO __main__ - Starting fit for isochrone section: logAge=9.200, [M/H]=0.170, sigma_mag=0.050
+2026-03-08 22:27:32,349 DEBUG __main__ - Likelihood computed for logAge=9.200 [M/H]=0.170: n_used=7165, logL=-26371408.97001
+2026-03-08 22:27:32,351 INFO __main__ - Fit complete for logAge=9.200 [M/H]=0.170: success=True, n_used=7165, logL=-26371408.97001, mass_mean=0.9278, mass_median=0.9367
+2026-03-08 22:27:32,351 INFO __main__ - Matching targets against isochrone age section: logAge=9.3 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f017.isoc
+2026-03-08 22:27:32,351 INFO __main__ - Starting fit for isochrone section: logAge=9.300, [M/H]=0.170, sigma_mag=0.050
+2026-03-08 22:27:32,405 DEBUG __main__ - Likelihood computed for logAge=9.300 [M/H]=0.170: n_used=7165, logL=-27559302.29778
+2026-03-08 22:27:32,407 INFO __main__ - Fit complete for logAge=9.300 [M/H]=0.170: success=True, n_used=7165, logL=-27559302.29778, mass_mean=0.9250, mass_median=0.9336
+2026-03-08 22:27:32,407 INFO __main__ - Matching targets against isochrone age section: logAge=9.4 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f017.isoc
+2026-03-08 22:27:32,407 INFO __main__ - Starting fit for isochrone section: logAge=9.400, [M/H]=0.170, sigma_mag=0.050
+2026-03-08 22:27:32,462 DEBUG __main__ - Likelihood computed for logAge=9.400 [M/H]=0.170: n_used=7165, logL=-28775855.62554
+2026-03-08 22:27:32,464 INFO __main__ - Fit complete for logAge=9.400 [M/H]=0.170: success=True, n_used=7165, logL=-28775855.62554, mass_mean=0.9219, mass_median=0.9292
+2026-03-08 22:27:32,464 INFO __main__ - Matching targets against isochrone age section: logAge=9.5 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f017.isoc
+2026-03-08 22:27:32,464 INFO __main__ - Starting fit for isochrone section: logAge=9.500, [M/H]=0.170, sigma_mag=0.050
+2026-03-08 22:27:32,518 DEBUG __main__ - Likelihood computed for logAge=9.500 [M/H]=0.170: n_used=7165, logL=-30021068.95331
+2026-03-08 22:27:32,520 INFO __main__ - Fit complete for logAge=9.500 [M/H]=0.170: success=True, n_used=7165, logL=-30021068.95331, mass_mean=0.9186, mass_median=0.9238
+2026-03-08 22:27:32,520 INFO __main__ - Matching targets against isochrone age section: logAge=9.6 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f017.isoc
+2026-03-08 22:27:32,520 INFO __main__ - Starting fit for isochrone section: logAge=9.600, [M/H]=0.170, sigma_mag=0.050
+2026-03-08 22:27:32,572 DEBUG __main__ - Likelihood computed for logAge=9.600 [M/H]=0.170: n_used=7165, logL=-30654423.11720
+2026-03-08 22:27:32,574 INFO __main__ - Fit complete for logAge=9.600 [M/H]=0.170: success=True, n_used=7165, logL=-30654423.11720, mass_mean=0.9169, mass_median=0.9204
+2026-03-08 22:27:32,574 INFO __main__ - Loading SPOT isochrone file: /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f000.isoc (detected [M/H]=0.000)
+2026-03-08 22:27:32,631 INFO __main__ - File /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f000.isoc contains 37 age sections
+2026-03-08 22:27:32,631 INFO __main__ - Matching targets against isochrone age section: logAge=6.0 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f000.isoc
+2026-03-08 22:27:32,631 INFO __main__ - Starting fit for isochrone section: logAge=6.000, [M/H]=0.000, sigma_mag=0.050
+2026-03-08 22:27:32,685 DEBUG __main__ - Likelihood computed for logAge=6.000 [M/H]=0.000: n_used=7598, logL=-4765511.61654
+2026-03-08 22:27:32,687 INFO __main__ - Fit complete for logAge=6.000 [M/H]=0.000: success=True, n_used=7598, logL=-4765511.61654, mass_mean=0.8901, mass_median=0.9058
+2026-03-08 22:27:32,687 INFO __main__ - Matching targets against isochrone age section: logAge=6.1 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f000.isoc
+2026-03-08 22:27:32,688 INFO __main__ - Starting fit for isochrone section: logAge=6.100, [M/H]=0.000, sigma_mag=0.050
+2026-03-08 22:27:32,740 DEBUG __main__ - Likelihood computed for logAge=6.100 [M/H]=0.000: n_used=7597, logL=-4966156.07910
+2026-03-08 22:27:32,742 INFO __main__ - Fit complete for logAge=6.100 [M/H]=0.000: success=True, n_used=7597, logL=-4966156.07910, mass_mean=0.8910, mass_median=0.9056
+2026-03-08 22:27:32,742 INFO __main__ - Matching targets against isochrone age section: logAge=6.2 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f000.isoc
+2026-03-08 22:27:32,742 INFO __main__ - Starting fit for isochrone section: logAge=6.200, [M/H]=0.000, sigma_mag=0.050
+2026-03-08 22:27:32,794 DEBUG __main__ - Likelihood computed for logAge=6.200 [M/H]=0.000: n_used=7593, logL=-5179686.36706
+2026-03-08 22:27:32,796 INFO __main__ - Fit complete for logAge=6.200 [M/H]=0.000: success=True, n_used=7593, logL=-5179686.36706, mass_mean=0.8920, mass_median=0.9066
+2026-03-08 22:27:32,796 INFO __main__ - Matching targets against isochrone age section: logAge=6.3 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f000.isoc
+2026-03-08 22:27:32,796 INFO __main__ - Starting fit for isochrone section: logAge=6.300, [M/H]=0.000, sigma_mag=0.050
+2026-03-08 22:27:32,850 DEBUG __main__ - Likelihood computed for logAge=6.300 [M/H]=0.000: n_used=7592, logL=-5442367.92018
+2026-03-08 22:27:32,852 INFO __main__ - Fit complete for logAge=6.300 [M/H]=0.000: success=True, n_used=7592, logL=-5442367.92018, mass_mean=0.8928, mass_median=0.9058
+2026-03-08 22:27:32,852 INFO __main__ - Matching targets against isochrone age section: logAge=6.4 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f000.isoc
+2026-03-08 22:27:32,852 INFO __main__ - Starting fit for isochrone section: logAge=6.400, [M/H]=0.000, sigma_mag=0.050
+2026-03-08 22:27:32,906 DEBUG __main__ - Likelihood computed for logAge=6.400 [M/H]=0.000: n_used=7592, logL=-5742214.12432
+2026-03-08 22:27:32,908 INFO __main__ - Fit complete for logAge=6.400 [M/H]=0.000: success=True, n_used=7592, logL=-5742214.12432, mass_mean=0.8946, mass_median=0.9064
+2026-03-08 22:27:32,908 INFO __main__ - Matching targets against isochrone age section: logAge=6.5 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f000.isoc
+2026-03-08 22:27:32,908 INFO __main__ - Starting fit for isochrone section: logAge=6.500, [M/H]=0.000, sigma_mag=0.050
+2026-03-08 22:27:32,962 DEBUG __main__ - Likelihood computed for logAge=6.500 [M/H]=0.000: n_used=7592, logL=-6072428.32846
+2026-03-08 22:27:32,964 INFO __main__ - Fit complete for logAge=6.500 [M/H]=0.000: success=True, n_used=7592, logL=-6072428.32846, mass_mean=0.8987, mass_median=0.9088
+2026-03-08 22:27:32,964 INFO __main__ - Matching targets against isochrone age section: logAge=6.6 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f000.isoc
+2026-03-08 22:27:32,964 INFO __main__ - Starting fit for isochrone section: logAge=6.600, [M/H]=0.000, sigma_mag=0.050
+2026-03-08 22:27:33,016 DEBUG __main__ - Likelihood computed for logAge=6.600 [M/H]=0.000: n_used=1347, logL=-1154413.91367
+2026-03-08 22:27:33,018 INFO __main__ - Fit complete for logAge=6.600 [M/H]=0.000: success=True, n_used=1347, logL=-1154413.91367, mass_mean=0.7583, mass_median=0.7416
+2026-03-08 22:27:33,023 INFO __main__ - New best fit detected: logAge=6.600 [M/H]=0.000 logL=-1154413.91367
+2026-03-08 22:27:33,023 INFO __main__ - Matching targets against isochrone age section: logAge=6.7 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f000.isoc
+2026-03-08 22:27:33,023 INFO __main__ - Starting fit for isochrone section: logAge=6.700, [M/H]=0.000, sigma_mag=0.050
+2026-03-08 22:27:33,078 DEBUG __main__ - Likelihood computed for logAge=6.700 [M/H]=0.000: n_used=1421, logL=-1083695.10200
+2026-03-08 22:27:33,079 INFO __main__ - Fit complete for logAge=6.700 [M/H]=0.000: success=True, n_used=1421, logL=-1083695.10200, mass_mean=0.7895, mass_median=0.7946
+2026-03-08 22:27:33,085 INFO __main__ - New best fit detected: logAge=6.700 [M/H]=0.000 logL=-1083695.10200
+2026-03-08 22:27:33,085 INFO __main__ - Matching targets against isochrone age section: logAge=6.8 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f000.isoc
+2026-03-08 22:27:33,085 INFO __main__ - Starting fit for isochrone section: logAge=6.800, [M/H]=0.000, sigma_mag=0.050
+2026-03-08 22:27:33,139 DEBUG __main__ - Likelihood computed for logAge=6.800 [M/H]=0.000: n_used=1548, logL=-1022552.91753
+2026-03-08 22:27:33,141 INFO __main__ - Fit complete for logAge=6.800 [M/H]=0.000: success=True, n_used=1548, logL=-1022552.91753, mass_mean=0.8269, mass_median=0.8969
+2026-03-08 22:27:33,147 INFO __main__ - New best fit detected: logAge=6.800 [M/H]=0.000 logL=-1022552.91753
+2026-03-08 22:27:33,147 INFO __main__ - Matching targets against isochrone age section: logAge=6.9 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f000.isoc
+2026-03-08 22:27:33,147 INFO __main__ - Starting fit for isochrone section: logAge=6.900, [M/H]=0.000, sigma_mag=0.050
+2026-03-08 22:27:33,199 DEBUG __main__ - Likelihood computed for logAge=6.900 [M/H]=0.000: n_used=2002, logL=-1079164.01404
+2026-03-08 22:27:33,201 INFO __main__ - Fit complete for logAge=6.900 [M/H]=0.000: success=True, n_used=2002, logL=-1079164.01404, mass_mean=0.9159, mass_median=1.0529
+2026-03-08 22:27:33,201 INFO __main__ - Matching targets against isochrone age section: logAge=7.0 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f000.isoc
+2026-03-08 22:27:33,201 INFO __main__ - Starting fit for isochrone section: logAge=7.000, [M/H]=0.000, sigma_mag=0.050
+2026-03-08 22:27:33,253 DEBUG __main__ - Likelihood computed for logAge=7.000 [M/H]=0.000: n_used=3171, logL=-1519483.29636
+2026-03-08 22:27:33,255 INFO __main__ - Fit complete for logAge=7.000 [M/H]=0.000: success=True, n_used=3171, logL=-1519483.29636, mass_mean=1.0209, mass_median=1.1715
+2026-03-08 22:27:33,255 INFO __main__ - Matching targets against isochrone age section: logAge=7.1 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f000.isoc
+2026-03-08 22:27:33,255 INFO __main__ - Starting fit for isochrone section: logAge=7.100, [M/H]=0.000, sigma_mag=0.050
+2026-03-08 22:27:33,311 DEBUG __main__ - Likelihood computed for logAge=7.100 [M/H]=0.000: n_used=5843, logL=-4803017.02481
+2026-03-08 22:27:33,313 INFO __main__ - Fit complete for logAge=7.100 [M/H]=0.000: success=True, n_used=5843, logL=-4803017.02481, mass_mean=1.0983, mass_median=1.1917
+2026-03-08 22:27:33,313 INFO __main__ - Matching targets against isochrone age section: logAge=7.2 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f000.isoc
+2026-03-08 22:27:33,313 INFO __main__ - Starting fit for isochrone section: logAge=7.200, [M/H]=0.000, sigma_mag=0.050
+2026-03-08 22:27:33,369 DEBUG __main__ - Likelihood computed for logAge=7.200 [M/H]=0.000: n_used=7493, logL=-8849384.37763
+2026-03-08 22:27:33,371 INFO __main__ - Fit complete for logAge=7.200 [M/H]=0.000: success=True, n_used=7493, logL=-8849384.37763, mass_mean=1.0720, mass_median=1.1372
+2026-03-08 22:27:33,371 INFO __main__ - Matching targets against isochrone age section: logAge=7.3 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f000.isoc
+2026-03-08 22:27:33,372 INFO __main__ - Starting fit for isochrone section: logAge=7.300, [M/H]=0.000, sigma_mag=0.050
+2026-03-08 22:27:33,426 DEBUG __main__ - Likelihood computed for logAge=7.300 [M/H]=0.000: n_used=7485, logL=-9370538.70538
+2026-03-08 22:27:33,428 INFO __main__ - Fit complete for logAge=7.300 [M/H]=0.000: success=True, n_used=7485, logL=-9370538.70538, mass_mean=1.0029, mass_median=1.0569
+2026-03-08 22:27:33,428 INFO __main__ - Matching targets against isochrone age section: logAge=7.4 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f000.isoc
+2026-03-08 22:27:33,428 INFO __main__ - Starting fit for isochrone section: logAge=7.400, [M/H]=0.000, sigma_mag=0.050
+2026-03-08 22:27:33,480 DEBUG __main__ - Likelihood computed for logAge=7.400 [M/H]=0.000: n_used=7522, logL=-10081832.04352
+2026-03-08 22:27:33,482 INFO __main__ - Fit complete for logAge=7.400 [M/H]=0.000: success=True, n_used=7522, logL=-10081832.04352, mass_mean=0.9475, mass_median=0.9843
+2026-03-08 22:27:33,482 INFO __main__ - Matching targets against isochrone age section: logAge=7.5 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f000.isoc
+2026-03-08 22:27:33,482 INFO __main__ - Starting fit for isochrone section: logAge=7.500, [M/H]=0.000, sigma_mag=0.050
+2026-03-08 22:27:33,536 DEBUG __main__ - Likelihood computed for logAge=7.500 [M/H]=0.000: n_used=7544, logL=-10781337.51920
+2026-03-08 22:27:33,538 INFO __main__ - Fit complete for logAge=7.500 [M/H]=0.000: success=True, n_used=7544, logL=-10781337.51920, mass_mean=0.9134, mass_median=0.9273
+2026-03-08 22:27:33,538 INFO __main__ - Matching targets against isochrone age section: logAge=7.6 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f000.isoc
+2026-03-08 22:27:33,538 INFO __main__ - Starting fit for isochrone section: logAge=7.600, [M/H]=0.000, sigma_mag=0.050
+2026-03-08 22:27:33,593 DEBUG __main__ - Likelihood computed for logAge=7.600 [M/H]=0.000: n_used=7587, logL=-11695279.44071
+2026-03-08 22:27:33,595 INFO __main__ - Fit complete for logAge=7.600 [M/H]=0.000: success=True, n_used=7587, logL=-11695279.44071, mass_mean=0.9024, mass_median=0.9121
+2026-03-08 22:27:33,595 INFO __main__ - Matching targets against isochrone age section: logAge=7.7 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f000.isoc
+2026-03-08 22:27:33,595 INFO __main__ - Starting fit for isochrone section: logAge=7.700, [M/H]=0.000, sigma_mag=0.050
+2026-03-08 22:27:33,649 DEBUG __main__ - Likelihood computed for logAge=7.700 [M/H]=0.000: n_used=7588, logL=-12392893.74894
+2026-03-08 22:27:33,651 INFO __main__ - Fit complete for logAge=7.700 [M/H]=0.000: success=True, n_used=7588, logL=-12392893.74894, mass_mean=0.9002, mass_median=0.9349
+2026-03-08 22:27:33,651 INFO __main__ - Matching targets against isochrone age section: logAge=7.8 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f000.isoc
+2026-03-08 22:27:33,652 INFO __main__ - Starting fit for isochrone section: logAge=7.800, [M/H]=0.000, sigma_mag=0.050
+2026-03-08 22:27:33,704 DEBUG __main__ - Likelihood computed for logAge=7.800 [M/H]=0.000: n_used=7588, logL=-13118470.73992
+2026-03-08 22:27:33,705 INFO __main__ - Fit complete for logAge=7.800 [M/H]=0.000: success=True, n_used=7588, logL=-13118470.73992, mass_mean=0.9007, mass_median=0.9360
+2026-03-08 22:27:33,706 INFO __main__ - Matching targets against isochrone age section: logAge=7.9 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f000.isoc
+2026-03-08 22:27:33,706 INFO __main__ - Starting fit for isochrone section: logAge=7.900, [M/H]=0.000, sigma_mag=0.050
+2026-03-08 22:27:33,760 DEBUG __main__ - Likelihood computed for logAge=7.900 [M/H]=0.000: n_used=7588, logL=-13874399.73089
+2026-03-08 22:27:33,762 INFO __main__ - Fit complete for logAge=7.900 [M/H]=0.000: success=True, n_used=7588, logL=-13874399.73089, mass_mean=0.9009, mass_median=0.9361
+2026-03-08 22:27:33,762 INFO __main__ - Matching targets against isochrone age section: logAge=8.0 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f000.isoc
+2026-03-08 22:27:33,762 INFO __main__ - Starting fit for isochrone section: logAge=8.000, [M/H]=0.000, sigma_mag=0.050
+2026-03-08 22:27:33,816 DEBUG __main__ - Likelihood computed for logAge=8.000 [M/H]=0.000: n_used=7590, logL=-14665188.58716
+2026-03-08 22:27:33,819 INFO __main__ - Fit complete for logAge=8.000 [M/H]=0.000: success=True, n_used=7590, logL=-14665188.58716, mass_mean=0.9011, mass_median=0.9359
+2026-03-08 22:27:33,819 INFO __main__ - Matching targets against isochrone age section: logAge=8.1 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f000.isoc
+2026-03-08 22:27:33,819 INFO __main__ - Starting fit for isochrone section: logAge=8.100, [M/H]=0.000, sigma_mag=0.050
+2026-03-08 22:27:33,873 DEBUG __main__ - Likelihood computed for logAge=8.100 [M/H]=0.000: n_used=7591, logL=-15483970.83068
+2026-03-08 22:27:33,874 INFO __main__ - Fit complete for logAge=8.100 [M/H]=0.000: success=True, n_used=7591, logL=-15483970.83068, mass_mean=0.9015, mass_median=0.9356
+2026-03-08 22:27:33,875 INFO __main__ - Matching targets against isochrone age section: logAge=8.2 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f000.isoc
+2026-03-08 22:27:33,875 INFO __main__ - Starting fit for isochrone section: logAge=8.200, [M/H]=0.000, sigma_mag=0.050
+2026-03-08 22:27:33,927 DEBUG __main__ - Likelihood computed for logAge=8.200 [M/H]=0.000: n_used=7592, logL=-16332373.79887
+2026-03-08 22:27:33,929 INFO __main__ - Fit complete for logAge=8.200 [M/H]=0.000: success=True, n_used=7592, logL=-16332373.79887, mass_mean=0.9017, mass_median=0.9353
+2026-03-08 22:27:33,929 INFO __main__ - Matching targets against isochrone age section: logAge=8.3 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f000.isoc
+2026-03-08 22:27:33,929 INFO __main__ - Starting fit for isochrone section: logAge=8.300, [M/H]=0.000, sigma_mag=0.050
+2026-03-08 22:27:33,983 DEBUG __main__ - Likelihood computed for logAge=8.300 [M/H]=0.000: n_used=7597, logL=-17221393.97611
+2026-03-08 22:27:33,985 INFO __main__ - Fit complete for logAge=8.300 [M/H]=0.000: success=True, n_used=7597, logL=-17221393.97611, mass_mean=0.9012, mass_median=0.9350
+2026-03-08 22:27:33,985 INFO __main__ - Matching targets against isochrone age section: logAge=8.4 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f000.isoc
+2026-03-08 22:27:33,986 INFO __main__ - Starting fit for isochrone section: logAge=8.400, [M/H]=0.000, sigma_mag=0.050
+2026-03-08 22:27:34,040 DEBUG __main__ - Likelihood computed for logAge=8.400 [M/H]=0.000: n_used=7598, logL=-18130354.16682
+2026-03-08 22:27:34,042 INFO __main__ - Fit complete for logAge=8.400 [M/H]=0.000: success=True, n_used=7598, logL=-18130354.16682, mass_mean=0.9009, mass_median=0.9346
+2026-03-08 22:27:34,042 INFO __main__ - Matching targets against isochrone age section: logAge=8.5 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f000.isoc
+2026-03-08 22:27:34,042 INFO __main__ - Starting fit for isochrone section: logAge=8.500, [M/H]=0.000, sigma_mag=0.050
+2026-03-08 22:27:34,096 DEBUG __main__ - Likelihood computed for logAge=8.500 [M/H]=0.000: n_used=7598, logL=-19067122.60642
+2026-03-08 22:27:34,098 INFO __main__ - Fit complete for logAge=8.500 [M/H]=0.000: success=True, n_used=7598, logL=-19067122.60642, mass_mean=0.9006, mass_median=0.9342
+2026-03-08 22:27:34,098 INFO __main__ - Matching targets against isochrone age section: logAge=8.6 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f000.isoc
+2026-03-08 22:27:34,098 INFO __main__ - Starting fit for isochrone section: logAge=8.600, [M/H]=0.000, sigma_mag=0.050
+2026-03-08 22:27:34,150 DEBUG __main__ - Likelihood computed for logAge=8.600 [M/H]=0.000: n_used=7598, logL=-20034283.04601
+2026-03-08 22:27:34,152 INFO __main__ - Fit complete for logAge=8.600 [M/H]=0.000: success=True, n_used=7598, logL=-20034283.04601, mass_mean=0.9001, mass_median=0.9336
+2026-03-08 22:27:34,152 INFO __main__ - Matching targets against isochrone age section: logAge=8.7 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f000.isoc
+2026-03-08 22:27:34,152 INFO __main__ - Starting fit for isochrone section: logAge=8.700, [M/H]=0.000, sigma_mag=0.050
+2026-03-08 22:27:34,206 DEBUG __main__ - Likelihood computed for logAge=8.700 [M/H]=0.000: n_used=7598, logL=-21031835.48561
+2026-03-08 22:27:34,208 INFO __main__ - Fit complete for logAge=8.700 [M/H]=0.000: success=True, n_used=7598, logL=-21031835.48561, mass_mean=0.8993, mass_median=0.9328
+2026-03-08 22:27:34,208 INFO __main__ - Matching targets against isochrone age section: logAge=8.8 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f000.isoc
+2026-03-08 22:27:34,208 INFO __main__ - Starting fit for isochrone section: logAge=8.800, [M/H]=0.000, sigma_mag=0.050
+2026-03-08 22:27:34,262 DEBUG __main__ - Likelihood computed for logAge=8.800 [M/H]=0.000: n_used=7598, logL=-22059779.92520
+2026-03-08 22:27:34,264 INFO __main__ - Fit complete for logAge=8.800 [M/H]=0.000: success=True, n_used=7598, logL=-22059779.92520, mass_mean=0.8984, mass_median=0.9318
+2026-03-08 22:27:34,264 INFO __main__ - Matching targets against isochrone age section: logAge=8.9 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f000.isoc
+2026-03-08 22:27:34,264 INFO __main__ - Starting fit for isochrone section: logAge=8.900, [M/H]=0.000, sigma_mag=0.050
+2026-03-08 22:27:34,318 DEBUG __main__ - Likelihood computed for logAge=8.900 [M/H]=0.000: n_used=7598, logL=-23118116.36480
+2026-03-08 22:27:34,320 INFO __main__ - Fit complete for logAge=8.900 [M/H]=0.000: success=True, n_used=7598, logL=-23118116.36480, mass_mean=0.8972, mass_median=0.9306
+2026-03-08 22:27:34,320 INFO __main__ - Matching targets against isochrone age section: logAge=9.0 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f000.isoc
+2026-03-08 22:27:34,320 INFO __main__ - Starting fit for isochrone section: logAge=9.000, [M/H]=0.000, sigma_mag=0.050
+2026-03-08 22:27:34,373 DEBUG __main__ - Likelihood computed for logAge=9.000 [M/H]=0.000: n_used=7598, logL=-24206844.80439
+2026-03-08 22:27:34,374 INFO __main__ - Fit complete for logAge=9.000 [M/H]=0.000: success=True, n_used=7598, logL=-24206844.80439, mass_mean=0.8956, mass_median=0.9291
+2026-03-08 22:27:34,375 INFO __main__ - Matching targets against isochrone age section: logAge=9.1 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f000.isoc
+2026-03-08 22:27:34,375 INFO __main__ - Starting fit for isochrone section: logAge=9.100, [M/H]=0.000, sigma_mag=0.050
+2026-03-08 22:27:34,429 DEBUG __main__ - Likelihood computed for logAge=9.100 [M/H]=0.000: n_used=7598, logL=-25325965.24399
+2026-03-08 22:27:34,431 INFO __main__ - Fit complete for logAge=9.100 [M/H]=0.000: success=True, n_used=7598, logL=-25325965.24399, mass_mean=0.8937, mass_median=0.9271
+2026-03-08 22:27:34,431 INFO __main__ - Matching targets against isochrone age section: logAge=9.2 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f000.isoc
+2026-03-08 22:27:34,431 INFO __main__ - Starting fit for isochrone section: logAge=9.200, [M/H]=0.000, sigma_mag=0.050
+2026-03-08 22:27:34,486 DEBUG __main__ - Likelihood computed for logAge=9.200 [M/H]=0.000: n_used=7598, logL=-26475477.68358
+2026-03-08 22:27:34,488 INFO __main__ - Fit complete for logAge=9.200 [M/H]=0.000: success=True, n_used=7598, logL=-26475477.68358, mass_mean=0.8913, mass_median=0.9247
+2026-03-08 22:27:34,488 INFO __main__ - Matching targets against isochrone age section: logAge=9.3 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f000.isoc
+2026-03-08 22:27:34,488 INFO __main__ - Starting fit for isochrone section: logAge=9.300, [M/H]=0.000, sigma_mag=0.050
+2026-03-08 22:27:34,542 DEBUG __main__ - Likelihood computed for logAge=9.300 [M/H]=0.000: n_used=7598, logL=-27655382.12318
+2026-03-08 22:27:34,543 INFO __main__ - Fit complete for logAge=9.300 [M/H]=0.000: success=True, n_used=7598, logL=-27655382.12318, mass_mean=0.8884, mass_median=0.9215
+2026-03-08 22:27:34,544 INFO __main__ - Matching targets against isochrone age section: logAge=9.4 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f000.isoc
+2026-03-08 22:27:34,544 INFO __main__ - Starting fit for isochrone section: logAge=9.400, [M/H]=0.000, sigma_mag=0.050
+2026-03-08 22:27:34,596 DEBUG __main__ - Likelihood computed for logAge=9.400 [M/H]=0.000: n_used=7598, logL=-28865678.56277
+2026-03-08 22:27:34,597 INFO __main__ - Fit complete for logAge=9.400 [M/H]=0.000: success=True, n_used=7598, logL=-28865678.56277, mass_mean=0.8847, mass_median=0.9173
+2026-03-08 22:27:34,598 INFO __main__ - Matching targets against isochrone age section: logAge=9.5 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f000.isoc
+2026-03-08 22:27:34,598 INFO __main__ - Starting fit for isochrone section: logAge=9.500, [M/H]=0.000, sigma_mag=0.050
+2026-03-08 22:27:34,651 DEBUG __main__ - Likelihood computed for logAge=9.500 [M/H]=0.000: n_used=7598, logL=-30106367.00237
+2026-03-08 22:27:34,653 INFO __main__ - Fit complete for logAge=9.500 [M/H]=0.000: success=True, n_used=7598, logL=-30106367.00237, mass_mean=0.8814, mass_median=0.9119
+2026-03-08 22:27:34,653 INFO __main__ - Matching targets against isochrone age section: logAge=9.6 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f000.isoc
+2026-03-08 22:27:34,653 INFO __main__ - Starting fit for isochrone section: logAge=9.600, [M/H]=0.000, sigma_mag=0.050
+2026-03-08 22:27:34,708 DEBUG __main__ - Likelihood computed for logAge=9.600 [M/H]=0.000: n_used=7598, logL=-30738108.22217
+2026-03-08 22:27:34,710 INFO __main__ - Fit complete for logAge=9.600 [M/H]=0.000: success=True, n_used=7598, logL=-30738108.22217, mass_mean=0.8797, mass_median=0.9085
+2026-03-08 22:27:34,710 INFO __main__ - Loading SPOT isochrone file: /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f034.isoc (detected [M/H]=0.340)
+2026-03-08 22:27:34,767 INFO __main__ - File /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f034.isoc contains 37 age sections
+2026-03-08 22:27:34,767 INFO __main__ - Matching targets against isochrone age section: logAge=6.0 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f034.isoc
+2026-03-08 22:27:34,767 INFO __main__ - Starting fit for isochrone section: logAge=6.000, [M/H]=0.340, sigma_mag=0.050
+2026-03-08 22:27:34,819 DEBUG __main__ - Likelihood computed for logAge=6.000 [M/H]=0.340: n_used=7208, logL=-3550636.17489
+2026-03-08 22:27:34,821 INFO __main__ - Fit complete for logAge=6.000 [M/H]=0.340: success=True, n_used=7208, logL=-3550636.17489, mass_mean=1.0002, mass_median=0.9994
+2026-03-08 22:27:34,822 INFO __main__ - Matching targets against isochrone age section: logAge=6.1 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f034.isoc
+2026-03-08 22:27:34,822 INFO __main__ - Starting fit for isochrone section: logAge=6.100, [M/H]=0.340, sigma_mag=0.050
+2026-03-08 22:27:34,875 DEBUG __main__ - Likelihood computed for logAge=6.100 [M/H]=0.340: n_used=7215, logL=-3825522.32337
+2026-03-08 22:27:34,877 INFO __main__ - Fit complete for logAge=6.100 [M/H]=0.340: success=True, n_used=7215, logL=-3825522.32337, mass_mean=1.0010, mass_median=0.9991
+2026-03-08 22:27:34,877 INFO __main__ - Matching targets against isochrone age section: logAge=6.2 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f034.isoc
+2026-03-08 22:27:34,877 INFO __main__ - Starting fit for isochrone section: logAge=6.200, [M/H]=0.340, sigma_mag=0.050
+2026-03-08 22:27:34,932 DEBUG __main__ - Likelihood computed for logAge=6.200 [M/H]=0.340: n_used=7195, logL=-4099254.91243
+2026-03-08 22:27:34,934 INFO __main__ - Fit complete for logAge=6.200 [M/H]=0.340: success=True, n_used=7195, logL=-4099254.91243, mass_mean=1.0183, mass_median=1.0163
+2026-03-08 22:27:34,934 INFO __main__ - Matching targets against isochrone age section: logAge=6.3 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f034.isoc
+2026-03-08 22:27:34,934 INFO __main__ - Starting fit for isochrone section: logAge=6.300, [M/H]=0.340, sigma_mag=0.050
+2026-03-08 22:27:34,987 DEBUG __main__ - Likelihood computed for logAge=6.300 [M/H]=0.340: n_used=7198, logL=-4426855.83732
+2026-03-08 22:27:34,989 INFO __main__ - Fit complete for logAge=6.300 [M/H]=0.340: success=True, n_used=7198, logL=-4426855.83732, mass_mean=1.0192, mass_median=1.0160
+2026-03-08 22:27:34,989 INFO __main__ - Matching targets against isochrone age section: logAge=6.4 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f034.isoc
+2026-03-08 22:27:34,989 INFO __main__ - Starting fit for isochrone section: logAge=6.400, [M/H]=0.340, sigma_mag=0.050
+2026-03-08 22:27:35,041 DEBUG __main__ - Likelihood computed for logAge=6.400 [M/H]=0.340: n_used=7204, logL=-4785868.57053
+2026-03-08 22:27:35,043 INFO __main__ - Fit complete for logAge=6.400 [M/H]=0.340: success=True, n_used=7204, logL=-4785868.57053, mass_mean=1.0204, mass_median=1.0164
+2026-03-08 22:27:35,043 INFO __main__ - Matching targets against isochrone age section: logAge=6.5 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f034.isoc
+2026-03-08 22:27:35,043 INFO __main__ - Starting fit for isochrone section: logAge=6.500, [M/H]=0.340, sigma_mag=0.050
+2026-03-08 22:27:35,096 DEBUG __main__ - Likelihood computed for logAge=6.500 [M/H]=0.340: n_used=7222, logL=-5181266.34980
+2026-03-08 22:27:35,098 INFO __main__ - Fit complete for logAge=6.500 [M/H]=0.340: success=True, n_used=7222, logL=-5181266.34980, mass_mean=1.0221, mass_median=1.0170
+2026-03-08 22:27:35,098 INFO __main__ - Matching targets against isochrone age section: logAge=6.6 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f034.isoc
+2026-03-08 22:27:35,098 INFO __main__ - Starting fit for isochrone section: logAge=6.600, [M/H]=0.340, sigma_mag=0.050
+2026-03-08 22:27:35,153 DEBUG __main__ - Likelihood computed for logAge=6.600 [M/H]=0.340: n_used=7196, logL=-5573577.73048
+2026-03-08 22:27:35,155 INFO __main__ - Fit complete for logAge=6.600 [M/H]=0.340: success=True, n_used=7196, logL=-5573577.73048, mass_mean=1.0443, mass_median=1.0400
+2026-03-08 22:27:35,155 INFO __main__ - Matching targets against isochrone age section: logAge=6.7 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f034.isoc
+2026-03-08 22:27:35,155 INFO __main__ - Starting fit for isochrone section: logAge=6.700, [M/H]=0.340, sigma_mag=0.050
+2026-03-08 22:27:35,208 DEBUG __main__ - Likelihood computed for logAge=6.700 [M/H]=0.340: n_used=7200, logL=-6016083.91586
+2026-03-08 22:27:35,210 INFO __main__ - Fit complete for logAge=6.700 [M/H]=0.340: success=True, n_used=7200, logL=-6016083.91586, mass_mean=1.0539, mass_median=1.0505
+2026-03-08 22:27:35,210 INFO __main__ - Matching targets against isochrone age section: logAge=6.8 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f034.isoc
+2026-03-08 22:27:35,210 INFO __main__ - Starting fit for isochrone section: logAge=6.800, [M/H]=0.340, sigma_mag=0.050
+2026-03-08 22:27:35,262 DEBUG __main__ - Likelihood computed for logAge=6.800 [M/H]=0.340: n_used=7215, logL=-6493572.13405
+2026-03-08 22:27:35,264 INFO __main__ - Fit complete for logAge=6.800 [M/H]=0.340: success=True, n_used=7215, logL=-6493572.13405, mass_mean=1.0700, mass_median=1.0701
+2026-03-08 22:27:35,264 INFO __main__ - Matching targets against isochrone age section: logAge=6.9 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f034.isoc
+2026-03-08 22:27:35,264 INFO __main__ - Starting fit for isochrone section: logAge=6.900, [M/H]=0.340, sigma_mag=0.050
+2026-03-08 22:27:35,318 DEBUG __main__ - Likelihood computed for logAge=6.900 [M/H]=0.340: n_used=7224, logL=-6993920.51573
+2026-03-08 22:27:35,320 INFO __main__ - Fit complete for logAge=6.900 [M/H]=0.340: success=True, n_used=7224, logL=-6993920.51573, mass_mean=1.1010, mass_median=1.1075
+2026-03-08 22:27:35,320 INFO __main__ - Matching targets against isochrone age section: logAge=7.0 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f034.isoc
+2026-03-08 22:27:35,320 INFO __main__ - Starting fit for isochrone section: logAge=7.000, [M/H]=0.340, sigma_mag=0.050
+2026-03-08 22:27:35,375 DEBUG __main__ - Likelihood computed for logAge=7.000 [M/H]=0.340: n_used=7198, logL=-7507797.32838
+2026-03-08 22:27:35,377 INFO __main__ - Fit complete for logAge=7.000 [M/H]=0.340: success=True, n_used=7198, logL=-7507797.32838, mass_mean=1.1487, mass_median=1.1667
+2026-03-08 22:27:35,377 INFO __main__ - Matching targets against isochrone age section: logAge=7.1 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f034.isoc
+2026-03-08 22:27:35,377 INFO __main__ - Starting fit for isochrone section: logAge=7.100, [M/H]=0.340, sigma_mag=0.050
+2026-03-08 22:27:35,431 DEBUG __main__ - Likelihood computed for logAge=7.100 [M/H]=0.340: n_used=7199, logL=-8063381.91768
+2026-03-08 22:27:35,432 INFO __main__ - Fit complete for logAge=7.100 [M/H]=0.340: success=True, n_used=7199, logL=-8063381.91768, mass_mean=1.1796, mass_median=1.2095
+2026-03-08 22:27:35,433 INFO __main__ - Matching targets against isochrone age section: logAge=7.2 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f034.isoc
+2026-03-08 22:27:35,433 INFO __main__ - Starting fit for isochrone section: logAge=7.200, [M/H]=0.340, sigma_mag=0.050
+2026-03-08 22:27:35,485 DEBUG __main__ - Likelihood computed for logAge=7.200 [M/H]=0.340: n_used=7201, logL=-8648341.56606
+2026-03-08 22:27:35,487 INFO __main__ - Fit complete for logAge=7.200 [M/H]=0.340: success=True, n_used=7201, logL=-8648341.56606, mass_mean=1.1531, mass_median=1.1879
+2026-03-08 22:27:35,487 INFO __main__ - Matching targets against isochrone age section: logAge=7.3 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f034.isoc
+2026-03-08 22:27:35,487 INFO __main__ - Starting fit for isochrone section: logAge=7.300, [M/H]=0.340, sigma_mag=0.050
+2026-03-08 22:27:35,541 DEBUG __main__ - Likelihood computed for logAge=7.300 [M/H]=0.340: n_used=7199, logL=-9260275.55604
+2026-03-08 22:27:35,543 INFO __main__ - Fit complete for logAge=7.300 [M/H]=0.340: success=True, n_used=7199, logL=-9260275.55604, mass_mean=1.0792, mass_median=1.1004
+2026-03-08 22:27:35,543 INFO __main__ - Matching targets against isochrone age section: logAge=7.4 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f034.isoc
+2026-03-08 22:27:35,543 INFO __main__ - Starting fit for isochrone section: logAge=7.400, [M/H]=0.340, sigma_mag=0.050
+2026-03-08 22:27:35,598 DEBUG __main__ - Likelihood computed for logAge=7.400 [M/H]=0.340: n_used=7196, logL=-9901547.41910
+2026-03-08 22:27:35,600 INFO __main__ - Fit complete for logAge=7.400 [M/H]=0.340: success=True, n_used=7196, logL=-9901547.41910, mass_mean=1.0180, mass_median=1.0218
+2026-03-08 22:27:35,600 INFO __main__ - Matching targets against isochrone age section: logAge=7.5 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f034.isoc
+2026-03-08 22:27:35,600 INFO __main__ - Starting fit for isochrone section: logAge=7.500, [M/H]=0.340, sigma_mag=0.050
+2026-03-08 22:27:35,654 DEBUG __main__ - Likelihood computed for logAge=7.500 [M/H]=0.340: n_used=7186, logL=-10566587.51751
+2026-03-08 22:27:35,655 INFO __main__ - Fit complete for logAge=7.500 [M/H]=0.340: success=True, n_used=7186, logL=-10566587.51751, mass_mean=0.9742, mass_median=0.9550
+2026-03-08 22:27:35,656 INFO __main__ - Matching targets against isochrone age section: logAge=7.6 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f034.isoc
+2026-03-08 22:27:35,656 INFO __main__ - Starting fit for isochrone section: logAge=7.600, [M/H]=0.340, sigma_mag=0.050
+2026-03-08 22:27:35,708 DEBUG __main__ - Likelihood computed for logAge=7.600 [M/H]=0.340: n_used=7202, logL=-11272231.15123
+2026-03-08 22:27:35,710 INFO __main__ - Fit complete for logAge=7.600 [M/H]=0.340: success=True, n_used=7202, logL=-11272231.15123, mass_mean=0.9504, mass_median=0.9296
+2026-03-08 22:27:35,710 INFO __main__ - Matching targets against isochrone age section: logAge=7.7 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f034.isoc
+2026-03-08 22:27:35,710 INFO __main__ - Starting fit for isochrone section: logAge=7.700, [M/H]=0.340, sigma_mag=0.050
+2026-03-08 22:27:35,763 DEBUG __main__ - Likelihood computed for logAge=7.700 [M/H]=0.340: n_used=7187, logL=-11995093.94489
+2026-03-08 22:27:35,766 INFO __main__ - Fit complete for logAge=7.700 [M/H]=0.340: success=True, n_used=7187, logL=-11995093.94489, mass_mean=0.9429, mass_median=0.9541
+2026-03-08 22:27:35,766 INFO __main__ - Matching targets against isochrone age section: logAge=7.8 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f034.isoc
+2026-03-08 22:27:35,766 INFO __main__ - Starting fit for isochrone section: logAge=7.800, [M/H]=0.340, sigma_mag=0.050
+2026-03-08 22:27:35,820 DEBUG __main__ - Likelihood computed for logAge=7.800 [M/H]=0.340: n_used=7216, logL=-12758332.22002
+2026-03-08 22:27:35,822 INFO __main__ - Fit complete for logAge=7.800 [M/H]=0.340: success=True, n_used=7216, logL=-12758332.22002, mass_mean=0.9410, mass_median=0.9547
+2026-03-08 22:27:35,822 INFO __main__ - Matching targets against isochrone age section: logAge=7.9 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f034.isoc
+2026-03-08 22:27:35,823 INFO __main__ - Starting fit for isochrone section: logAge=7.900, [M/H]=0.340, sigma_mag=0.050
+2026-03-08 22:27:35,876 DEBUG __main__ - Likelihood computed for logAge=7.900 [M/H]=0.340: n_used=7192, logL=-13539437.27244
+2026-03-08 22:27:35,878 INFO __main__ - Fit complete for logAge=7.900 [M/H]=0.340: success=True, n_used=7192, logL=-13539437.27244, mass_mean=0.9431, mass_median=0.9550
+2026-03-08 22:27:35,878 INFO __main__ - Matching targets against isochrone age section: logAge=8.0 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f034.isoc
+2026-03-08 22:27:35,878 INFO __main__ - Starting fit for isochrone section: logAge=8.000, [M/H]=0.340, sigma_mag=0.050
+2026-03-08 22:27:35,930 DEBUG __main__ - Likelihood computed for logAge=8.000 [M/H]=0.340: n_used=7101, logL=-14348822.71502
+2026-03-08 22:27:35,932 INFO __main__ - Fit complete for logAge=8.000 [M/H]=0.340: success=True, n_used=7101, logL=-14348822.71502, mass_mean=0.9488, mass_median=0.9575
+2026-03-08 22:27:35,932 INFO __main__ - Matching targets against isochrone age section: logAge=8.1 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f034.isoc
+2026-03-08 22:27:35,932 INFO __main__ - Starting fit for isochrone section: logAge=8.100, [M/H]=0.340, sigma_mag=0.050
+2026-03-08 22:27:35,986 DEBUG __main__ - Likelihood computed for logAge=8.100 [M/H]=0.340: n_used=7222, logL=-15200556.28194
+2026-03-08 22:27:35,988 INFO __main__ - Fit complete for logAge=8.100 [M/H]=0.340: success=True, n_used=7222, logL=-15200556.28194, mass_mean=0.9425, mass_median=0.9540
+2026-03-08 22:27:35,988 INFO __main__ - Matching targets against isochrone age section: logAge=8.2 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f034.isoc
+2026-03-08 22:27:35,988 INFO __main__ - Starting fit for isochrone section: logAge=8.200, [M/H]=0.340, sigma_mag=0.050
+2026-03-08 22:27:36,043 DEBUG __main__ - Likelihood computed for logAge=8.200 [M/H]=0.340: n_used=7165, logL=-16068775.69233
+2026-03-08 22:27:36,046 INFO __main__ - Fit complete for logAge=8.200 [M/H]=0.340: success=True, n_used=7165, logL=-16068775.69233, mass_mean=0.9463, mass_median=0.9544
+2026-03-08 22:27:36,046 INFO __main__ - Matching targets against isochrone age section: logAge=8.3 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f034.isoc
+2026-03-08 22:27:36,046 INFO __main__ - Starting fit for isochrone section: logAge=8.300, [M/H]=0.340, sigma_mag=0.050
+2026-03-08 22:27:36,100 DEBUG __main__ - Likelihood computed for logAge=8.300 [M/H]=0.340: n_used=7179, logL=-16970248.53137
+2026-03-08 22:27:36,102 INFO __main__ - Fit complete for logAge=8.300 [M/H]=0.340: success=True, n_used=7179, logL=-16970248.53137, mass_mean=0.9454, mass_median=0.9538
+2026-03-08 22:27:36,102 INFO __main__ - Matching targets against isochrone age section: logAge=8.4 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f034.isoc
+2026-03-08 22:27:36,102 INFO __main__ - Starting fit for isochrone section: logAge=8.400, [M/H]=0.340, sigma_mag=0.050
+2026-03-08 22:27:36,154 DEBUG __main__ - Likelihood computed for logAge=8.400 [M/H]=0.340: n_used=7185, logL=-17900096.30607
+2026-03-08 22:27:36,156 INFO __main__ - Fit complete for logAge=8.400 [M/H]=0.340: success=True, n_used=7185, logL=-17900096.30607, mass_mean=0.9449, mass_median=0.9534
+2026-03-08 22:27:36,156 INFO __main__ - Matching targets against isochrone age section: logAge=8.5 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f034.isoc
+2026-03-08 22:27:36,156 INFO __main__ - Starting fit for isochrone section: logAge=8.500, [M/H]=0.340, sigma_mag=0.050
+2026-03-08 22:27:36,210 DEBUG __main__ - Likelihood computed for logAge=8.500 [M/H]=0.340: n_used=7186, logL=-18858658.74240
+2026-03-08 22:27:36,212 INFO __main__ - Fit complete for logAge=8.500 [M/H]=0.340: success=True, n_used=7186, logL=-18858658.74240, mass_mean=0.9445, mass_median=0.9528
+2026-03-08 22:27:36,213 INFO __main__ - Matching targets against isochrone age section: logAge=8.6 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f034.isoc
+2026-03-08 22:27:36,213 INFO __main__ - Starting fit for isochrone section: logAge=8.600, [M/H]=0.340, sigma_mag=0.050
+2026-03-08 22:27:36,267 DEBUG __main__ - Likelihood computed for logAge=8.600 [M/H]=0.340: n_used=7187, logL=-19845990.91163
+2026-03-08 22:27:36,269 INFO __main__ - Fit complete for logAge=8.600 [M/H]=0.340: success=True, n_used=7187, logL=-19845990.91163, mass_mean=0.9440, mass_median=0.9521
+2026-03-08 22:27:36,269 INFO __main__ - Matching targets against isochrone age section: logAge=8.7 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f034.isoc
+2026-03-08 22:27:36,270 INFO __main__ - Starting fit for isochrone section: logAge=8.700, [M/H]=0.340, sigma_mag=0.050
+2026-03-08 22:27:36,323 DEBUG __main__ - Likelihood computed for logAge=8.700 [M/H]=0.340: n_used=7192, logL=-20862083.97133
+2026-03-08 22:27:36,325 INFO __main__ - Fit complete for logAge=8.700 [M/H]=0.340: success=True, n_used=7192, logL=-20862083.97133, mass_mean=0.9430, mass_median=0.9513
+2026-03-08 22:27:36,325 INFO __main__ - Matching targets against isochrone age section: logAge=8.8 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f034.isoc
+2026-03-08 22:27:36,325 INFO __main__ - Starting fit for isochrone section: logAge=8.800, [M/H]=0.340, sigma_mag=0.050
+2026-03-08 22:27:36,377 DEBUG __main__ - Likelihood computed for logAge=8.800 [M/H]=0.340: n_used=7193, logL=-21908157.45637
+2026-03-08 22:27:36,379 INFO __main__ - Fit complete for logAge=8.800 [M/H]=0.340: success=True, n_used=7193, logL=-21908157.45637, mass_mean=0.9420, mass_median=0.9501
+2026-03-08 22:27:36,379 INFO __main__ - Matching targets against isochrone age section: logAge=8.9 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f034.isoc
+2026-03-08 22:27:36,379 INFO __main__ - Starting fit for isochrone section: logAge=8.900, [M/H]=0.340, sigma_mag=0.050
+2026-03-08 22:27:36,434 DEBUG __main__ - Likelihood computed for logAge=8.900 [M/H]=0.340: n_used=7193, logL=-22981612.75657
+2026-03-08 22:27:36,436 INFO __main__ - Fit complete for logAge=8.900 [M/H]=0.340: success=True, n_used=7193, logL=-22981612.75657, mass_mean=0.9409, mass_median=0.9488
+2026-03-08 22:27:36,436 INFO __main__ - Matching targets against isochrone age section: logAge=9.0 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f034.isoc
+2026-03-08 22:27:36,436 INFO __main__ - Starting fit for isochrone section: logAge=9.000, [M/H]=0.340, sigma_mag=0.050
+2026-03-08 22:27:36,491 DEBUG __main__ - Likelihood computed for logAge=9.000 [M/H]=0.340: n_used=7193, logL=-24083840.05677
+2026-03-08 22:27:36,493 INFO __main__ - Fit complete for logAge=9.000 [M/H]=0.340: success=True, n_used=7193, logL=-24083840.05677, mass_mean=0.9394, mass_median=0.9471
+2026-03-08 22:27:36,493 INFO __main__ - Matching targets against isochrone age section: logAge=9.1 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f034.isoc
+2026-03-08 22:27:36,493 INFO __main__ - Starting fit for isochrone section: logAge=9.100, [M/H]=0.340, sigma_mag=0.050
+2026-03-08 22:27:36,547 DEBUG __main__ - Likelihood computed for logAge=9.100 [M/H]=0.340: n_used=7193, logL=-25214839.35696
+2026-03-08 22:27:36,549 INFO __main__ - Fit complete for logAge=9.100 [M/H]=0.340: success=True, n_used=7193, logL=-25214839.35696, mass_mean=0.9375, mass_median=0.9451
+2026-03-08 22:27:36,550 INFO __main__ - Matching targets against isochrone age section: logAge=9.2 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f034.isoc
+2026-03-08 22:27:36,550 INFO __main__ - Starting fit for isochrone section: logAge=9.200, [M/H]=0.340, sigma_mag=0.050
+2026-03-08 22:27:36,602 DEBUG __main__ - Likelihood computed for logAge=9.200 [M/H]=0.340: n_used=7193, logL=-26374610.65716
+2026-03-08 22:27:36,603 INFO __main__ - Fit complete for logAge=9.200 [M/H]=0.340: success=True, n_used=7193, logL=-26374610.65716, mass_mean=0.9353, mass_median=0.9426
+2026-03-08 22:27:36,604 INFO __main__ - Matching targets against isochrone age section: logAge=9.3 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f034.isoc
+2026-03-08 22:27:36,604 INFO __main__ - Starting fit for isochrone section: logAge=9.300, [M/H]=0.340, sigma_mag=0.050
+2026-03-08 22:27:36,658 DEBUG __main__ - Likelihood computed for logAge=9.300 [M/H]=0.340: n_used=7193, logL=-27563153.95736
+2026-03-08 22:27:36,660 INFO __main__ - Fit complete for logAge=9.300 [M/H]=0.340: success=True, n_used=7193, logL=-27563153.95736, mass_mean=0.9327, mass_median=0.9395
+2026-03-08 22:27:36,660 INFO __main__ - Matching targets against isochrone age section: logAge=9.4 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f034.isoc
+2026-03-08 22:27:36,660 INFO __main__ - Starting fit for isochrone section: logAge=9.400, [M/H]=0.340, sigma_mag=0.050
+2026-03-08 22:27:36,715 DEBUG __main__ - Likelihood computed for logAge=9.400 [M/H]=0.340: n_used=7193, logL=-28780469.25755
+2026-03-08 22:27:36,717 INFO __main__ - Fit complete for logAge=9.400 [M/H]=0.340: success=True, n_used=7193, logL=-28780469.25755, mass_mean=0.9296, mass_median=0.9355
+2026-03-08 22:27:36,717 INFO __main__ - Matching targets against isochrone age section: logAge=9.5 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f034.isoc
+2026-03-08 22:27:36,717 INFO __main__ - Starting fit for isochrone section: logAge=9.500, [M/H]=0.340, sigma_mag=0.050
+2026-03-08 22:27:36,770 DEBUG __main__ - Likelihood computed for logAge=9.500 [M/H]=0.340: n_used=7193, logL=-30026556.55775
+2026-03-08 22:27:36,772 INFO __main__ - Fit complete for logAge=9.500 [M/H]=0.340: success=True, n_used=7193, logL=-30026556.55775, mass_mean=0.9275, mass_median=0.9308
+2026-03-08 22:27:36,773 INFO __main__ - Matching targets against isochrone age section: logAge=9.6 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f034.isoc
+2026-03-08 22:27:36,773 INFO __main__ - Starting fit for isochrone section: logAge=9.600, [M/H]=0.340, sigma_mag=0.050
+2026-03-08 22:27:36,825 DEBUG __main__ - Likelihood computed for logAge=9.600 [M/H]=0.340: n_used=7193, logL=-30660389.70785
+2026-03-08 22:27:36,827 INFO __main__ - Fit complete for logAge=9.600 [M/H]=0.340: success=True, n_used=7193, logL=-30660389.70785, mass_mean=0.9277, mass_median=0.9280
+2026-03-08 22:27:36,827 INFO __main__ - Loading SPOT isochrone file: /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f068.isoc (detected [M/H]=0.680)
+2026-03-08 22:27:36,884 INFO __main__ - File /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f068.isoc contains 37 age sections
+2026-03-08 22:27:36,884 INFO __main__ - Matching targets against isochrone age section: logAge=6.0 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f068.isoc
+2026-03-08 22:27:36,884 INFO __main__ - Starting fit for isochrone section: logAge=6.000, [M/H]=0.680, sigma_mag=0.050
+2026-03-08 22:27:36,939 DEBUG __main__ - Likelihood computed for logAge=6.000 [M/H]=0.680: n_used=7324, logL=-3735668.29234
+2026-03-08 22:27:36,941 INFO __main__ - Fit complete for logAge=6.000 [M/H]=0.680: success=True, n_used=7324, logL=-3735668.29234, mass_mean=0.9680, mass_median=0.9584
+2026-03-08 22:27:36,941 INFO __main__ - Matching targets against isochrone age section: logAge=6.1 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f068.isoc
+2026-03-08 22:27:36,941 INFO __main__ - Starting fit for isochrone section: logAge=6.100, [M/H]=0.680, sigma_mag=0.050
+2026-03-08 22:27:36,995 DEBUG __main__ - Likelihood computed for logAge=6.100 [M/H]=0.680: n_used=7326, logL=-3993498.74169
+2026-03-08 22:27:36,997 INFO __main__ - Fit complete for logAge=6.100 [M/H]=0.680: success=True, n_used=7326, logL=-3993498.74169, mass_mean=0.9697, mass_median=0.9593
+2026-03-08 22:27:36,997 INFO __main__ - Matching targets against isochrone age section: logAge=6.2 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f068.isoc
+2026-03-08 22:27:36,997 INFO __main__ - Starting fit for isochrone section: logAge=6.200, [M/H]=0.680, sigma_mag=0.050
+2026-03-08 22:27:37,049 DEBUG __main__ - Likelihood computed for logAge=6.200 [M/H]=0.680: n_used=7336, logL=-4303309.74309
+2026-03-08 22:27:37,051 INFO __main__ - Fit complete for logAge=6.200 [M/H]=0.680: success=True, n_used=7336, logL=-4303309.74309, mass_mean=0.9706, mass_median=0.9594
+2026-03-08 22:27:37,051 INFO __main__ - Matching targets against isochrone age section: logAge=6.3 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f068.isoc
+2026-03-08 22:27:37,051 INFO __main__ - Starting fit for isochrone section: logAge=6.300, [M/H]=0.680, sigma_mag=0.050
+2026-03-08 22:27:37,105 DEBUG __main__ - Likelihood computed for logAge=6.300 [M/H]=0.680: n_used=7339, logL=-4619110.17615
+2026-03-08 22:27:37,107 INFO __main__ - Fit complete for logAge=6.300 [M/H]=0.680: success=True, n_used=7339, logL=-4619110.17615, mass_mean=0.9719, mass_median=0.9592
+2026-03-08 22:27:37,107 INFO __main__ - Matching targets against isochrone age section: logAge=6.4 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f068.isoc
+2026-03-08 22:27:37,107 INFO __main__ - Starting fit for isochrone section: logAge=6.400, [M/H]=0.680, sigma_mag=0.050
+2026-03-08 22:27:37,164 DEBUG __main__ - Likelihood computed for logAge=6.400 [M/H]=0.680: n_used=7355, logL=-4991106.08862
+2026-03-08 22:27:37,166 INFO __main__ - Fit complete for logAge=6.400 [M/H]=0.680: success=True, n_used=7355, logL=-4991106.08862, mass_mean=0.9727, mass_median=0.9595
+2026-03-08 22:27:37,166 INFO __main__ - Matching targets against isochrone age section: logAge=6.5 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f068.isoc
+2026-03-08 22:27:37,166 INFO __main__ - Starting fit for isochrone section: logAge=6.500, [M/H]=0.680, sigma_mag=0.050
+2026-03-08 22:27:37,222 DEBUG __main__ - Likelihood computed for logAge=6.500 [M/H]=0.680: n_used=7327, logL=-5300916.96263
+2026-03-08 22:27:37,224 INFO __main__ - Fit complete for logAge=6.500 [M/H]=0.680: success=True, n_used=7327, logL=-5300916.96263, mass_mean=0.9945, mass_median=0.9813
+2026-03-08 22:27:37,224 INFO __main__ - Matching targets against isochrone age section: logAge=6.6 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f068.isoc
+2026-03-08 22:27:37,224 INFO __main__ - Starting fit for isochrone section: logAge=6.600, [M/H]=0.680, sigma_mag=0.050
+2026-03-08 22:27:37,277 DEBUG __main__ - Likelihood computed for logAge=6.600 [M/H]=0.680: n_used=7337, logL=-5722515.72418
+2026-03-08 22:27:37,279 INFO __main__ - Fit complete for logAge=6.600 [M/H]=0.680: success=True, n_used=7337, logL=-5722515.72418, mass_mean=0.9991, mass_median=0.9853
+2026-03-08 22:27:37,279 INFO __main__ - Matching targets against isochrone age section: logAge=6.7 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f068.isoc
+2026-03-08 22:27:37,279 INFO __main__ - Starting fit for isochrone section: logAge=6.700, [M/H]=0.680, sigma_mag=0.050
+2026-03-08 22:27:37,334 DEBUG __main__ - Likelihood computed for logAge=6.700 [M/H]=0.680: n_used=7344, logL=-6159675.94945
+2026-03-08 22:27:37,336 INFO __main__ - Fit complete for logAge=6.700 [M/H]=0.680: success=True, n_used=7344, logL=-6159675.94945, mass_mean=1.0082, mass_median=0.9947
+2026-03-08 22:27:37,337 INFO __main__ - Matching targets against isochrone age section: logAge=6.8 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f068.isoc
+2026-03-08 22:27:37,337 INFO __main__ - Starting fit for isochrone section: logAge=6.800, [M/H]=0.680, sigma_mag=0.050
+2026-03-08 22:27:37,391 DEBUG __main__ - Likelihood computed for logAge=6.800 [M/H]=0.680: n_used=7356, logL=-6637380.99688
+2026-03-08 22:27:37,393 INFO __main__ - Fit complete for logAge=6.800 [M/H]=0.680: success=True, n_used=7356, logL=-6637380.99688, mass_mean=1.0244, mass_median=1.0128
+2026-03-08 22:27:37,393 INFO __main__ - Matching targets against isochrone age section: logAge=6.9 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f068.isoc
+2026-03-08 22:27:37,393 INFO __main__ - Starting fit for isochrone section: logAge=6.900, [M/H]=0.680, sigma_mag=0.050
+2026-03-08 22:27:37,447 DEBUG __main__ - Likelihood computed for logAge=6.900 [M/H]=0.680: n_used=7336, logL=-7093070.32918
+2026-03-08 22:27:37,449 INFO __main__ - Fit complete for logAge=6.900 [M/H]=0.680: success=True, n_used=7336, logL=-7093070.32918, mass_mean=1.0683, mass_median=1.0633
+2026-03-08 22:27:37,449 INFO __main__ - Matching targets against isochrone age section: logAge=7.0 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f068.isoc
+2026-03-08 22:27:37,449 INFO __main__ - Starting fit for isochrone section: logAge=7.000, [M/H]=0.680, sigma_mag=0.050
+2026-03-08 22:27:37,501 DEBUG __main__ - Likelihood computed for logAge=7.000 [M/H]=0.680: n_used=7339, logL=-7612084.83149
+2026-03-08 22:27:37,503 INFO __main__ - Fit complete for logAge=7.000 [M/H]=0.680: success=True, n_used=7339, logL=-7612084.83149, mass_mean=1.0990, mass_median=1.1022
+2026-03-08 22:27:37,503 INFO __main__ - Matching targets against isochrone age section: logAge=7.1 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f068.isoc
+2026-03-08 22:27:37,503 INFO __main__ - Starting fit for isochrone section: logAge=7.100, [M/H]=0.680, sigma_mag=0.050
+2026-03-08 22:27:37,557 DEBUG __main__ - Likelihood computed for logAge=7.100 [M/H]=0.680: n_used=7344, logL=-8161646.56627
+2026-03-08 22:27:37,559 INFO __main__ - Fit complete for logAge=7.100 [M/H]=0.680: success=True, n_used=7344, logL=-8161646.56627, mass_mean=1.1433, mass_median=1.1630
+2026-03-08 22:27:37,560 INFO __main__ - Matching targets against isochrone age section: logAge=7.2 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f068.isoc
+2026-03-08 22:27:37,560 INFO __main__ - Starting fit for isochrone section: logAge=7.200, [M/H]=0.680, sigma_mag=0.050
+2026-03-08 22:27:37,616 DEBUG __main__ - Likelihood computed for logAge=7.200 [M/H]=0.680: n_used=7356, logL=-8751538.30698
+2026-03-08 22:27:37,618 INFO __main__ - Fit complete for logAge=7.200 [M/H]=0.680: success=True, n_used=7356, logL=-8751538.30698, mass_mean=1.1750, mass_median=1.2134
+2026-03-08 22:27:37,618 INFO __main__ - Matching targets against isochrone age section: logAge=7.3 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f068.isoc
+2026-03-08 22:27:37,618 INFO __main__ - Starting fit for isochrone section: logAge=7.300, [M/H]=0.680, sigma_mag=0.050
+2026-03-08 22:27:37,672 DEBUG __main__ - Likelihood computed for logAge=7.300 [M/H]=0.680: n_used=7356, logL=-9353637.63451
+2026-03-08 22:27:37,674 INFO __main__ - Fit complete for logAge=7.300 [M/H]=0.680: success=True, n_used=7356, logL=-9353637.63451, mass_mean=1.1257, mass_median=1.1634
+2026-03-08 22:27:37,674 INFO __main__ - Matching targets against isochrone age section: logAge=7.4 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f068.isoc
+2026-03-08 22:27:37,674 INFO __main__ - Starting fit for isochrone section: logAge=7.400, [M/H]=0.680, sigma_mag=0.050
+2026-03-08 22:27:37,727 DEBUG __main__ - Likelihood computed for logAge=7.400 [M/H]=0.680: n_used=7356, logL=-9985160.96204
+2026-03-08 22:27:37,729 INFO __main__ - Fit complete for logAge=7.400 [M/H]=0.680: success=True, n_used=7356, logL=-9985160.96204, mass_mean=1.0654, mass_median=1.0774
+2026-03-08 22:27:37,729 INFO __main__ - Matching targets against isochrone age section: logAge=7.5 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f068.isoc
+2026-03-08 22:27:37,729 INFO __main__ - Starting fit for isochrone section: logAge=7.500, [M/H]=0.680, sigma_mag=0.050
+2026-03-08 22:27:37,784 DEBUG __main__ - Likelihood computed for logAge=7.500 [M/H]=0.680: n_used=7344, logL=-10633633.18309
+2026-03-08 22:27:37,786 INFO __main__ - Fit complete for logAge=7.500 [M/H]=0.680: success=True, n_used=7344, logL=-10633633.18309, mass_mean=1.0255, mass_median=1.0060
+2026-03-08 22:27:37,786 INFO __main__ - Matching targets against isochrone age section: logAge=7.6 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f068.isoc
+2026-03-08 22:27:37,786 INFO __main__ - Starting fit for isochrone section: logAge=7.600, [M/H]=0.680, sigma_mag=0.050
+2026-03-08 22:27:37,841 DEBUG __main__ - Likelihood computed for logAge=7.600 [M/H]=0.680: n_used=7336, logL=-11320686.91528
+2026-03-08 22:27:37,843 INFO __main__ - Fit complete for logAge=7.600 [M/H]=0.680: success=True, n_used=7336, logL=-11320686.91528, mass_mean=1.0011, mass_median=1.0055
+2026-03-08 22:27:37,843 INFO __main__ - Matching targets against isochrone age section: logAge=7.7 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f068.isoc
+2026-03-08 22:27:37,843 INFO __main__ - Starting fit for isochrone section: logAge=7.700, [M/H]=0.680, sigma_mag=0.050
+2026-03-08 22:27:37,897 DEBUG __main__ - Likelihood computed for logAge=7.700 [M/H]=0.680: n_used=7313, logL=-12027464.72505
+2026-03-08 22:27:37,899 INFO __main__ - Fit complete for logAge=7.700 [M/H]=0.680: success=True, n_used=7313, logL=-12027464.72505, mass_mean=0.9887, mass_median=1.0129
+2026-03-08 22:27:37,899 INFO __main__ - Matching targets against isochrone age section: logAge=7.8 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f068.isoc
+2026-03-08 22:27:37,899 INFO __main__ - Starting fit for isochrone section: logAge=7.800, [M/H]=0.680, sigma_mag=0.050
+2026-03-08 22:27:37,952 DEBUG __main__ - Likelihood computed for logAge=7.800 [M/H]=0.680: n_used=7339, logL=-12793987.29474
+2026-03-08 22:27:37,954 INFO __main__ - Fit complete for logAge=7.800 [M/H]=0.680: success=True, n_used=7339, logL=-12793987.29474, mass_mean=0.9821, mass_median=1.0106
+2026-03-08 22:27:37,954 INFO __main__ - Matching targets against isochrone age section: logAge=7.9 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f068.isoc
+2026-03-08 22:27:37,954 INFO __main__ - Starting fit for isochrone section: logAge=7.900, [M/H]=0.680, sigma_mag=0.050
+2026-03-08 22:27:38,007 DEBUG __main__ - Likelihood computed for logAge=7.900 [M/H]=0.680: n_used=7312, logL=-13561013.91420
+2026-03-08 22:27:38,009 INFO __main__ - Fit complete for logAge=7.900 [M/H]=0.680: success=True, n_used=7312, logL=-13561013.91420, mass_mean=0.9821, mass_median=1.0104
+2026-03-08 22:27:38,009 INFO __main__ - Matching targets against isochrone age section: logAge=8.0 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f068.isoc
+2026-03-08 22:27:38,009 INFO __main__ - Starting fit for isochrone section: logAge=8.000, [M/H]=0.680, sigma_mag=0.050
+2026-03-08 22:27:38,063 DEBUG __main__ - Likelihood computed for logAge=8.000 [M/H]=0.680: n_used=7355, logL=-14391229.92010
+2026-03-08 22:27:38,065 INFO __main__ - Fit complete for logAge=8.000 [M/H]=0.680: success=True, n_used=7355, logL=-14391229.92010, mass_mean=0.9797, mass_median=1.0081
+2026-03-08 22:27:38,065 INFO __main__ - Matching targets against isochrone age section: logAge=8.1 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f068.isoc
+2026-03-08 22:27:38,066 INFO __main__ - Starting fit for isochrone section: logAge=8.100, [M/H]=0.680, sigma_mag=0.050
+2026-03-08 22:27:38,120 DEBUG __main__ - Likelihood computed for logAge=8.100 [M/H]=0.680: n_used=7324, logL=-15213589.01002
+2026-03-08 22:27:38,121 INFO __main__ - Fit complete for logAge=8.100 [M/H]=0.680: success=True, n_used=7324, logL=-15213589.01002, mass_mean=0.9825, mass_median=1.0088
+2026-03-08 22:27:38,122 INFO __main__ - Matching targets against isochrone age section: logAge=8.2 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f068.isoc
+2026-03-08 22:27:38,122 INFO __main__ - Starting fit for isochrone section: logAge=8.200, [M/H]=0.680, sigma_mag=0.050
+2026-03-08 22:27:38,174 DEBUG __main__ - Likelihood computed for logAge=8.200 [M/H]=0.680: n_used=7315, logL=-16081132.19207
+2026-03-08 22:27:38,176 INFO __main__ - Fit complete for logAge=8.200 [M/H]=0.680: success=True, n_used=7315, logL=-16081132.19207, mass_mean=0.9837, mass_median=1.0084
+2026-03-08 22:27:38,176 INFO __main__ - Matching targets against isochrone age section: logAge=8.3 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f068.isoc
+2026-03-08 22:27:38,176 INFO __main__ - Starting fit for isochrone section: logAge=8.300, [M/H]=0.680, sigma_mag=0.050
+2026-03-08 22:27:38,229 DEBUG __main__ - Likelihood computed for logAge=8.300 [M/H]=0.680: n_used=7327, logL=-16981020.27077
+2026-03-08 22:27:38,231 INFO __main__ - Fit complete for logAge=8.300 [M/H]=0.680: success=True, n_used=7327, logL=-16981020.27077, mass_mean=0.9830, mass_median=1.0080
+2026-03-08 22:27:38,232 INFO __main__ - Matching targets against isochrone age section: logAge=8.4 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f068.isoc
+2026-03-08 22:27:38,232 INFO __main__ - Starting fit for isochrone section: logAge=8.400, [M/H]=0.680, sigma_mag=0.050
+2026-03-08 22:27:38,286 DEBUG __main__ - Likelihood computed for logAge=8.400 [M/H]=0.680: n_used=7337, logL=-17912951.57622
+2026-03-08 22:27:38,288 INFO __main__ - Fit complete for logAge=8.400 [M/H]=0.680: success=True, n_used=7337, logL=-17912951.57622, mass_mean=0.9823, mass_median=1.0073
+2026-03-08 22:27:38,289 INFO __main__ - Matching targets against isochrone age section: logAge=8.5 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f068.isoc
+2026-03-08 22:27:38,289 INFO __main__ - Starting fit for isochrone section: logAge=8.500, [M/H]=0.680, sigma_mag=0.050
+2026-03-08 22:27:38,343 DEBUG __main__ - Likelihood computed for logAge=8.500 [M/H]=0.680: n_used=7339, logL=-18869341.95008
+2026-03-08 22:27:38,344 INFO __main__ - Fit complete for logAge=8.500 [M/H]=0.680: success=True, n_used=7339, logL=-18869341.95008, mass_mean=0.9808, mass_median=1.0067
+2026-03-08 22:27:38,345 INFO __main__ - Matching targets against isochrone age section: logAge=8.6 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f068.isoc
+2026-03-08 22:27:38,345 INFO __main__ - Starting fit for isochrone section: logAge=8.600, [M/H]=0.680, sigma_mag=0.050
+2026-03-08 22:27:38,397 DEBUG __main__ - Likelihood computed for logAge=8.600 [M/H]=0.680: n_used=7340, logL=-19854771.42628
+2026-03-08 22:27:38,399 INFO __main__ - Fit complete for logAge=8.600 [M/H]=0.680: success=True, n_used=7340, logL=-19854771.42628, mass_mean=0.9803, mass_median=1.0058
+2026-03-08 22:27:38,399 INFO __main__ - Matching targets against isochrone age section: logAge=8.7 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f068.isoc
+2026-03-08 22:27:38,399 INFO __main__ - Starting fit for isochrone section: logAge=8.700, [M/H]=0.680, sigma_mag=0.050
+2026-03-08 22:27:38,453 DEBUG __main__ - Likelihood computed for logAge=8.700 [M/H]=0.680: n_used=7340, logL=-20869432.98599
+2026-03-08 22:27:38,455 INFO __main__ - Fit complete for logAge=8.700 [M/H]=0.680: success=True, n_used=7340, logL=-20869432.98599, mass_mean=0.9797, mass_median=1.0049
+2026-03-08 22:27:38,455 INFO __main__ - Matching targets against isochrone age section: logAge=8.8 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f068.isoc
+2026-03-08 22:27:38,455 INFO __main__ - Starting fit for isochrone section: logAge=8.800, [M/H]=0.680, sigma_mag=0.050
+2026-03-08 22:27:38,510 DEBUG __main__ - Likelihood computed for logAge=8.800 [M/H]=0.680: n_used=7342, logL=-21913495.82257
+2026-03-08 22:27:38,512 INFO __main__ - Fit complete for logAge=8.800 [M/H]=0.680: success=True, n_used=7342, logL=-21913495.82257, mass_mean=0.9788, mass_median=1.0036
+2026-03-08 22:27:38,512 INFO __main__ - Matching targets against isochrone age section: logAge=8.9 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f068.isoc
+2026-03-08 22:27:38,512 INFO __main__ - Starting fit for isochrone section: logAge=8.900, [M/H]=0.680, sigma_mag=0.050
+2026-03-08 22:27:38,566 DEBUG __main__ - Likelihood computed for logAge=8.900 [M/H]=0.680: n_used=7344, logL=-22986962.34197
+2026-03-08 22:27:38,567 INFO __main__ - Fit complete for logAge=8.900 [M/H]=0.680: success=True, n_used=7344, logL=-22986962.34197, mass_mean=0.9776, mass_median=1.0022
+2026-03-08 22:27:38,568 INFO __main__ - Matching targets against isochrone age section: logAge=9.0 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f068.isoc
+2026-03-08 22:27:38,568 INFO __main__ - Starting fit for isochrone section: logAge=9.000, [M/H]=0.680, sigma_mag=0.050
+2026-03-08 22:27:38,620 DEBUG __main__ - Likelihood computed for logAge=9.000 [M/H]=0.680: n_used=7344, logL=-24089662.99618
+2026-03-08 22:27:38,622 INFO __main__ - Fit complete for logAge=9.000 [M/H]=0.680: success=True, n_used=7344, logL=-24089662.99618, mass_mean=0.9762, mass_median=1.0005
+2026-03-08 22:27:38,622 INFO __main__ - Matching targets against isochrone age section: logAge=9.1 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f068.isoc
+2026-03-08 22:27:38,622 INFO __main__ - Starting fit for isochrone section: logAge=9.100, [M/H]=0.680, sigma_mag=0.050
+2026-03-08 22:27:38,676 DEBUG __main__ - Likelihood computed for logAge=9.100 [M/H]=0.680: n_used=7344, logL=-25221739.65038
+2026-03-08 22:27:38,678 INFO __main__ - Fit complete for logAge=9.100 [M/H]=0.680: success=True, n_used=7344, logL=-25221739.65038, mass_mean=0.9750, mass_median=0.9986
+2026-03-08 22:27:38,678 INFO __main__ - Matching targets against isochrone age section: logAge=9.2 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f068.isoc
+2026-03-08 22:27:38,679 INFO __main__ - Starting fit for isochrone section: logAge=9.200, [M/H]=0.680, sigma_mag=0.050
+2026-03-08 22:27:38,733 DEBUG __main__ - Likelihood computed for logAge=9.200 [M/H]=0.680: n_used=7344, logL=-26383192.30459
+2026-03-08 22:27:38,735 INFO __main__ - Fit complete for logAge=9.200 [M/H]=0.680: success=True, n_used=7344, logL=-26383192.30459, mass_mean=0.9730, mass_median=0.9962
+2026-03-08 22:27:38,736 INFO __main__ - Matching targets against isochrone age section: logAge=9.3 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f068.isoc
+2026-03-08 22:27:38,736 INFO __main__ - Starting fit for isochrone section: logAge=9.300, [M/H]=0.680, sigma_mag=0.050
+2026-03-08 22:27:38,790 DEBUG __main__ - Likelihood computed for logAge=9.300 [M/H]=0.680: n_used=7344, logL=-27574020.95879
+2026-03-08 22:27:38,791 INFO __main__ - Fit complete for logAge=9.300 [M/H]=0.680: success=True, n_used=7344, logL=-27574020.95879, mass_mean=0.9709, mass_median=0.9932
+2026-03-08 22:27:38,792 INFO __main__ - Matching targets against isochrone age section: logAge=9.4 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f068.isoc
+2026-03-08 22:27:38,792 INFO __main__ - Starting fit for isochrone section: logAge=9.400, [M/H]=0.680, sigma_mag=0.050
+2026-03-08 22:27:38,844 DEBUG __main__ - Likelihood computed for logAge=9.400 [M/H]=0.680: n_used=7344, logL=-28794225.61300
+2026-03-08 22:27:38,846 INFO __main__ - Fit complete for logAge=9.400 [M/H]=0.680: success=True, n_used=7344, logL=-28794225.61300, mass_mean=0.9679, mass_median=0.9896
+2026-03-08 22:27:38,846 INFO __main__ - Matching targets against isochrone age section: logAge=9.5 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f068.isoc
+2026-03-08 22:27:38,846 INFO __main__ - Starting fit for isochrone section: logAge=9.500, [M/H]=0.680, sigma_mag=0.050
+2026-03-08 22:27:38,900 DEBUG __main__ - Likelihood computed for logAge=9.500 [M/H]=0.680: n_used=7344, logL=-30043806.26720
+2026-03-08 22:27:38,902 INFO __main__ - Fit complete for logAge=9.500 [M/H]=0.680: success=True, n_used=7344, logL=-30043806.26720, mass_mean=0.9687, mass_median=0.9850
+2026-03-08 22:27:38,902 INFO __main__ - Matching targets against isochrone age section: logAge=9.6 from file /Users/archon/classes/ASTR_502/workstation/isochrones/SPOTS/isos/f068.isoc
+2026-03-08 22:27:38,902 INFO __main__ - Starting fit for isochrone section: logAge=9.600, [M/H]=0.680, sigma_mag=0.050
+2026-03-08 22:27:38,957 DEBUG __main__ - Likelihood computed for logAge=9.600 [M/H]=0.680: n_used=7344, logL=-30679612.59431
+2026-03-08 22:27:38,959 INFO __main__ - Fit complete for logAge=9.600 [M/H]=0.680: success=True, n_used=7344, logL=-30679612.59431, mass_mean=0.9682, mass_median=0.9821
+2026-03-08 22:27:38,959 INFO __main__ - Completed SPOT grid fit: 222 candidate fit(s), 222 with finite log-likelihood
+2026-03-08 22:27:38,977 INFO __main__ - Wrote best-fit candidate magnitudes to results/spot_best_logage_6p800_candidate_fits.csv

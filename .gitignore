@@ -109,3 +109,14 @@ htmlcov/
 \.pytest_cache/
 \.cache/
 .ipynb_checkpoints
+
+#local isochrone files
+isochrones/MIST/MIST_v1.2_vvcrit0.0_full_isos
+isochrones/MIST/MIST_v1.2_vvcrit0.0_full_isos.txz
+
+isochrones/SPOTS/isos
+isochrones/SPOTS/tracks
+isochrones/SPOTS/allIsochrones.zip
+
+# local log files
+#logs/
