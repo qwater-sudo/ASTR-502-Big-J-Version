@@ -100,6 +100,10 @@ class PhotometryMerger:
         # convenience color column
         if 'BP_abs' in joined.columns and 'RP_abs' in joined.columns:
             joined['BP_RP_abs'] = joined['BP_abs'] - joined['RP_abs']
+
+        hostname_col = self._find_col(joined, ['hostname'])
+        if hostname_col is not None and hostname_col != 'hostname':
+            joined['hostname'] = joined[hostname_col]
         return joined
 
     @staticmethod

@@ -50,6 +50,20 @@ def _as_numeric(df: pd.DataFrame) -> pd.DataFrame:
     return out
 
 
+
+
+def _extract_run_stamp_from_logging() -> str:
+    """Reuse interpolate log timestamp when available; otherwise create a new one."""
+    pattern = re.compile(r"interpolate_(\d{8}_\d{6})\.log$")
+    for handler in logging.getLogger().handlers:
+        filename = getattr(handler, "baseFilename", None)
+        if not filename:
+            continue
+        match = pattern.search(str(filename))
+        if match:
+            return match.group(1)
+    return time.strftime("%Y%m%d_%H%M%S")
+
 def _extract_metallicity_from_path(file_path: str | Path) -> float:
     """Infer metallicity from SPOT filename style like f000.isoc or fm05.isoc."""
     stem = Path(file_path).stem.lower()
@@ -127,6 +141,9 @@ def fit_isochrone_section_to_targets(
         sigma_mag,
     )
     targets = _as_numeric(targets_df)
+    host_col = _find_col(targets_df, ["hostname"])
+    if host_col and host_col in targets_df.columns:
+        targets["hostname"] = targets_df[host_col]
 
     # Target photometric columns created by PhotometryMerger.join_photometry_and_distances.
     target_color_col = "BP_RP_abs"
@@ -159,12 +176,18 @@ def fit_isochrone_section_to_targets(
             predicted_mass_mean=float("nan"),
             predicted_mass_median=float("nan"),
         )
-        empty = pd.DataFrame(columns=[target_color_col, target_mag_col, "iso_mag_pred", "mass_pred"])
+        empty_columns = [target_color_col, target_mag_col, "iso_mag_pred", "mass_pred"]
+        if host_col is not None:
+            empty_columns.insert(0, "hostname")
+        empty = pd.DataFrame(columns=empty_columns)
         summary = LikelihoodSummary(0, float("-inf"), pd.Series(dtype=float))
         return result, summary, empty
 
     mask = targets[target_color_col].notna() & targets[target_mag_col].notna()
-    eval_df = targets.loc[mask, [target_color_col, target_mag_col]].copy()
+    eval_columns = [target_color_col, target_mag_col]
+    if host_col is not None and "hostname" in targets.columns:
+        eval_columns.insert(0, "hostname")
+    eval_df = targets.loc[mask, eval_columns].copy()
     eval_df["iso_mag_pred"] = interpolator(eval_df[target_color_col].to_numpy())
 
     ll_summary = dataframe_log_likelihood(
@@ -333,6 +356,14 @@ def fit_spot_grid_to_targets(
     )
 
 
+def _default_plot_save_path(output_dir: str | Path = "figs") -> Path:
+    """Default output path for best-fit figure using interpolate run timestamp."""
+    out_dir = Path(output_dir)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    run_stamp = _extract_run_stamp_from_logging()
+    return out_dir / f"interpolate_{run_stamp}_candidate_fits.png"
+
+
 def save_best_fit_candidates(
     best_eval_df: pd.DataFrame,
     best_age_log10_yr: float,
@@ -341,8 +372,13 @@ def save_best_fit_candidates(
     """Write candidate observed/fitted magnitudes for the best-fit isochrone."""
     out_dir = Path(output_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
-    safe_age = f"{best_age_log10_yr:.3f}".replace(".", "p")
-    out_path = out_dir / f"spot_best_logage_{safe_age}_candidate_fits.csv"
+    run_stamp = _extract_run_stamp_from_logging()
+    out_path = out_dir / f"interpolate_{run_stamp}_candidate_fits.csv"
+    if "hostname" not in best_eval_df.columns:
+        logger.warning(
+            "Saving best-fit candidates without a 'hostname' column. "
+            "Check that Hostname is preserved in upstream merged photometry."
+        )
     best_eval_df.to_csv(out_path, index=False)
     logger.info("Wrote best-fit candidate magnitudes to %s", out_path)
     return out_path
@@ -477,6 +513,7 @@ def test_fit_and_plot(
         best_age_log10_yr=float(best["age_log10_yr"]),
         output_dir="results",
     )
+    resolved_save_path = Path(save_path) if save_path is not None else _default_plot_save_path("figs")
     fig_ax = plot_fitted_model_against_targets(
         targets_df=targets_df,
         fitted_eval_df=best_eval_df,
@@ -484,8 +521,9 @@ def test_fit_and_plot(
             "Best-fit SPOT model "
             f"(logAge={best['age_log10_yr']:.3f}, [M/H]={best['metallicity_dex']:.3f})"
         ),
-        save_path=save_path,
+        save_path=resolved_save_path,
     )
+    logger.info("Wrote best-fit CMD figure to %s", resolved_save_path)
     return results_df, best_eval_df, best_isochrone_df, fig_ax, save_csv
 
 
