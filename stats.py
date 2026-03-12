@@ -1,101 +1,81 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Iterable
+from typing import Mapping
 
 import numpy as np
-import pandas as pd
 
 
 @dataclass(frozen=True)
-class LikelihoodSummary:
-    """Container for per-star and aggregate likelihood metrics."""
+class ChiSquareSummary:
+    """Container for photometric and prior chi-square terms."""
 
-    n_used: int
-    log_likelihood: float
-    per_star_log_likelihood: pd.Series
+    chi2_phot: float
+    chi2_prior: float
 
-
-
-def gaussian_log_likelihood(
-    residuals: np.ndarray,
-    sigma: np.ndarray | float,
-) -> np.ndarray:
-    """Return Gaussian log-likelihood values for each residual.
-
-    Parameters
-    ----------
-    residuals
-        Difference between observed and model-predicted quantities.
-    sigma
-        1-sigma uncertainty. Can be scalar or vector. Values must be > 0.
-    """
-    r = np.asarray(residuals, dtype=float)
-    s = np.asarray(sigma, dtype=float)
-
-    if np.any(~np.isfinite(r)):
-        raise ValueError("residuals must be finite")
-    if np.any(~np.isfinite(s)) or np.any(s <= 0):
-        raise ValueError("sigma must contain strictly positive finite values")
-
-    return -0.5 * ((r / s) ** 2 + np.log(2.0 * np.pi * s**2))
+    @property
+    def chi2_total(self) -> float:
+        return float(self.chi2_phot + self.chi2_prior)
 
 
+def chi2_photometric(
+    model_mags: Mapping[str, float],
+    observed_abs_mags: Mapping[str, float],
+    sigma_phot: float,
+) -> float:
+    """Compute photometric chi-square using all overlapping finite bands."""
+    chi2 = 0.0
+    n_used = 0
 
-def dataframe_log_likelihood(
-    observed: pd.Series,
-    predicted: pd.Series,
-    sigma: float | pd.Series = 0.05,
-) -> LikelihoodSummary:
-    """Compute Gaussian log-likelihood from observed and predicted series."""
-    obs = pd.to_numeric(observed, errors="coerce")
-    pred = pd.to_numeric(predicted, errors="coerce")
+    for band, observed in observed_abs_mags.items():
+        predicted = model_mags.get(band, np.nan)
+        if not np.isfinite(predicted):
+            continue
+        chi2 += ((observed - predicted) / sigma_phot) ** 2
+        n_used += 1
 
-    if isinstance(sigma, pd.Series):
-        sig = pd.to_numeric(sigma, errors="coerce")
-    else:
-        sig = pd.Series(float(sigma), index=obs.index)
+    if n_used == 0:
+        return 1e30
+    return float(chi2)
 
-    mask = obs.notna() & pred.notna() & sig.notna()
-    if mask.sum() == 0:
-        return LikelihoodSummary(
-            n_used=0,
-            log_likelihood=float("-inf"),
-            per_star_log_likelihood=pd.Series(dtype=float),
-        )
 
-    ll = gaussian_log_likelihood(
-        residuals=(obs[mask] - pred[mask]).to_numpy(),
-        sigma=sig[mask].to_numpy(),
+def chi2_prior(
+    mass: float,
+    log10_age: float,
+    feh: float,
+    prior: Mapping[str, float],
+) -> float:
+    """Gaussian priors for mass/feh and asymmetric age prior (in Gyr)."""
+    chi2 = 0.0
+
+    if np.isfinite(prior["m0"]):
+        chi2 += ((mass - prior["m0"]) / prior["sig_m"]) ** 2
+
+    if np.isfinite(prior["feh0"]):
+        chi2 += ((feh - prior["feh0"]) / prior["sig_feh"]) ** 2
+
+    if np.isfinite(prior["a0_gyr"]):
+        age_gyr = (10.0 ** log10_age) / 1e9
+        age_sigma = prior["sig_age_hi"] if age_gyr >= prior["a0_gyr"] else prior["sig_age_lo"]
+        chi2 += ((age_gyr - prior["a0_gyr"]) / age_sigma) ** 2
+
+    return float(chi2)
+
+
+def summarize_chi_square(
+    model_mags: Mapping[str, float],
+    observed_abs_mags: Mapping[str, float],
+    sigma_phot: float,
+    mass: float,
+    log10_age: float,
+    feh: float,
+    prior: Mapping[str, float],
+) -> ChiSquareSummary:
+    """Return split and total chi-square terms for a single model evaluation."""
+    chi2_data = chi2_photometric(
+        model_mags=model_mags,
+        observed_abs_mags=observed_abs_mags,
+        sigma_phot=sigma_phot,
     )
-
-    ll_series = pd.Series(ll, index=obs[mask].index, name="log_likelihood")
-
-    return LikelihoodSummary(
-        n_used=int(mask.sum()),
-        log_likelihood=float(np.sum(ll)),
-        per_star_log_likelihood=ll_series,
-    )
-
-
-
-def combined_log_likelihood(
-    summaries: Iterable[LikelihoodSummary],
-) -> LikelihoodSummary:
-    """Combine multiple likelihood summaries by summing log-likelihood terms."""
-    summaries = list(summaries)
-    if not summaries:
-        return LikelihoodSummary(
-            n_used=0,
-            log_likelihood=float("-inf"),
-            per_star_log_likelihood=pd.Series(dtype=float),
-        )
-
-    combined = pd.concat([s.per_star_log_likelihood for s in summaries], axis=1)
-    per_star = combined.sum(axis=1, min_count=1)
-
-    return LikelihoodSummary(
-        n_used=int(sum(s.n_used for s in summaries)),
-        log_likelihood=float(sum(s.log_likelihood for s in summaries)),
-        per_star_log_likelihood=per_star,
-    )
+    chi2_reg = chi2_prior(mass=mass, log10_age=log10_age, feh=feh, prior=prior)
+    return ChiSquareSummary(chi2_phot=chi2_data, chi2_prior=chi2_reg)
