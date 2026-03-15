@@ -114,6 +114,9 @@ htmlcov/
 data/raw/isochrones/MIST/MIST_v1.2_vvcrit0.0_full_isos
 data/raw/isochrones/MIST/MIST_v1.2_vvcrit0.4_full_isos.txz
 
+data/raw/catalogs/ASTR502_Master_Photometry_List.csv
+data/raw/catalogs/ASTR502_Mega_Target_List.csv
+
 data/raw/isochrones/SPOTS/isos
 data/raw/isochrones/SPOTS/allIsochrones.zip
 
