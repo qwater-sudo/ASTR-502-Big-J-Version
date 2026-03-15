@@ -13,8 +13,8 @@ import pandas as pd
 logger = logging.getLogger(__name__)
 
 REQUESTED_BANDS = ("G", "BP", "RP", "J", "H", "K", "W1", "W2", "W3", "W4", "g", "r", "i", "z")
-DEFAULT_MEGA_CSV = "ASTR502_Mega_Target_List.csv"
-DEFAULT_PHOT_CSV = "ASTR502_Master_Photometry_List.csv"
+DEFAULT_MEGA_CSV = "/Users/archon/classes/ASTR_502/Astro502_Sp26/ASTR502_Mega_Target_List.csv"
+DEFAULT_PHOT_CSV = "/Users/archon/classes/ASTR_502/Astro502_Sp26/ASTR502_Master_Photometry_List.csv"
 
 OBS_MAP = {
     "G": "gaia_Gmag",

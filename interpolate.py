@@ -356,3 +356,11 @@ __all__ = [
     "fit_target_list_runtime",
     "save_fit_results_to_csv",
 ]
+
+fit_target_list_runtime(
+    mega_csv_path=DEFAULT_MEGA_CSV,
+    phot_csv_path=DEFAULT_PHOT_CSV,
+    output_csv="results/interpolate_best_fit_results.csv",
+    continue_on_error=True,
+    verbose=True,
+)
