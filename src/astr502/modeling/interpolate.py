@@ -1,45 +1,18 @@
 from __future__ import annotations
 
+from pathlib import Path
+
 import numpy as np
 import pandas as pd
 from scipy.interpolate import RegularGridInterpolator
 from scipy.optimize import minimize
 
-try:
-    from synphot.reddening import ReddeningLaw
-    import astropy.units as u
-except ImportError:  # optional dependency
-    ReddeningLaw = None
-    u = None
-
-from read_spot_models import SPOT
-from schemas import FitResultSchema
-from stats import summarize_chi_square
-from utils import (
-    CatalogStore,
-    CatalogUtils,
-    DEFAULT_MEGA_CSV,
-    DEFAULT_PHOT_CSV,
-    IsochroneUtils,
-    REQUESTED_BANDS,
-)
-
-_BAND_EFFECTIVE_WAVELENGTH_ANGSTROM = {
-    "G": 6730.0,
-    "BP": 5320.0,
-    "RP": 7970.0,
-    "J": 12350.0,
-    "H": 16620.0,
-    "K": 21590.0,
-    "W1": 33526.0,
-    "W2": 46028.0,
-    "W3": 115608.0,
-    "W4": 220883.0,
-    "g": 4770.0,
-    "r": 6231.0,
-    "i": 7625.0,
-    "z": 9134.0,
-}
+from astr502.data.catalogs import CatalogStore, CatalogUtils, DEFAULT_MEGA_CSV, DEFAULT_PHOT_CSV
+from astr502.data.readers.read_spot_models import SPOT
+from astr502.data.utils import IsochroneUtils, REQUESTED_BANDS
+from astr502.domain.schemas import FitResultSchema
+from astr502.domain.stats import summarize_chi_square
+from astr502.modeling.extinction import get_band_extinction
 
 _CATALOG_STORE = CatalogStore()
 _INTERPOLATORS: dict[str, RegularGridInterpolator] | None = None
@@ -51,34 +24,7 @@ def load_catalogs(
     mega_csv_path: str = DEFAULT_MEGA_CSV,
     phot_csv_path: str = DEFAULT_PHOT_CSV,
 ) -> None:
-    """Load the hardcoded course CSV catalogs used for fitting targets."""
     _CATALOG_STORE.load_catalogs(mega_csv_path=mega_csv_path, phot_csv_path=phot_csv_path)
-
-
-def _get_band_extinction(av: float, rv: float = 3.1, extinction_model: str = "mwavg") -> dict[str, float]:
-    if _ACTIVE_BANDS is None:
-        return {}
-    if av <= 0:
-        return {b: 0.0 for b in _ACTIVE_BANDS}
-
-    if ReddeningLaw is None or u is None:
-        raise ImportError("synphot and astropy are required for extinction support")
-
-    law = ReddeningLaw.from_extinction_model(extinction_model)
-    ebv = av / rv
-    curve = law.extinction_curve(ebv)
-
-    ext = {}
-    for band in _ACTIVE_BANDS:
-        lam = _BAND_EFFECTIVE_WAVELENGTH_ANGSTROM.get(band)
-        if lam is None:
-            ext[band] = 0.0
-            continue
-        trans = curve(lam * u.AA)
-        trans_val = float(np.atleast_1d(trans.value)[0])
-        trans_val = np.clip(trans_val, 1e-12, 1.0)
-        ext[band] = -2.5 * np.log10(trans_val)
-    return ext
 
 
 def _build_interpolators(
@@ -90,7 +36,7 @@ def _build_interpolators(
     if spot_iso_files is None:
         spot_iso_files = IsochroneUtils.discover_spot_files()
     if not spot_iso_files:
-        raise FileNotFoundError("No SPOT isochrone files found at isochrones/SPOTS/isos/*.isoc")
+        raise FileNotFoundError("No SPOT isochrone files found at data/raw/isochrones/SPOTS/isos/*.isoc")
 
     all_sections: list[tuple[float, float, pd.DataFrame]] = []
     age_values: set[float] = set()
@@ -178,7 +124,8 @@ def _get_interpolators() -> tuple[dict[str, RegularGridInterpolator], tuple[np.n
 def get_model_mag(mass: float, age: float, feh: float, av: float = 0.0) -> dict[str, float]:
     interpolators, _ = _get_interpolators()
     points = np.array([[float(mass), float(age), float(feh)]])
-    extinction = _get_band_extinction(av)
+    bands = list(interpolators)
+    extinction = get_band_extinction(bands=bands, av=av)
 
     output: dict[str, float] = {}
     for band, interpolator in interpolators.items():
@@ -272,79 +219,11 @@ def get_bestfit_model_mag_for_star(hostname: str, **fit_kwargs) -> tuple[FitResu
     return fit, dict(fit.model_magnitudes)
 
 
-def save_fit_results_to_csv(results: list[FitResultSchema], output_csv: str = "results/interpolate_best_fit_results.csv") -> str:
-    from pathlib import Path
-
+def save_fit_results_to_csv(results: list[FitResultSchema], output_csv: str = "outputs/results/interpolate_best_fit_results.csv") -> str:
     final_path = Path(output_csv)
     final_path.parent.mkdir(parents=True, exist_ok=True)
     pd.DataFrame([r.to_record() for r in results]).to_csv(final_path, index=False)
     return str(final_path)
-
-
-def fit_single_star_runtime(
-    hostname: str,
-    *,
-    mega_csv_path: str = DEFAULT_MEGA_CSV,
-    phot_csv_path: str = DEFAULT_PHOT_CSV,
-    output_csv: str | None = None,
-    **fit_kwargs,
-) -> FitResultSchema:
-    """Runtime helper to fit one star from the catalog inputs.
-
-    This convenience function loads the catalogs, runs the fit, and optionally
-    writes a one-row CSV to ``output_csv``.
-    """
-    load_catalogs(mega_csv_path=mega_csv_path, phot_csv_path=phot_csv_path)
-    fit, _ = fit_best_params(hostname=hostname, **fit_kwargs)
-    if output_csv is not None:
-        save_fit_results_to_csv([fit], output_csv=output_csv)
-    return fit
-
-
-def fit_target_list_runtime(
-    *,
-    mega_csv_path: str = DEFAULT_MEGA_CSV,
-    phot_csv_path: str = DEFAULT_PHOT_CSV,
-    hostnames: list[str] | None = None,
-    output_csv: str = "results/interpolate_best_fit_results.csv",
-    continue_on_error: bool = True,
-    verbose: bool = True,
-    **fit_kwargs,
-) -> tuple[list[FitResultSchema], list[tuple[str, str]]]:
-    """Runtime helper to fit the entire target list outlined in the catalogs.
-
-    Returns:
-        (successful_fits, failures), where ``failures`` stores ``(hostname, error)``.
-    """
-    load_catalogs(mega_csv_path=mega_csv_path, phot_csv_path=phot_csv_path)
-    mega_df, _ = _CATALOG_STORE.ensure_loaded()
-
-    if hostnames is None:
-        hostnames = [str(h) for h in mega_df["hostname"].dropna().unique().tolist()]
-
-    fits: list[FitResultSchema] = []
-    failures: list[tuple[str, str]] = []
-
-    for hostname in hostnames:
-        try:
-            fit, _ = fit_best_params(hostname=hostname, verbose=verbose, **fit_kwargs)
-            fits.append(fit)
-        except Exception as exc:
-            if not continue_on_error:
-                raise
-            failures.append((hostname, str(exc)))
-            if verbose:
-                print(f"[{hostname}] fit failed: {exc}")
-
-    if fits:
-        save_fit_results_to_csv(fits, output_csv=output_csv)
-
-    if verbose:
-        print(f"Completed fits: {len(fits)} success, {len(failures)} failed")
-        if fits:
-            print(f"Saved successful fits to: {output_csv}")
-
-    return fits, failures
 
 
 __all__ = [
@@ -352,15 +231,5 @@ __all__ = [
     "get_model_mag",
     "fit_best_params",
     "get_bestfit_model_mag_for_star",
-    "fit_single_star_runtime",
-    "fit_target_list_runtime",
     "save_fit_results_to_csv",
 ]
-
-fit_target_list_runtime(
-    mega_csv_path=DEFAULT_MEGA_CSV,
-    phot_csv_path=DEFAULT_PHOT_CSV,
-    output_csv="results/interpolate_best_fit_results.csv",
-    continue_on_error=True,
-    verbose=True,
-)
