@@ -53,7 +53,7 @@ class LoggingUtils:
 
 class IsochroneUtils:
     @staticmethod
-    def discover_spot_files(pattern: str = "data/raw/isochrones/SPOTS/isos/*.isoc") -> list[str]:
+    def discover_spot_files(pattern: str = "/Users/archon/classes/ASTR_502/workstation/data/raw/isochrones/SPOTS/isos/*.isoc") -> list[str]:
         return sorted(glob.glob(pattern))
 
     @staticmethod

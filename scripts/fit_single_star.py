@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import argparse
 
-from astr502.services.fit_runtime import fit_single_star_runtime
+from src.astr502.services.fit_runtime import fit_single_star_runtime
 
 
 def parse_args() -> argparse.Namespace:

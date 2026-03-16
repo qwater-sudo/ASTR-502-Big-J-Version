@@ -6,8 +6,8 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-DEFAULT_MEGA_CSV = os.getenv("ASTR502_MEGA_CSV", "data/raw/catalogs/ASTR502_Mega_Target_List.csv")
-DEFAULT_PHOT_CSV = os.getenv("ASTR502_PHOT_CSV", "data/raw/catalogs/ASTR502_Master_Photometry_List.csv")
+DEFAULT_MEGA_CSV = "/Users/archon/classes/ASTR_502/workstation/data/raw/catalogs/ASTR502_Mega_Target_List.csv"
+DEFAULT_PHOT_CSV = "/Users/archon/classes/ASTR_502/workstation/data/raw/catalogs/ASTR502_Master_Photometry_List.csv"
 
 OBS_MAP = {
     "G": "gaia_Gmag",

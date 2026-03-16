@@ -81,8 +81,6 @@ class SPOT:
         return sections
 
 if __name__ == "__main__":
-    dfs = SPOT("isochrones/SPOTS/isos/f000.isoc").read_iso_file()
+    dfs = SPOT("/Users/archon/classes/ASTR_502/workstation/data/raw/isochrones/SPOTS/isos/f000.isoc").read_iso_file()
     for df in dfs:
         print(df)
-
-
