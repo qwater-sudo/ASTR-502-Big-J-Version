@@ -110,15 +110,16 @@ htmlcov/
 \.cache/
 .ipynb_checkpoints
 
-#local isochrone files
-isochrones/MIST/MIST_v1.2_vvcrit0.0_full_isos
-isochrones/MIST/MIST_v1.2_vvcrit0.0_full_isos.txz
+#local files
+data/raw/isochrones/MIST/MIST_v1.2_vvcrit0.0_full_isos
+data/raw/isochrones/MIST/MIST_v1.2_vvcrit0.4_full_isos.txz
 
-isochrones/SPOTS/isos
-isochrones/SPOTS/tracks
-isochrones/SPOTS/allIsochrones.zip
+data/raw/catalogs/ASTR502_Master_Photometry_List.csv
+data/raw/catalogs/ASTR502_Mega_Target_List.csv
 
-# local log files
-logs/
-figs/
-results/
+data/raw/isochrones/SPOTS/isos
+data/raw/isochrones/SPOTS/allIsochrones.zip
+
+
+data/processed/__pycache__/
+#outputs/

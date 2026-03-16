@@ -80,10 +80,7 @@ class SPOT:
             print(f"Found {len(sections)} age sections")
         return sections
 
-#Example usage:
-dfs = SPOT("isochrones/SPOTS/isos/f000.isoc").read_iso_file()
-for df in dfs:
-    print(df)
-
-
-
+if __name__ == "__main__":
+    dfs = SPOT("/Users/archon/classes/ASTR_502/workstation/data/raw/isochrones/SPOTS/isos/f000.isoc").read_iso_file()
+    for df in dfs:
+        print(df)
