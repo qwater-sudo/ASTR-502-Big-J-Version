@@ -7,12 +7,12 @@ import pandas as pd
 from scipy.interpolate import RegularGridInterpolator
 from scipy.optimize import minimize
 
-from src.astr502.data.catalogs import CatalogStore, CatalogUtils, DEFAULT_MEGA_CSV, DEFAULT_PHOT_CSV
-from src.astr502.data.readers.read_spot_models import SPOT
-from src.astr502.data.utils import IsochroneUtils, REQUESTED_BANDS
-from src.astr502.domain.schemas import FitResultSchema
-from src.astr502.domain.stats import summarize_chi_square
-from src.astr502.modeling.extinction import get_band_extinction
+from astr502.data.catalogs import CatalogStore, CatalogUtils, DEFAULT_MEGA_CSV, DEFAULT_PHOT_CSV
+from astr502.data.readers.read_spot_models import SPOT
+from astr502.data.utils import IsochroneUtils, REQUESTED_BANDS
+from astr502.domain.schemas import FitResultSchema
+from astr502.domain.stats import summarize_chi_square
+from astr502.modeling.extinction import get_band_extinction
 
 _CATALOG_STORE = CatalogStore()
 _INTERPOLATORS: dict[str, RegularGridInterpolator] | None = None

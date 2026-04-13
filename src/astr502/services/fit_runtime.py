@@ -1,8 +1,8 @@
 from __future__ import annotations
 
-from src.astr502.data.catalogs import DEFAULT_MEGA_CSV, DEFAULT_PHOT_CSV
-from src.astr502.domain.schemas import FitResultSchema
-from src.astr502.modeling.interpolate import fit_best_params, load_catalogs, save_fit_results_to_csv
+from astr502.data.catalogs import DEFAULT_MEGA_CSV, DEFAULT_PHOT_CSV
+from astr502.domain.schemas import FitResultSchema
+from astr502.modeling.interpolate import fit_best_params, load_catalogs, save_fit_results_to_csv
 
 
 def fit_single_star_runtime(

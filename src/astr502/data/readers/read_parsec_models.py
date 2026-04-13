@@ -148,7 +148,7 @@ class PARSEC:
 if __name__ == "__main__":
     import sys
 
-    path = sys.argv[1] if len(sys.argv) > 1 else "example.dat"
+    path = sys.argv[1] if len(sys.argv) > 1 else "C:\\Users\\cwray\\Desktop\\ASTR502\\ASTR502-SP26\\ASTR-502-Big-J-Version\\src\\astr502\\parsec_gaia.dat"
     sections = PARSEC(path).read_iso_file()
     for age_key, frame in list(sections.items())[:3]:
         print(f"logAge={age_key}  shape={frame.shape}  cols={list(frame.columns[:6])}")

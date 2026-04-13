@@ -3,12 +3,12 @@ from __future__ import annotations
 
 import argparse
 
-from src.astr502.services.fit_runtime import fit_single_star_runtime
+from astr502.services.fit_runtime import fit_single_star_runtime
 
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Fit a single target star.")
-    #parser.add_argument("hostname", help="Host name from the catalog")
+    parser.add_argument("hostname", help="Host name from the catalog")
     parser.add_argument("--mega-csv", default=None, help="Path to Mega target list CSV")
     parser.add_argument("--phot-csv", default=None, help="Path to photometry CSV")
     parser.add_argument("--output-csv", default=None, help="Optional one-row output CSV")
