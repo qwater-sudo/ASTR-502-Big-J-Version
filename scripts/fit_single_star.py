@@ -12,6 +12,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--mega-csv", default=None, help="Path to Mega target list CSV")
     parser.add_argument("--phot-csv", default=None, help="Path to photometry CSV")
     parser.add_argument("--output-csv", default=None, help="Optional one-row output CSV")
+    parser.add_argument("--model-type", default="parsec", choices=["spot", "parsec"])
     parser.add_argument("--sigma-phot", type=float, default=0.5)
     parser.add_argument("--fallback-sigma-param", type=float, default=0.25)
     parser.add_argument("--av-min", type=float, default=0.0)
@@ -26,10 +27,11 @@ def main() -> None:
         "sigma_phot": args.sigma_phot,
         "fallback_sigma_param": args.fallback_sigma_param,
         "av_bounds": (args.av_min, args.av_max),
+        "model_type": args.model_type,
         "verbose": not args.quiet,
     }
     runtime_kwargs = {
-        "hostname": input("Hostname:"),
+        "hostname": args.hostname,  # ← use the CLI argument directly,
         "output_csv": args.output_csv,
         **kwargs,
     }
