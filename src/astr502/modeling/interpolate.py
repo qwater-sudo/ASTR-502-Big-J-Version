@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+from typing import Literal
 
 import numpy as np
 import pandas as pd
@@ -9,15 +10,21 @@ from scipy.optimize import minimize
 
 from astr502.data.catalogs import CatalogStore, CatalogUtils, DEFAULT_MEGA_CSV, DEFAULT_PHOT_CSV
 from astr502.data.readers.read_spot_models import SPOT
+from astr502.data.readers.read_parsec_models import PARSEC
 from astr502.data.utils import IsochroneUtils, REQUESTED_BANDS
 from astr502.domain.schemas import FitResultSchema
 from astr502.domain.stats import summarize_chi_square
 from astr502.modeling.extinction import get_band_extinction
 
+ModelType = Literal["spot", "parsec"]
+
 _CATALOG_STORE = CatalogStore()
-_INTERPOLATORS: dict[str, RegularGridInterpolator] | None = None
-_GRIDS: tuple[np.ndarray, np.ndarray, np.ndarray] | None = None
-_ACTIVE_BANDS: list[str] | None = None
+
+# Separate interpolator caches for each model type so both can coexist in
+# the same Python session without rebuilding unnecessarily.
+_INTERPOLATORS: dict[ModelType, dict[str, RegularGridInterpolator]] = {}
+_GRIDS: dict[ModelType, tuple[np.ndarray, np.ndarray, np.ndarray]] = {}
+_ACTIVE_BANDS: dict[ModelType, list[str]] = {}
 
 
 def load_catalogs(
@@ -27,44 +34,115 @@ def load_catalogs(
     _CATALOG_STORE.load_catalogs(mega_csv_path=mega_csv_path, phot_csv_path=phot_csv_path)
 
 
+# ---------------------------------------------------------------------------
+# Internal builder
+# ---------------------------------------------------------------------------
+
 def _build_interpolators(
-    spot_iso_files: list[str] | None = None,
+    model_type: ModelType = "spot",
+    iso_files: list[str] | None = None,
     mass_points: int = 300,
 ) -> tuple[dict[str, RegularGridInterpolator], tuple[np.ndarray, np.ndarray, np.ndarray]]:
-    global _ACTIVE_BANDS
+    """
+    Build ``RegularGridInterpolator`` objects on a (mass, age, [Fe/H]) grid
+    for the requested *model_type* (``"spot"`` or ``"parsec"``).
 
-    if spot_iso_files is None:
-        spot_iso_files = IsochroneUtils.discover_spot_files()
-    if not spot_iso_files:
-        raise FileNotFoundError("No SPOT isochrone files found at data/raw/isochrones/SPOTS/isos/*.isoc")
+    SPOT files
+    ----------
+    One file per metallicity; metallicity is parsed from the filename.
+    Each file contains multiple age sections keyed by log10(age/yr).
 
-    all_sections: list[tuple[float, float, pd.DataFrame]] = []
+    PARSEC files
+    ------------
+    One or more ``.dat`` files; both age and metallicity are read from the
+    ``logAge`` and ``MH`` columns inside the file.  Multiple files are merged
+    before building the grid, so you can either supply one big file or one
+    file per metallicity — both work.
+    """
+    # ------------------------------------------------------------------ #
+    # 1. Discover / read raw isochrone sections                           #
+    # ------------------------------------------------------------------ #
+
+    all_sections: list[tuple[float, float, pd.DataFrame]] = []  # (age_yr, feh, df)
     age_values: set[float] = set()
     feh_values: set[float] = set()
 
-    for iso_file in spot_iso_files:
-        feh = IsochroneUtils.extract_metallicity_from_path(iso_file)
-        sections = SPOT(str(iso_file), verbose=False).read_iso_file()
-        for age_log10, section in sections.items():
-            age_yr = 10.0 ** float(age_log10)
-            all_sections.append((age_yr, float(feh), section))
-            age_values.add(age_yr)
-            feh_values.add(float(feh))
+    if model_type == "spot":
+        if iso_files is None:
+            iso_files = IsochroneUtils.discover_spot_files()
+        if not iso_files:
+            raise FileNotFoundError(
+                "No SPOT isochrone files found. "
+                "Check IsochroneUtils.discover_spot_files() pattern."
+            )
+        for iso_file in iso_files:
+            feh = IsochroneUtils.extract_metallicity_from_path(iso_file)
+            sections = SPOT(str(iso_file), verbose=False).read_iso_file()
+            for age_log10, section in sections.items():
+                age_yr = 10.0 ** float(age_log10)
+                all_sections.append((age_yr, float(feh), section))
+                age_values.add(age_yr)
+                feh_values.add(float(feh))
+
+    elif model_type == "parsec":
+        if iso_files is None:
+            iso_files = IsochroneUtils.discover_parsec_files()
+        if not iso_files:
+            raise FileNotFoundError(
+                "No PARSEC isochrone files found. "
+                "Check IsochroneUtils.discover_parsec_files() pattern."
+            )
+        for iso_file in iso_files:
+            # PARSEC stores both logAge and MH inside the file
+            age_sections = PARSEC(str(iso_file), verbose=False).read_iso_file()
+            for age_log10, section in age_sections.items():
+                # Each section may contain multiple metallicities — split them
+                mh_col = _find_mh_col(section)
+                if mh_col is None:
+                    # If there is no MH column, treat the whole slice as one feh
+                    feh = float("nan")
+                    age_yr = 10.0 ** float(age_log10)
+                    all_sections.append((age_yr, feh, section))
+                    age_values.add(age_yr)
+                    feh_values.add(feh)
+                else:
+                    for mh_val, mh_group in section.groupby(mh_col, sort=True):
+                        feh = float(mh_val)
+                        age_yr = 10.0 ** float(age_log10)
+                        all_sections.append((age_yr, feh, mh_group.reset_index(drop=True)))
+                        age_values.add(age_yr)
+                        feh_values.add(feh)
+
+    else:
+        raise ValueError(f"Unknown model_type {model_type!r}. Choose 'spot' or 'parsec'.")
+
+    # ------------------------------------------------------------------ #
+    # 2. Build uniform grids                                              #
+    # ------------------------------------------------------------------ #
 
     age_grid = np.array(sorted(age_values), dtype=float)
     feh_grid = np.array(sorted(feh_values), dtype=float)
     mass_grid = np.linspace(0.1, 3.0, mass_points)
 
+    # Determine which bands are actually present in the first section
     first_section = all_sections[0][2]
-    _ACTIVE_BANDS = [b for b in REQUESTED_BANDS if IsochroneUtils.find_band_column(first_section, b) is not None]
+    active_bands = [
+        b for b in REQUESTED_BANDS
+        if IsochroneUtils.find_band_column(first_section, b) is not None
+    ]
+    _ACTIVE_BANDS[model_type] = active_bands
 
-    magnitude_grids = {
+    magnitude_grids: dict[str, np.ndarray] = {
         band: np.full((mass_grid.size, age_grid.size, feh_grid.size), np.nan)
-        for band in _ACTIVE_BANDS
+        for band in active_bands
     }
 
     age_index = {age: idx for idx, age in enumerate(age_grid)}
     feh_index = {feh: idx for idx, feh in enumerate(feh_grid)}
+
+    # ------------------------------------------------------------------ #
+    # 3. Fill the 3-D magnitude arrays                                    #
+    # ------------------------------------------------------------------ #
 
     for age_yr, feh, section in all_sections:
         try:
@@ -76,21 +154,30 @@ def _build_interpolators(
         if len(masses) < 2:
             continue
 
-        ai = age_index[age_yr]
-        fi = feh_index[feh]
+        ai = age_index.get(age_yr)
+        fi = feh_index.get(feh)
+        if ai is None or fi is None:
+            continue
 
-        for band in _ACTIVE_BANDS:
+        for band in active_bands:
             band_col = IsochroneUtils.find_band_column(selected, band)
             if band_col is None:
                 continue
             values = selected[band_col].to_numpy(dtype=float)
 
             in_range = (mass_grid >= masses[0]) & (mass_grid <= masses[-1])
-            magnitude_grids[band][in_range, ai, fi] = np.interp(mass_grid[in_range], masses, values)
+            magnitude_grids[band][in_range, ai, fi] = np.interp(
+                mass_grid[in_range], masses, values
+            )
+            # Extrapolate with boundary values outside the model mass range
             magnitude_grids[band][mass_grid > masses[-1], ai, fi] = values[-1]
             magnitude_grids[band][mass_grid < masses[0], ai, fi] = values[0]
 
-    for band in _ACTIVE_BANDS:
+    # ------------------------------------------------------------------ #
+    # 4. Fill residual NaNs via nearest-neighbour in grid space           #
+    # ------------------------------------------------------------------ #
+
+    for band in active_bands:
         grid = magnitude_grids[band]
         if np.all(np.isnan(grid)):
             continue
@@ -101,6 +188,10 @@ def _build_interpolators(
             idx = distance_transform_edt(mask, return_distances=False, return_indices=True)
             magnitude_grids[band] = grid[tuple(idx)]
 
+    # ------------------------------------------------------------------ #
+    # 5. Build interpolators                                              #
+    # ------------------------------------------------------------------ #
+
     interpolators = {
         band: RegularGridInterpolator(
             (mass_grid, age_grid, feh_grid),
@@ -108,21 +199,51 @@ def _build_interpolators(
             bounds_error=False,
             fill_value=None,
         )
-        for band in _ACTIVE_BANDS
+        for band in active_bands
     }
 
     return interpolators, (mass_grid, age_grid, feh_grid)
 
 
-def _get_interpolators() -> tuple[dict[str, RegularGridInterpolator], tuple[np.ndarray, np.ndarray, np.ndarray]]:
-    global _INTERPOLATORS, _GRIDS
-    if _INTERPOLATORS is None or _GRIDS is None:
-        _INTERPOLATORS, _GRIDS = _build_interpolators()
-    return _INTERPOLATORS, _GRIDS
+def _find_mh_col(df: pd.DataFrame) -> str | None:
+    """Return the metallicity column name in a PARSEC DataFrame, or None."""
+    for col in df.columns:
+        if col.upper() in ("MH", "[M/H]", "FEH", "[FE/H]", "ZH"):
+            return col
+    return None
 
 
-def get_model_mag(mass: float, age: float, feh: float, av: float = 0.0) -> dict[str, float]:
-    interpolators, _ = _get_interpolators()
+def _get_interpolators(
+    model_type: ModelType = "parsec",
+) -> tuple[dict[str, RegularGridInterpolator], tuple[np.ndarray, np.ndarray, np.ndarray]]:
+    if model_type not in _INTERPOLATORS or model_type not in _GRIDS:
+        _INTERPOLATORS[model_type], _GRIDS[model_type] = _build_interpolators(model_type)
+    return _INTERPOLATORS[model_type], _GRIDS[model_type]
+
+
+# ---------------------------------------------------------------------------
+# Public API
+# ---------------------------------------------------------------------------
+
+def get_model_mag(
+    mass: float,
+    age: float,
+    feh: float,
+    av: float = 0.0,
+    model_type: ModelType = "parsec",
+) -> dict[str, float]:
+    """
+    Return model magnitudes for a star with the given physical parameters.
+
+    Parameters
+    ----------
+    mass       : stellar mass in solar masses
+    age        : age in years
+    feh        : [Fe/H] in dex
+    av         : V-band extinction (mag)
+    model_type : ``"spot"`` (default) or ``"parsec"``
+    """
+    interpolators, _ = _get_interpolators(model_type)
     points = np.array([[float(mass), float(age), float(feh)]])
     bands = list(interpolators)
     extinction = get_band_extinction(bands=bands, av=av)
@@ -139,8 +260,22 @@ def fit_best_params(
     fallback_sigma_param: float = 0.25,
     av_bounds: tuple[float, float] = (0.0, 3.0),
     bounds: list[tuple[float, float]] | None = None,
+    model_type: ModelType = "parsec",
     verbose: bool = True,
 ) -> tuple[FitResultSchema, object]:
+    """
+    Find the best-fit (mass, age, [Fe/H], Av) for a named host star.
+
+    Parameters
+    ----------
+    hostname            : star name matching the catalog ``hostname`` column
+    sigma_phot          : photometric uncertainty assumed for all bands (mag)
+    fallback_sigma_param: prior width used when catalog uncertainties are missing
+    av_bounds           : allowed range for V-band extinction
+    bounds              : full L-BFGS-B bounds list; defaults to sensible range
+    model_type          : ``"spot"`` or ``"parsec"``
+    verbose             : print fit summary if True
+    """
     mega_df, phot_df = _CATALOG_STORE.ensure_loaded()
     obs_abs, distance_pc = CatalogUtils.get_star_obs_abs(hostname, mega_df=mega_df, phot_df=phot_df)
     prior = CatalogUtils.get_param_prior(
@@ -162,8 +297,7 @@ def fit_best_params(
         mass, log10_age, feh, av = x
         if mass <= 0 or av < 0:
             return 1e30
-
-        model = get_model_mag(mass=mass, age=10.0 ** log10_age, feh=feh, av=av)
+        model = get_model_mag(mass=mass, age=10.0 ** log10_age, feh=feh, av=av, model_type=model_type)
         return summarize_chi_square(
             model_mags=model,
             observed_abs_mags=obs_abs,
@@ -177,7 +311,7 @@ def fit_best_params(
     result = minimize(objective, x0=x0, bounds=bounds, method="L-BFGS-B")
     mass_b, log10_age_b, feh_b, av_b = result.x
     age_yr_b = 10.0 ** log10_age_b
-    model_best = get_model_mag(mass=mass_b, age=age_yr_b, feh=feh_b, av=av_b)
+    model_best = get_model_mag(mass=mass_b, age=age_yr_b, feh=feh_b, av=av_b, model_type=model_type)
     chi2 = summarize_chi_square(
         model_mags=model_best,
         observed_abs_mags=obs_abs,
@@ -202,24 +336,31 @@ def fit_best_params(
     )
 
     if verbose:
-        print(f"[{hostname}] Best-fit parameters (chi2_phot + chi2_prior)")
+        print(f"[{hostname}] Best-fit parameters ({model_type}, chi2_phot + chi2_prior)")
         print(f"  mass = {fit.mass:.4f} Msun")
         print(f"  age  = {fit.age_yr:.3e} yr")
         print(f"  feh  = {fit.feh:.4f} dex")
         print(f"  Av   = {fit.av:.4f} mag")
         print(f"  chi2_total = {fit.chi2_total:.3f}")
-        print(f"  d_pc used = {fit.distance_pc:.3f}")
-        print(f"  success = {result.success} | {result.message}")
+        print(f"  d_pc used  = {fit.distance_pc:.3f}")
+        print(f"  success    = {result.success} | {result.message}")
 
     return fit, result
 
 
-def get_bestfit_model_mag_for_star(hostname: str, **fit_kwargs) -> tuple[FitResultSchema, dict[str, float]]:
-    fit, _ = fit_best_params(hostname=hostname, **fit_kwargs)
+def get_bestfit_model_mag_for_star(
+    hostname: str,
+    model_type: ModelType = "spot",
+    **fit_kwargs,
+) -> tuple[FitResultSchema, dict[str, float]]:
+    fit, _ = fit_best_params(hostname=hostname, model_type=model_type, **fit_kwargs)
     return fit, dict(fit.model_magnitudes)
 
 
-def save_fit_results_to_csv(results: list[FitResultSchema], output_csv: str = "outputs/results/interpolate_best_fit_results.csv") -> str:
+def save_fit_results_to_csv(
+    results: list[FitResultSchema],
+    output_csv: str = "outputs/results/interpolate_best_fit_results.csv",
+) -> str:
     final_path = Path(output_csv)
     final_path.parent.mkdir(parents=True, exist_ok=True)
     pd.DataFrame([r.to_record() for r in results]).to_csv(final_path, index=False)
@@ -232,4 +373,5 @@ __all__ = [
     "fit_best_params",
     "get_bestfit_model_mag_for_star",
     "save_fit_results_to_csv",
+    "ModelType",
 ]

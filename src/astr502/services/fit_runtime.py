@@ -11,11 +11,14 @@ def fit_single_star_runtime(
     mega_csv_path: str = DEFAULT_MEGA_CSV,
     phot_csv_path: str = DEFAULT_PHOT_CSV,
     output_csv: str | None = None,
+    model_type: str = "parsec",  # ← add this
     **fit_kwargs,
 ) -> FitResultSchema:
     """Runtime helper to fit one star from the catalog inputs."""
     load_catalogs(mega_csv_path=mega_csv_path, phot_csv_path=phot_csv_path)
-    fit, _ = fit_best_params(hostname=hostname, **fit_kwargs)
+    print("fit_kwargs being passed:", fit_kwargs)
+    print("model_type being passed:", model_type)
+    fit, _ = fit_best_params(hostname=hostname, model_type=model_type, **fit_kwargs)  # ← pass it here
     if output_csv is not None:
         save_fit_results_to_csv([fit], output_csv=output_csv)
     return fit
