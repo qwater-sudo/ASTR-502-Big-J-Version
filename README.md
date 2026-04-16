@@ -30,6 +30,7 @@ scripts/
 data/raw/isochrones/
   MIST/
   SPOTS/
+  PARSEC/
 ```
 
 ## Quick start
@@ -44,12 +45,14 @@ Run a single-star fit:
 
 ```bash
 python scripts/fit_single_star.py <hostname> --mega-csv <mega.csv> --phot-csv <phot.csv>
-```
+python scripts/fit_single_star.py <hostname> --mega-csv data\raw\catalogs\ASTR502_Mega_Target_List.csv --phot-csv data\raw\catalogs\ASTR502_Master_Photometry_List.csv
+'''
 
 Run a target-list fit:
 
 ```bash
 python scripts/fit_target_list.py --mega-csv <mega.csv> --phot-csv <phot.csv>
+python scripts/fit_target_list.py --mega-csv data\raw\catalogs\ASTR502_Mega_Target_List.csv --phot-csv data\raw\catalogs\ASTR502_Master_Photometry_List.csv
 ```
 
 > Note: the default CSV paths resolve to `data/raw/catalogs/...` and can also be overridden via
@@ -57,6 +60,6 @@ python scripts/fit_target_list.py --mega-csv <mega.csv> --phot-csv <phot.csv>
 
 Instructor: Dr. Andrew Mann
 
-Repository owner: James Atkisson
+Repository owner: James Atkisson, Caiden Ray
 
 Email: atk@unc.edu
